@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Osoba } from 'src/Types/Osoba';
+import { PersonStoreService } from '../services/person-store.service';
 
 @Component({
   selector: 'app-osoba',
@@ -6,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./osoba.component.css'],
 })
 export class OsobaComponent implements OnInit {
-  constructor() {}
+  constructor(private readonly personStoreSrv: PersonStoreService) {}
+  persons: Array<Osoba> = [];
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.personStoreSrv
+      .getAllPersons()
+      .subscribe((data) => (this.persons = data));
+  }
 }
