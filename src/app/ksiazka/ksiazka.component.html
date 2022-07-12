@@ -1,10 +1,19 @@
-<input
-  [(ngModel)]="searchedValue"
-  (keydown.enter)="booksSearch(searchedValue)"
-/>
-
-<ul *ngFor="let book of books">
-  <li class="book-container">
-    {{ book.autor + " - " + book.nazwa }}
-  </li>
-</ul>
+<!--
+  <ul *ngFor="let book of books">
+    <li class="book-container">
+      {{ book.autor + " - " + book.nazwa }}
+    </li>
+  </ul>
+  !-->
+<p-virtualScroller [value]="books" scrollHeight="500px" [itemSize]="50">
+  <ng-template pTemplate="header">
+    <div class="table-head">
+      <input [(ngModel)]="searchedValue" (keydown.enter)="booksSearch()" />
+    </div>
+  </ng-template>
+  <ng-template pTemplate="item" let-book>
+    <div appBookItem>{{ book.id }} , {{ book.nazwa }}</div>
+    <br />
+  </ng-template>
+</p-virtualScroller>
+<app-book-form></app-book-form>

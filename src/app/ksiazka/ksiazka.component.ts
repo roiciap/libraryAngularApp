@@ -22,10 +22,10 @@ export class KsiazkaComponent implements OnInit {
       .subscribe((data) => (this.books = data.slice()));
   }
 
-  booksSearch(searched: string) {
-    searched
+  booksSearch() {
+    this.searchedValue
       ? this._booksService
-          .getSearchedBooks(searched)
+          .getSearchedBooks(this.searchedValue)
           .subscribe((data) => (this.books = data.slice()))
       : this.getAllBooks();
   }

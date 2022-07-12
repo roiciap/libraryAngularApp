@@ -7,10 +7,22 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { BookStoreServie } from './services/book-store.service';
 import { BookFormComponent } from './ksiazka/book-form/book-form.component';
-
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { VirtualScrollerModule } from 'primeng/virtualscroller';
+import { BookItemDirective } from './shared/book-item.directive';
 @NgModule({
-  declarations: [AppComponent, routingComponents, BookFormComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  declarations: [AppComponent, routingComponents, BookFormComponent, BookItemDirective],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    InputNumberModule,
+    InputTextModule,
+    ButtonModule,
+    VirtualScrollerModule,
+  ],
   providers: [BookService, BookStoreServie],
   bootstrap: [AppComponent],
 })
