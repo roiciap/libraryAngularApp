@@ -1,38 +1,30 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { Ksiazka } from 'src/Types/Ksiazka';
-
-const initialBooks: Array<Ksiazka> = [
-  {
-    id: 1,
-    nazwa: 'Harry Potter i Kamień Filozoficzny',
-    autor: 'J.K. Rowling',
-    rokWydania: 1997,
-    dostepnosc: 20,
-  },
-  {
-    id: 2,
-    nazwa: 'Harry Potter i Komnata Tajemnic',
-    autor: 'J.K. Rowling',
-    rokWydania: 1998,
-    dostepnosc: 20,
-  },
-];
+import { BookStoreServie } from './book-store.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
-  constructor() {}
+  constructor(private readonly bookStoreSrv: BookStoreServie) {}
 
-  getAllBooks(): Array<Ksiazka> {
-    return initialBooks.slice();
+  getAllBooks(): Observable<Array<Ksiazka>> {
+    return this.bookStoreSrv.getAllBook();
   }
 
-  getSearchedBooks(searched: string): Array<Ksiazka> {
-    return initialBooks
-      .filter((val) => (val.autor + ' ' + val.nazwa).includes(searched))
-      .slice();
+  getSearchedBooks(searched: string): Observable<Array<Ksiazka>> {
+    return this.bookStoreSrv
+      .getAllBook()
+      .pipe(
+        map((val) =>
+          val.filter((book) =>
+            (book.autor + ' ' + book.nazwa)
+              .toLocaleLowerCase()
+              .includes(searched.toLowerCase())
+          )
+        )
+      );
   }
 
   addBook(toAdd: {
@@ -40,42 +32,18 @@ export class BookService {
     autor: string;
     rokWydania: number;
     dostepnosc: number;
-  }): Array<Ksiazka> {
-    const toAddId = initialBooks.reduce(
-      (max, val) => (val.id > max ? val.id : max),
-      0
+  }): void {
+    let toAddId: number = -1;
+    this.getAllBooks().subscribe(
+      (data) =>
+        (toAddId =
+          data.reduce((max, val) => (val.id > max ? val.id : max), 0) + 1)
     );
 
-    initialBooks.push({ id: toAddId, ...toAdd });
-    return initialBooks.slice();
+    this.bookStoreSrv.addNewBook({ id: toAddId, ...toAdd });
   }
 
-  updateBook(
-    id: number,
-    toUpdate: {
-      nazwa?: string;
-      autor?: string;
-      rokWydania?: number;
-      dostepnosc?: number;
-    }
-  ): Array<Ksiazka> {
-    const updatedItems = initialBooks.filter((val) => val.id === id);
-    if (updatedItems.length !== 1) return initialBooks;
-    let updatedItem = updatedItems[0];
-
-    if (toUpdate['nazwa']) {
-      updatedItem.nazwa = toUpdate.nazwa;
-    }
-    if (toUpdate['autor']) {
-      updatedItem.autor = toUpdate.autor;
-    }
-    if (toUpdate['rokWydania']) {
-      updatedItem.rokWydania = toUpdate.rokWydania;
-    }
-    if (toUpdate['dostepnosc']) {
-      updatedItem.dostepnosc = toUpdate.dostepnosc;
-    }
-
-    return initialBooks;
+  updateBook(updated: Ksiazka): void {
+    this.bookStoreSrv.updateBook(updated);
   }
 }

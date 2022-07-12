@@ -11,16 +11,23 @@ export class KsiazkaComponent implements OnInit {
   constructor(private _booksService: BookService) {}
   books: Array<Ksiazka> = [];
   searchedValue: string = '';
+
   ngOnInit(): void {
     this.getAllBooks();
   }
 
   getAllBooks() {
-    this.books = this._booksService.getAllBooks();
+    this._booksService
+      .getAllBooks()
+      .subscribe((data) => (this.books = data.slice()));
   }
 
   booksSearch(searched: string) {
-    this.books = this._booksService.getSearchedBooks(searched);
+    searched
+      ? this._booksService
+          .getSearchedBooks(searched)
+          .subscribe((data) => (this.books = data.slice()))
+      : this.getAllBooks();
   }
 
   addBook(toAdd: {
@@ -29,6 +36,6 @@ export class KsiazkaComponent implements OnInit {
     rokWydania: number;
     dostepnosc: number;
   }) {
-    this.books = this._booksService.addBook(toAdd);
+    this._booksService.addBook(toAdd);
   }
 }
