@@ -1,7 +1,9 @@
+import { LoansService } from './../Loans/loans.service';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Ksiazka } from 'src/Types/Ksiazka';
 import { BookStoreServie } from './book-store.service';
+import { Wypozyczenie } from 'src/Types/Wypozyczenie';
 
 @Injectable({
   providedIn: 'root',

@@ -9,6 +9,7 @@
       <th style="max-width: 5%">ID</th>
       <th class="dane">IMIE</th>
       <th class="dane">NAZWISKO</th>
+      <th class="dane">NAZWISKO</th>
       <th></th>
       <th clas="editBttns"></th>
       <th clas="editBttns"></th>
@@ -19,6 +20,7 @@
       <td style="max-width: 5%">{{ loan.id }}</td>
       <td class="dane">{{ loan.Person.imie }}</td>
       <td class="dane">{{ loan.Person.nazwisko.toUpperCase() }}</td>
+      <td class="dane">{{ loan.Book.nazwa.toUpperCase() }}</td>
       <td></td>
       <td style="max-width: 2%">
         <button
@@ -43,7 +45,7 @@
   </ng-template>
 </p-table>
 
-<span class="p-float-label">
+<!-- <span class="p-float-label">
   <input id="float-input" [(ngModel)]="osobaInput" type="number" pInputText />
   <label for="float-input">OsobaID</label>
 </span>
@@ -52,7 +54,7 @@
   <label for="float-input">KsiazkaID</label>
 </span>
 
-<button (click)="submit()">Dodaj</button>
+<button (click)="submit()">Dodaj</button> -->
 
 <!-- <ul *ngFor="let line of loansWD">
   <li>

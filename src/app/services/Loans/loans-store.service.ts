@@ -30,6 +30,34 @@ export class LoansStoreService {
       dataPrzyjecia: new Date(),
       dataOddania: null,
     },
+    {
+      id: 4,
+      idOsoba: 1,
+      idKsiazka: 1,
+      dataPrzyjecia: new Date(),
+      dataOddania: null,
+    },
+    {
+      id: 5,
+      idOsoba: 1,
+      idKsiazka: 1,
+      dataPrzyjecia: new Date(),
+      dataOddania: null,
+    },
+    {
+      id: 6,
+      idOsoba: 1,
+      idKsiazka: 1,
+      dataPrzyjecia: new Date(),
+      dataOddania: null,
+    },
+    {
+      id: 7,
+      idOsoba: 10,
+      idKsiazka: 2,
+      dataPrzyjecia: new Date(),
+      dataOddania: null,
+    },
   ];
 
   private loansObs: BehaviorSubject<Array<Wypozyczenie>> = new BehaviorSubject<

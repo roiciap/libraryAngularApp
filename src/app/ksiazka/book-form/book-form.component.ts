@@ -1,5 +1,5 @@
-import { BookService } from './../../services/Books/book.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { BookService } from 'src/app/services/Books/book.service';
 import { Ksiazka } from 'src/Types/Ksiazka';
 
 @Component({
@@ -19,14 +19,14 @@ export class BookFormComponent implements OnInit {
 
   done: boolean = false;
 
-  constructor(private _bookService: BookService) {}
+  constructor(private bookService: BookService) {}
   ngOnInit(): void {
     this.book = { ...this.book };
   }
   submit() {
     this.done =
       this.book.id < 0
-        ? this._bookService.addBook(this.book)
-        : this._bookService.updateBook(this.book);
+        ? this.bookService.addBook(this.book)
+        : this.bookService.updateBook(this.book);
   }
 }

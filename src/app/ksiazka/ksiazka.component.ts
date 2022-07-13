@@ -1,6 +1,6 @@
 import { Ksiazka } from 'src/Types/Ksiazka';
-import { BookService } from './../services/Books/book.service';
 import { Component, OnInit } from '@angular/core';
+import { BookService } from '../services/Books/book.service';
 
 @Component({
   selector: 'app-ksiazka',
@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ksiazka.component.css'],
 })
 export class KsiazkaComponent implements OnInit {
-  constructor(private _booksService: BookService) {}
+  constructor(private booksService: BookService) {}
   books: Array<Ksiazka> = [];
   searchedValue: string = '';
 
@@ -17,14 +17,14 @@ export class KsiazkaComponent implements OnInit {
   }
 
   getAllBooks() {
-    this._booksService
+    this.booksService
       .getAllBooks()
       .subscribe((data) => (this.books = data.slice()));
   }
 
   booksSearch() {
     this.searchedValue
-      ? this._booksService
+      ? this.booksService
           .getSearchedBooks(this.searchedValue)
           .subscribe((data) => (this.books = data.slice()))
       : this.getAllBooks();
@@ -36,9 +36,9 @@ export class KsiazkaComponent implements OnInit {
     rokWydania: number;
     dostepnosc: number;
   }) {
-    this._booksService.addBook(toAdd);
+    this.booksService.addBook(toAdd);
   }
   deleteBook(id: number) {
-    this._booksService.deleteBook(id);
+    this.booksService.deleteBook(id);
   }
 }
