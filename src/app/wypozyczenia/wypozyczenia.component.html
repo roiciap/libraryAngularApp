@@ -1,3 +1,48 @@
+<p-table
+  [value]="loansWD"
+  [scrollable]="true"
+  scrollHeight="600px"
+  styleClass="p-datatable-striped"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="max-width: 5%">ID</th>
+      <th class="dane">IMIE</th>
+      <th class="dane">NAZWISKO</th>
+      <th></th>
+      <th clas="editBttns"></th>
+      <th clas="editBttns"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-loan>
+    <tr>
+      <td style="max-width: 5%">{{ loan.id }}</td>
+      <td class="dane">{{ loan.Person.imie }}</td>
+      <td class="dane">{{ loan.Person.nazwisko.toUpperCase() }}</td>
+      <td></td>
+      <td style="max-width: 2%">
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-text p-button-info p-button-sm"
+        ></button>
+      </td>
+
+      <td style="max-width: 5%">
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-times"
+          class="p-button-rounded p-button-text p-button-danger p-button-sm"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
 <span class="p-float-label">
   <input id="float-input" [(ngModel)]="osobaInput" type="number" pInputText />
   <label for="float-input">OsobaID</label>
@@ -9,6 +54,16 @@
 
 <button (click)="submit()">Dodaj</button>
 
-<ul *ngFor="let line of loans">
-  <li>{{ line.id }}</li>
-</ul>
+<!-- <ul *ngFor="let line of loansWD">
+  <li>
+    {{
+      line.Loan.id +
+        "-" +
+        line.Person.imie +
+        "-" +
+        line.Person.nazwisko +
+        "-" +
+        line.Book.nazwa
+    }},
+  </li>
+</ul> -->
