@@ -39,4 +39,13 @@ export class PersonService {
   updatePerson(updated: Osoba): void {
     this.personStoreSrv.updatePerson(updated);
   }
+  getPerson(id: number): Osoba | undefined {
+    let returned: Osoba | undefined;
+    this.personStoreSrv
+      .getAllPersons()
+      .pipe(map((val) => val.find((searched) => searched.id === id)))
+      .subscribe((data) => (returned = data))
+      .unsubscribe();
+    return returned ? { ...returned } : undefined;
+  }
 }

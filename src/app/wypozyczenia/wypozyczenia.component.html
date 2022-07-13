@@ -1,1 +1,14 @@
-<p>wypozyczenia works!</p>
+<span class="p-float-label">
+  <input id="float-input" [(ngModel)]="osobaInput" type="number" pInputText />
+  <label for="float-input">OsobaID</label>
+</span>
+<span class="p-float-label">
+  <input id="float-input" [(ngModel)]="ksiazkaInput" type="number" pInputText />
+  <label for="float-input">KsiazkaID</label>
+</span>
+
+<button (click)="submit()">Dodaj</button>
+
+<ul *ngFor="let line of loans">
+  <li>{{ line.id }}</li>
+</ul>
