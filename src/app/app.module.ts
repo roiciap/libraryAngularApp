@@ -1,3 +1,4 @@
+import { LoansStoreService } from './services/Loans/loans-store.service';
 import { BookService } from './services/Books/book.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -29,7 +30,7 @@ import { BookItemDirective } from './shared/book-item.directive';
     ButtonModule,
     VirtualScrollerModule,
   ],
-  providers: [BookService, BookStoreServie],
+  providers: [BookService, BookStoreServie, LoansStoreService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

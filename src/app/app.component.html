@@ -1,8 +1,39 @@
-<h1>Hello world</h1>
-<nav>
-  <a routerLink="/ksiazki">ksiazki</a><br />
-  <a routerLink="/osoby">osoby</a><br />
-  <a routerLink="/wypozyczenia">wypozyczenia</a><br />
-  <a routerLink="/oplaty">oplaty</a><br />
+<h1>Biblioteka</h1>
+<!-- guziory -->
+
+<nav type-allign>
+  <span class="p-buttonset">
+    <button
+      pButton
+      type="button"
+      routerLink="/ksiazki"
+      label="KSIAZKI"
+      class="p-button-warning"
+    ></button>
+    <button
+      pButton
+      type="button"
+      routerLink="/osoby"
+      label="OSOBY"
+      class="p-button-warning"
+    ></button>
+    <button
+      pButton
+      type="button"
+      routerLink="/wypozyczenia"
+      label="WYPOZYCZENIA"
+      class="p-button-warning"
+      onFocus=""
+    ></button>
+    <button
+      pButton
+      type="button"
+      routerLink="/oplaty"
+      label="OPLATY"
+      class="p-button-warning"
+    ></button>
+  </span>
 </nav>
+<hr />
+
 <router-outlet></router-outlet>

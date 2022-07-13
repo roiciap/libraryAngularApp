@@ -1,1 +1,4 @@
-<p>osoba works!</p>
+<div>Ilosc osob w bazie: {{ persons.length }}</div>
+<ul *ngFor="let person of persons">
+  <li>{{ person.imie + " " + person.nazwisko.toUpperCase() }}</li>
+</ul>
