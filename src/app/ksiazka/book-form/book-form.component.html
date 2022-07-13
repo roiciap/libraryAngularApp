@@ -1,56 +1,49 @@
-<div
-  style="
-    margin-top: 25px;
-    margin-left: 50px;
-    flex-direction: row;
-    display: flex;
-  "
->
+<div class="container">
   <span class="p-float-label">
     <input
       id="float-input"
       type="text"
       pInputText
       [(ngModel)]="book.autor"
-      style="height: 50px"
+      class="form-input"
     />
     <label for="float-input">Autor książki</label>
   </span>
   <span class="p-float-label">
     <input
+      class="form-input"
       id="float-input"
       type="text"
       pInputText
       [(ngModel)]="book.nazwa"
-      style="height: 50px"
     />
     <label for="float-input">Nazwa książki</label>
   </span>
   <span class="p-float-label">
     <input
+      class="form-input"
       id="float-input"
       type="number"
       pInputText
       [(ngModel)]="book.rokWydania"
-      style="height: 50px"
     />
     <label for="float-input">Rok wydania</label>
   </span>
   <span class="p-float-label">
     <input
+      class="form-input"
       id="float-input"
       type="number"
-      pInputText
       [(ngModel)]="book.dostepnosc"
-      style="height: 50px"
+      pInputText
     />
     <label for="float-input">Dostępna ilość</label>
   </span>
   <button
-    style="height: 50px"
     pButton
     type="button"
     label="Zatwierdz"
     (click)="submit()"
+    class="form-input"
   ></button>
 </div>

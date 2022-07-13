@@ -3,3 +3,18 @@
   justify-content: center;
   display: flex;
 }
+.container {
+  width: 70%;
+  background-color: whitesmoke;
+}
+.tableItem {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+}
+.page {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+}

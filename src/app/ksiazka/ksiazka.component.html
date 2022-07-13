@@ -5,15 +5,31 @@
     </li>
   </ul>
   !-->
-<p-virtualScroller [value]="books" scrollHeight="500px" [itemSize]="50">
-  <ng-template pTemplate="header">
-    <div class="table-head">
-      <input [(ngModel)]="searchedValue" (keydown.enter)="booksSearch()" />
-    </div>
-  </ng-template>
-  <ng-template pTemplate="item" let-book>
-    <div appBookItem>{{ book.id }} , {{ book.nazwa }}</div>
-    <br />
-  </ng-template>
-</p-virtualScroller>
-<app-book-form></app-book-form>
+<div class="page">
+  <div class="container">
+    <p-virtualScroller [value]="books" scrollHeight="500px" [itemSize]="50">
+      <ng-template pTemplate="header">
+        <div class="table-head">
+          <input [(ngModel)]="searchedValue" (keydown.enter)="booksSearch()" />
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="item" let-book>
+        <div appBookItem class="tableItem">
+          <div>{{ book.id }}</div>
+          <div>{{ book.autor }}</div>
+
+          <div>{{ book.nazwa }}</div>
+
+          <div>{{ book.rokWydania }}</div>
+
+          <div>{{ book.dostepnosc }}</div>
+          <button (click)="deleteBook(book.id)">usun</button>
+          <button (click)="deleteBook(book.id)">usun</button>
+        </div>
+        <br />
+      </ng-template>
+    </p-virtualScroller>
+  </div>
+  <app-book-form></app-book-form>
+</div>

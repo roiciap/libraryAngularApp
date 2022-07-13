@@ -1,4 +1,4 @@
-import { BookService } from './../../services/book.service';
+import { BookService } from './../../services/Books/book.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Ksiazka } from 'src/Types/Ksiazka';
 
@@ -16,13 +16,17 @@ export class BookFormComponent implements OnInit {
     rokWydania: new Date().getFullYear(),
     dostepnosc: 0,
   };
+
+  done: boolean = false;
+
   constructor(private _bookService: BookService) {}
   ngOnInit(): void {
     this.book = { ...this.book };
   }
   submit() {
-    this.book.id < 0
-      ? this._bookService.addBook(this.book)
-      : this._bookService.updateBook(this.book);
+    this.done =
+      this.book.id < 0
+        ? this._bookService.addBook(this.book)
+        : this._bookService.updateBook(this.book);
   }
 }

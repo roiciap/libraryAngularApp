@@ -1,5 +1,5 @@
 import { Ksiazka } from 'src/Types/Ksiazka';
-import { BookService } from './../services/book.service';
+import { BookService } from './../services/Books/book.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -37,5 +37,8 @@ export class KsiazkaComponent implements OnInit {
     dostepnosc: number;
   }) {
     this._booksService.addBook(toAdd);
+  }
+  deleteBook(id: number) {
+    this._booksService.deleteBook(id);
   }
 }
