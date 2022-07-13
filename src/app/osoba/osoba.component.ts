@@ -1,4 +1,3 @@
-import { ImplicitReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Osoba } from 'src/Types/Osoba';
 

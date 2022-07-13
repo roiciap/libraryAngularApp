@@ -25,7 +25,7 @@ export class LoansStoreService {
     },
     {
       id: 3,
-      idOsoba: 1,
+      idOsoba: 2,
       idKsiazka: 2,
       dataPrzyjecia: new Date(),
       dataOddania: null,
@@ -37,7 +37,7 @@ export class LoansStoreService {
   >(this.loans);
   constructor() {}
 
-  getBooks(): Observable<Array<Wypozyczenie>> {
+  getLoans(): Observable<Array<Wypozyczenie>> {
     return this.loansObs.asObservable();
   }
 

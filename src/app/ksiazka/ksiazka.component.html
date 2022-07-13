@@ -1,3 +1,34 @@
+<nav class="bar">
+  <span class="p-buttonset">
+    <button
+      pButton
+      type="button"
+      label="ILOSC_OSOB"
+      class="p-button-warning p-button-outlined"
+      label="{{ books.length }}"
+      icon="pi pi-book"
+      badge="8"
+      badgeClass="p-badge-info"
+    ></button>
+
+    <button
+      pButton
+      type="button"
+      label="WYSZUKAJ"
+      class="p-button-warning p-button-outlined"
+      icon="pi pi-search"
+    ></button>
+    <button
+      pButton
+      type="button"
+      icon="pi pi-plus-circle"
+      label="DODAJ KSIĄŻKĘ"
+      class="p-button-warning p-button-outlined"
+    ></button>
+  </span>
+</nav>
+<!-- koniec panelu -->
+<hr />
 <p-table
   [value]="books"
   [scrollable]="true"
@@ -8,15 +39,19 @@
   <ng-template pTemplate="header">
     <tr>
       <th style="max-width: 5%">ID</th>
-      <th class="dane">IMIE</th>
-      <th class="dane">NAZWISKO</th>
+      <th class="dane">AUTOR</th>
+      <th class="dane">TYTUŁ</th>
+      <th class="dane">ROK WYDANIA</th>
+      <th class="dane">DOSTĘPNOŚĆ</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-book>
     <tr>
-      <td style="max-width: 5%">{{ books.id }}</td>
-      <td class="dane">{{ books.autor }}</td>
-      <td class="dane">{{ books.tytul }}</td>
+      <td style="max-width: 5%">{{ book.id }}</td>
+      <td class="dane">{{ book.autor }}</td>
+      <td class="dane">{{ book.nazwa }}</td>
+      <td class="dane">{{ book.rokWydania }}</td>
+      <td class="dane">{{ book.dostepnosc }}</td>
     </tr>
   </ng-template>
 </p-table>

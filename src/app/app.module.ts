@@ -1,3 +1,5 @@
+import { LoansStoreService } from './services/Loans/loans-store.service';
+import { LoansService } from './services/Loans/loans.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ButtonModule } from 'primeng/button';
@@ -49,6 +51,8 @@ import { StringUtilsService } from './services/utils/string-utils.service';
     PersonStoreService,
     PersonService,
     PrimeIcons,
+    LoansService,
+    LoansStoreService,
     StringUtilsService,
     MessageService,
   ],

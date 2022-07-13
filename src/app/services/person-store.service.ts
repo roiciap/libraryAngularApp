@@ -25,10 +25,6 @@ export class PersonStoreService {
     return this.persons.asObservable();
   }
 
-  getPerson(): Observable<Array<Osoba>> {
-    return this.persons.asObservable();
-  }
-
   getNewPerson(adding: Osoba): void {
     this.persons.value.push(adding);
   }
