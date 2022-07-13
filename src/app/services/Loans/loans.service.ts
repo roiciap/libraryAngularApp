@@ -1,3 +1,4 @@
+import { LoanDescription } from './../../../Types/LoanDescription';
 import { PersonService } from './../person.service';
 import { BookService } from './../Books/book.service';
 import { Wypozyczenie } from './../../../Types/Wypozyczenie';
@@ -82,9 +83,7 @@ export class LoansService {
     return true;
   }
 
-  getLoansDetails(): Observable<
-    Array<{ Loan: Wypozyczenie; Person: Osoba; Book: Ksiazka }>
-  > {
+  getLoansDetails(): Observable<Array<LoanDescription>> {
     //pobieranie osob oraz ksiazek
     let books: Array<Ksiazka> = [];
     let people: Array<Osoba> = [];

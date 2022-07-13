@@ -29,11 +29,15 @@ export class PersonService {
 
   addPerson(toAdd: { imie: string; nazwisko: string }): void {
     let toAddId: number = -1;
-    this.getAllPersons().subscribe(
-      (data) =>
-        (toAddId =
-          data.reduce((max, val) => (val.id > max ? val.id : max), 0) + 1)
-    );
+    this.getAllPersons()
+      .pipe(
+        map(
+          (val) =>
+            val.reduce((max, val) => (val.id > max ? val.id : max), 0) + 1
+        )
+      )
+      .subscribe((data) => (toAddId = data))
+      .unsubscribe();
     this.personStoreSrv.addNewPerson({ id: toAddId, ...toAdd });
   }
   updatePerson(updated: Osoba): void {
