@@ -4,6 +4,8 @@ import { Wypozyczenie } from './../../../Types/Wypozyczenie';
 import { map, Observable } from 'rxjs';
 import { LoansStoreService } from './loans-store.service';
 import { Injectable } from '@angular/core';
+import { Osoba } from 'src/Types/Osoba';
+import { Ksiazka } from 'src/Types/Ksiazka';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +18,7 @@ export class LoansService {
   ) {}
 
   getAllLoans(): Observable<Array<Wypozyczenie>> {
-    return this.loansStore.getBooks();
+    return this.loansStore.getLoans();
   }
 
   getPersonLoans(osobaId: number): Observable<Array<Wypozyczenie>> {
@@ -78,5 +80,26 @@ export class LoansService {
     if (!returned) return false;
     this.loansStore.updateLoan({ ...returned, dataOddania: when });
     return true;
+  }
+
+  getLoansDetails(): Observable<
+    Array<{ Loan: Wypozyczenie; Person: Osoba; Book: Ksiazka }>
+  > {
+    //pobieranie osob oraz ksiazek
+    let books: Array<Ksiazka> = [];
+    let people: Array<Osoba> = [];
+    this.booksService.getAllBooks().subscribe((data) => (books = data));
+    this.personService.getAllPersons().subscribe((data) => (people = data));
+    return this.loansStore.getLoans().pipe(
+      map((val) =>
+        val.map((record) => {
+          return {
+            Loan: record,
+            Person: people.find((val) => val.id === record.idOsoba)!,
+            Book: books.find((val) => val.id === record.idKsiazka)!,
+          };
+        })
+      )
+    );
   }
 }
