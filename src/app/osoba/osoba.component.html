@@ -109,6 +109,7 @@
       <th></th>
       <th clas="editBttns"></th>
       <th clas="editBttns"></th>
+      <th clas="editBttns"></th>
     </tr>
   </ng-template>
   <ng-template
@@ -128,6 +129,16 @@
         <b>{{ person.nazwisko }}</b>
       </td>
       <td></td>
+      <!-- guzik dodanie -->
+      <td style="max-width: 5%">
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-plus"
+          class="p-button-rounded p-button-text p-button-success p-button-sm"
+        ></button>
+      </td>
       <!-- guzik edycje -->
       <td style="max-width: 5%">
         <button
@@ -139,7 +150,6 @@
           class="p-button-rounded p-button-text p-button-info p-button-sm"
         ></button>
       </td>
-
       <!-- guzik usuwanie -->
       <td style="max-width: 5%">
         <button
