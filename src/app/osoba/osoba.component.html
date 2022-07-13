@@ -80,19 +80,21 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th style="width: 5%">ID</th>
-      <th style="width: 10%">IMIE</th>
-      <th style="width: 80%">NAZWISKO</th>
+      <th style="max-width: 5%">ID</th>
+      <th class="dane">IMIE</th>
+      <th class="dane">NAZWISKO</th>
       <th></th>
-      <th></th>
+      <th clas="editBttns"></th>
+      <th clas="editBttns"></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-person>
     <tr>
-      <td>{{ person.id }}</td>
-      <td>{{ person.imie }}</td>
-      <td>{{ person.nazwisko.toUpperCase() }}</td>
-      <td>
+      <td style="max-width: 5%">{{ person.id }}</td>
+      <td class="dane">{{ person.imie }}</td>
+      <td class="dane">{{ person.nazwisko.toUpperCase() }}</td>
+      <td></td>
+      <td style="max-width: 2%">
         <button
           pButton
           pRipple
@@ -101,7 +103,8 @@
           class="p-button-rounded p-button-text p-button-info p-button-sm"
         ></button>
       </td>
-      <td>
+
+      <td style="max-width: 5%">
         <button
           pButton
           pRipple
