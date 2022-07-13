@@ -1,8 +1,6 @@
-import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Osoba } from './../../Types/Osoba';
 
-@Injectable()
 export class PersonStoreService {
   private persons = new BehaviorSubject<Array<Osoba>>([
     { id: 1, imie: 'Janusz', nazwisko: 'Kowalski' },
@@ -17,7 +15,32 @@ export class PersonStoreService {
     { id: 10, imie: 'Malik', nazwisko: 'Montana' },
   ]);
 
+  addNewPerson(toAdd: Osoba): void {
+    this.persons.value.push(toAdd);
+  }
+
   getAllPersons(): Observable<Array<Osoba>> {
     return this.persons.asObservable();
+  }
+
+  getPerson(): Observable<Array<Osoba>> {
+    return this.persons.asObservable();
+  }
+
+  getNewPerson(adding: Osoba): void {
+    this.persons.value.push(adding);
+  }
+
+  deletePerson(deleting: number): void {
+    const toDelete = this.persons.value.findIndex((val) => val.id === deleting);
+    if (toDelete === -1) return;
+    this.persons.value.splice(toDelete, 1);
+  }
+  updatePerson(updated: Osoba): void {
+    const toUpdate = this.persons.value.findIndex(
+      (val) => val.id === updated.id
+    );
+    if (toUpdate === -1) return;
+    this.persons.value[toUpdate] = { ...updated };
   }
 }

@@ -1,4 +1,115 @@
-<div>Ilosc osob w bazie: {{ persons.length }}</div>
-<ul *ngFor="let person of persons">
-  <li>{{ person.imie + " " + person.nazwisko.toUpperCase() }}</li>
-</ul>
+<div>
+  Wyszukiwarka:
+
+  <!-- <input
+    [(ngModel)]="searchedValue"
+    (keydown.enter)="personSearch(searchedValue)"
+    id="input"
+    type="text"
+    size="30"
+    pInputText
+  /> -->
+  <hr />
+</div>
+<nav class="bar">
+  <span class="p-buttonset">
+    <button
+      pButton
+      p-button-text
+      type="button"
+      label="LISTA OSOB"
+      icon="pi pi-list"
+      class="p-button-warning p-button-outlined"
+      (click)="toggleList()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="ILOSC_OSOB"
+      class="p-button-warning p-button-outlined"
+      label="{{ persons.length }}"
+      icon="pi pi-users"
+      badge="8"
+      badgeClass="p-badge-info"
+    ></button>
+
+    <button
+      pButton
+      type="button"
+      label="WYSZUKAJ"
+      class="p-button-warning p-button-outlined"
+      icon="pi pi-search"
+      (click)="toggleSearch()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      icon="pi pi-user-plus"
+      label="DODAJ OSOBĘ"
+      class="p-button-warning p-button-outlined"
+    ></button>
+  </span>
+
+  <div class="col-12 md:col-4" [hidden]="showSearch">
+    <div class="p-inputgroup">
+      <button
+        type="button"
+        pButton
+        pRipple
+        icon="pi pi-search"
+        styleClass="p-button-danger"
+      ></button>
+
+      <input
+        (keydown.enter)="personSearch(searchedValue)"
+        type="text"
+        pInputText
+        [(ngModel)]="searchedValue"
+        placeholder="Wyszukaj osobę"
+      />
+    </div>
+  </div>
+</nav>
+<p-table
+  [hidden]="showList"
+  [value]="persons"
+  [scrollable]="true"
+  scrollHeight="600px"
+  [(ngModel)]="getAllPersons"
+  styleClass="p-datatable-striped"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 5%">ID</th>
+      <th style="width: 10%">IMIE</th>
+      <th style="width: 80%">NAZWISKO</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-person>
+    <tr>
+      <td>{{ person.id }}</td>
+      <td>{{ person.imie }}</td>
+      <td>{{ person.nazwisko.toUpperCase() }}</td>
+      <td>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-pencil"
+          class="p-button-rounded p-button-text p-button-info p-button-sm"
+        ></button>
+      </td>
+      <td>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-times"
+          class="p-button-rounded p-button-text p-button-danger p-button-sm"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

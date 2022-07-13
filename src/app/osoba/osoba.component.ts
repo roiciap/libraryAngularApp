@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Osoba } from 'src/Types/Osoba';
-import { PersonStoreService } from '../services/person-store.service';
+
+import { PersonService } from '../services/person.service';
 
 @Component({
   selector: 'app-osoba',
@@ -8,12 +9,39 @@ import { PersonStoreService } from '../services/person-store.service';
   styleUrls: ['./osoba.component.css'],
 })
 export class OsobaComponent implements OnInit {
-  constructor(private readonly personStoreSrv: PersonStoreService) {}
+  constructor(private _personService: PersonService) {}
   persons: Array<Osoba> = [];
+  searchedValue: string = '';
+  showSearch: boolean = true;
+  showList: boolean = false;
+  toggleList() {
+    this.showList = !this.showList;
+    console.log(this.showList);
+  }
+  toggleSearch() {
+    this.showSearch = !this.showSearch;
+    console.log(this.showSearch);
+  }
 
   ngOnInit(): void {
-    this.personStoreSrv
+    this.getAllPersons();
+  }
+
+  getAllPersons() {
+    this._personService
       .getAllPersons()
-      .subscribe((data) => (this.persons = data));
+      .subscribe((data) => (this.persons = data.slice()));
+  }
+
+  personSearch(searched: string) {
+    searched
+      ? this._personService
+          .getSearchedPersons(searched)
+          .subscribe((data) => (this.persons = data.slice()))
+      : this.getAllPersons();
+  }
+
+  addPerson(toAdd: { imie: string; nazwisko: string }) {
+    this._personService.addPerson(toAdd);
   }
 }

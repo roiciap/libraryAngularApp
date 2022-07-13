@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { Osoba } from 'src/Types/Osoba';
 import { PersonStoreService } from './person-store.service';
 
@@ -11,5 +11,32 @@ export class PersonService {
 
   getAllPersons(): Observable<Array<Osoba>> {
     return this.personStoreSrv.getAllPersons();
+  }
+
+  getSearchedPersons(searched: string): Observable<Array<Osoba>> {
+    return this.personStoreSrv
+      .getAllPersons()
+      .pipe(
+        map((val) =>
+          val.filter((person: { imie: string; nazwisko: string }) =>
+            (person.imie + '' + person.nazwisko)
+              .toLocaleLowerCase()
+              .includes(searched.toLocaleLowerCase())
+          )
+        )
+      );
+  }
+
+  addPerson(toAdd: { imie: string; nazwisko: string }): void {
+    let toAddId: number = -1;
+    this.getAllPersons().subscribe(
+      (data) =>
+        (toAddId =
+          data.reduce((max, val) => (val.id > max ? val.id : max), 0) + 1)
+    );
+    this.personStoreSrv.addNewPerson({ id: toAddId, ...toAdd });
+  }
+  updatePerson(updated: Osoba): void {
+    this.personStoreSrv.updatePerson(updated);
   }
 }
