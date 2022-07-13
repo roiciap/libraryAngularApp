@@ -2,7 +2,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { Osoba } from './../../Types/Osoba';
 
 export class PersonStoreService {
-  private persons = new BehaviorSubject<Array<Osoba>>([
+  private pList: Array<Osoba> = [
     { id: 1, imie: 'Janusz', nazwisko: 'Kowalski' },
     { id: 2, imie: 'Jan', nazwisko: 'Adamowski' },
     { id: 3, imie: 'Zbigniew', nazwisko: 'Karaś' },
@@ -13,10 +13,12 @@ export class PersonStoreService {
     { id: 8, imie: 'Weronika', nazwisko: 'Kmiecik' },
     { id: 9, imie: 'Bożena', nazwisko: 'Krawiec' },
     { id: 10, imie: 'Malik', nazwisko: 'Montana' },
-  ]);
+  ];
+  private persons = new BehaviorSubject<Array<Osoba>>(this.pList);
 
   addNewPerson(toAdd: Osoba): void {
-    this.persons.value.push(toAdd);
+    this.pList.push(toAdd);
+    this.persons.next(this.pList);
   }
 
   getAllPersons(): Observable<Array<Osoba>> {
@@ -41,6 +43,7 @@ export class PersonStoreService {
       (val) => val.id === updated.id
     );
     if (toUpdate === -1) return;
-    this.persons.value[toUpdate] = { ...updated };
+    this.pList[toUpdate] = { ...updated };
+    this.persons.next(this.pList);
   }
 }

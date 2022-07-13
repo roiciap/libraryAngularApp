@@ -16,10 +16,12 @@ import { PersonStoreService } from './services/person-store.service';
 import { BookFormComponent } from './ksiazka/book-form/book-form.component';
 import { FormsModule } from '@angular/forms';
 import { PersonService } from './services/person.service';
+import { MessageService } from 'primeng/api';
 
 import { ListboxModule } from 'primeng/listbox';
 import { BookService } from './services/Books/book.service';
 import { BookStoreServie } from './services/Books/book-store.service';
+import { StringUtilsService } from './services/utils/string-utils.service';
 
 @NgModule({
   declarations: [
@@ -47,6 +49,8 @@ import { BookStoreServie } from './services/Books/book-store.service';
     PersonStoreService,
     PersonService,
     PrimeIcons,
+    StringUtilsService,
+    MessageService,
   ],
   bootstrap: [AppComponent],
 })

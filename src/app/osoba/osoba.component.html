@@ -1,16 +1,3 @@
-<div>
-  Wyszukiwarka:
-
-  <!-- <input
-    [(ngModel)]="searchedValue"
-    (keydown.enter)="personSearch(searchedValue)"
-    id="input"
-    type="text"
-    size="30"
-    pInputText
-  /> -->
-  <hr />
-</div>
 <nav class="bar">
   <span class="p-buttonset">
     <button
@@ -47,6 +34,7 @@
       icon="pi pi-user-plus"
       label="DODAJ OSOBĘ"
       class="p-button-warning p-button-outlined"
+      (click)="toggleAddBar()"
     ></button>
   </span>
 
@@ -56,20 +44,55 @@
         type="button"
         pButton
         pRipple
+        (click)="personSearch(searchedValue)"
         icon="pi pi-search"
-        styleClass="p-button-danger"
+        class="p-button-warning p-button-outlined"
       ></button>
-
       <input
         (keydown.enter)="personSearch(searchedValue)"
         type="text"
         pInputText
         [(ngModel)]="searchedValue"
         placeholder="Wyszukaj osobę"
+        class="p-button-warning"
       />
     </div>
   </div>
+  <!-- Dodawanie osoby -->
+  <div [hidden]="showAdd">
+    <div class="p-inputgroup">
+      <button
+        type="button"
+        pButton
+        pRipple
+        (click)="addPerson()"
+        icon="pi pi-user-plus"
+        class="p-button-warning p-button-outlined"
+      ></button>
+      <input type="text" [(ngModel)]="nameInput" placeholder="Imie" />
+      <input type="text" [(ngModel)]="surnameInput" placeholder="Nazwisko" />
+    </div>
+  </div>
+  <!-- panel edycji osoby -->
+  <div [hidden]="editContext == null">
+    <div class="p-inputgroup">
+      <button
+        type="button"
+        pButton
+        pRipple
+        (click)="updatePerson()"
+        icon="pi pi-pencil"
+        class="p-button-warning p-button-outlined"
+      ></button>
+      <input type="text" [(ngModel)]="nameInput" placeholder="Imie" />
+      <input type="text" [(ngModel)]="surnameInput" placeholder="Nazwisko" />
+    </div>
+  </div>
 </nav>
+
+<!-- koniec panelu -->
+<hr />
+<br />
 <p-table
   [hidden]="showList"
   [value]="persons"
@@ -88,15 +111,28 @@
       <th clas="editBttns"></th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-person>
-    <tr>
-      <td style="max-width: 5%">{{ person.id }}</td>
+  <ng-template
+    pTemplate="body"
+    let-person
+    let-product
+    let-editing="editing"
+    let-ri="rowIndex"
+  >
+    <tr [pEditableRow]>
+      <td style="max-width: 5%">
+        <b>{{ person.id }}</b>
+      </td>
       <td class="dane">{{ person.imie }}</td>
-      <td class="dane">{{ person.nazwisko.toUpperCase() }}</td>
+
+      <td class="dane">
+        <b>{{ person.nazwisko }}</b>
+      </td>
       <td></td>
-      <td style="max-width: 2%">
+      <!-- guzik edycje -->
+      <td style="max-width: 5%">
         <button
           pButton
+          (click)="toggleEditBar(person)"
           pRipple
           type="button"
           icon="pi pi-pencil"
@@ -104,6 +140,7 @@
         ></button>
       </td>
 
+      <!-- guzik usuwanie -->
       <td style="max-width: 5%">
         <button
           pButton
