@@ -9,3 +9,36 @@
   flex-direction: column;
   display: flex;
 }
+ul {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin-left: 25px;
+  padding: 2px;
+}
+div {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 25px;
+}
+.bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.dane {
+  max-width: 15%;
+}
+
+.dane2 {
+  max-width: 25%;
+}
+
+.bttns {
+  max-width: 5%;
+}
+
+.data1 {
+  width: 5%;
+}
+.data2 {
+  width: 70%;
+}
