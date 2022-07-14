@@ -46,12 +46,14 @@
           pRipple
           icon="pi pi-search"
           class="p-button-warning p-button-outlined"
+          (click)="searchPeople()"
         ></button>
         <input
           type="text"
           pInputText
           placeholder="Wyszukaj osobę"
           class="p-button-warning"
+          [(ngModel)]="serach"
         />
       </div>
     </div>
@@ -64,11 +66,16 @@
           pRipple
           icon="pi pi-pencil"
           class="p-button-warning p-button-outlined"
+          (click)="updateBook()"
         ></button>
-        <input type="text" placeholder="Tytuł" />
-        <input type="text" placeholder="Autor" />
-        <input type="number" placeholder="Rok Wydania" />
-        <input type="number" placeholder="Dostępność" />
+        <input type="text" placeholder="Tytuł" [(ngModel)]="editNazwa" />
+        <input type="text" placeholder="Autor" [(ngModel)]="editAutor" />
+        <input type="number" placeholder="Rok Wydania" [(ngModel)]="editRok" />
+        <input
+          type="number"
+          placeholder="Dostępność"
+          [(ngModel)]="editDostepnosc"
+        />
       </div>
     </div>
   </nav>

@@ -33,28 +33,6 @@ export class LoansService {
       .pipe(map((val) => val.filter((loan) => loan.dataOddania == null)));
   }
 
-  getAvalibleBooks(search: string = ''): Observable<Array<Ksiazka>> {
-    return this.booksService.getAllBooks();
-
-    // let loansArr: Array<Wypozyczenie> = [];
-    // this.getAllLoans()
-    //   .subscribe((data) => (loansArr = data))
-    //   .unsubscribe();
-    // return this.booksService.getSearchedBooks(search).pipe(
-    //   map((val) =>
-    //     val.map((book) => {
-    //       console.log(loansArr.filter((loan) => loan.id === book.id));
-    //       return {
-    //         ...book,
-    //         dostepnosc:
-    //           book.dostepnosc -
-    //           loansArr.filter((loan) => loan.idKsiazka === book.id).length,
-    //       };
-    //     })
-    //   )
-    // );
-  }
-
   getPersonLoans(osobaId: number): Observable<Array<Wypozyczenie>> {
     return this.getAllLoans().pipe(
       map((val) => val.filter((loan) => loan.idOsoba === osobaId))
@@ -69,11 +47,15 @@ export class LoansService {
 
   // id powinny być strigami
   addLoan(newLoan: { idKsiazka: number; idOsoba: number }): boolean {
-    const book = this.booksService.getBook(newLoan.idKsiazka);
-    const person = this.personService.getPerson(newLoan.idOsoba);
+    let book: Ksiazka | undefined;
+    let person: Osoba | undefined;
+    this.booksService
+      .getBook(newLoan.idKsiazka)
+      .subscribe((data) => (book = data));
+    this.personService
+      .getPerson(newLoan.idOsoba)
+      .subscribe((data) => (person = data));
     if (!book || !person) return false;
-
-    ///sprawdz czy jest dostepna
 
     if (book.dostepnosc < 1) return false;
 
@@ -107,8 +89,12 @@ export class LoansService {
       .subscribe((data) => (returned = data))
       .unsubscribe();
     if (!returned) return false;
+    if (returned.dataOddania) return false;
     this.loansStore.updateLoan({ ...returned, dataOddania: when });
-    const book = this.booksService.getBook(returned.idKsiazka);
+    let book: Ksiazka | undefined;
+    this.booksService
+      .getBook(returned.idKsiazka)
+      .subscribe((data) => (book = data));
 
     if (book) {
       this.booksService.updateBook({
@@ -119,11 +105,14 @@ export class LoansService {
     return true;
   }
 
-  getLoansDetails(settings?: {
-    returned?: boolean;
-    personId?: number;
-    bookId?: number;
-  }): Observable<Array<LoanDescription>> {
+  getLoansDetails(
+    settings?: {
+      returned?: boolean;
+      personId?: number;
+      bookId?: number;
+    },
+    search?: { personName?: string }
+  ): Observable<Array<LoanDescription>> {
     //pobieranie osob oraz ksiazek
     let books: Array<Ksiazka> = [];
     let people: Array<Osoba> = [];
@@ -142,7 +131,18 @@ export class LoansService {
       );
     }
 
-    const toReturn = LoansToPipe.pipe(
+    if (settings?.returned != undefined)
+      LoansToPipe = LoansToPipe.pipe(
+        map((val) =>
+          val.filter((loan) => {
+            return settings?.returned
+              ? loan.dataOddania !== null
+              : loan.dataOddania == null;
+          })
+        )
+      );
+    ////Mapping to LoanDetails
+    let LoansDetails = LoansToPipe.pipe(
       map((val) =>
         val.map((record) => {
           return {
@@ -153,16 +153,16 @@ export class LoansService {
         })
       )
     );
-    if (settings?.returned == undefined) return toReturn;
-    console.log(settings?.returned);
-    return toReturn.pipe(
-      map((val) =>
-        val.filter((loan) => {
-          return settings?.returned
-            ? loan.Loan.dataOddania !== null
-            : loan.Loan.dataOddania == null;
-        })
-      )
-    );
+    if (search?.personName !== undefined)
+      LoansDetails = LoansDetails.pipe(
+        map((val) =>
+          val.filter((LD) =>
+            (LD.Person.imie + ' ' + LD.Person.nazwisko)
+              .toLowerCase()
+              .includes(search.personName?.toLowerCase()!)
+          )
+        )
+      );
+    return LoansDetails;
   }
 }
