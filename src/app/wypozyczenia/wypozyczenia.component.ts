@@ -28,7 +28,7 @@ export class WypozyczeniaComponent implements OnInit {
   osobaInput: number = 0;
 
   submit() {
-    this._loansService.addLoans({
+    this._loansService.addLoan({
       idKsiazka: this.ksiazkaInput,
       idOsoba: this.osobaInput,
     });

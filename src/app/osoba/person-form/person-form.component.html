@@ -3,7 +3,12 @@
 <ng-template #content>
   <h1>{{ person?.imie }} {{ person?.nazwisko }}</h1>
   <br />
-  <div class="loans-container">
+  <div class="button-container">
+    <button (click)="switchContent()">
+      {{ showAddContent ? "Zakończ" : "Wypożycz" }}
+    </button>
+  </div>
+  <div class="loans-container" *ngIf="!showAddContent; else addContent">
     <div>
       <p>oddane ksiazki</p>
       <ul *ngFor="let l of loansHistory">
@@ -30,4 +35,12 @@
       </ul>
     </div>
   </div>
+
+  <ng-template #addContent class="button-container">
+    <ul *ngFor="let book of books">
+      <li>
+        {{ book.nazwa }} <button (click)="loanBook(book.id)">Wypożycz</button>
+      </li>
+    </ul>
+  </ng-template>
 </ng-template>

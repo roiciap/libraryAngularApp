@@ -34,23 +34,25 @@ export class LoansService {
   }
 
   getAvalibleBooks(search: string = ''): Observable<Array<Ksiazka>> {
-    let loansArr: Array<Wypozyczenie> = [];
-    this.getAllLoans()
-      .subscribe((data) => (loansArr = data))
-      .unsubscribe();
-    return this.booksService.getSearchedBooks(search).pipe(
-      map((val) =>
-        val.map((book) => {
-          console.log(loansArr.filter((loan) => loan.id === book.id));
-          return {
-            ...book,
-            dostepnosc:
-              book.dostepnosc -
-              loansArr.filter((loan) => loan.idKsiazka === book.id).length,
-          };
-        })
-      )
-    );
+    return this.booksService.getAllBooks();
+
+    // let loansArr: Array<Wypozyczenie> = [];
+    // this.getAllLoans()
+    //   .subscribe((data) => (loansArr = data))
+    //   .unsubscribe();
+    // return this.booksService.getSearchedBooks(search).pipe(
+    //   map((val) =>
+    //     val.map((book) => {
+    //       console.log(loansArr.filter((loan) => loan.id === book.id));
+    //       return {
+    //         ...book,
+    //         dostepnosc:
+    //           book.dostepnosc -
+    //           loansArr.filter((loan) => loan.idKsiazka === book.id).length,
+    //       };
+    //     })
+    //   )
+    // );
   }
 
   getPersonLoans(osobaId: number): Observable<Array<Wypozyczenie>> {
@@ -66,20 +68,14 @@ export class LoansService {
   }
 
   // id powinny być strigami
-  addLoans(newLoan: { idKsiazka: number; idOsoba: number }): boolean {
+  addLoan(newLoan: { idKsiazka: number; idOsoba: number }): boolean {
     const book = this.booksService.getBook(newLoan.idKsiazka);
     const person = this.personService.getPerson(newLoan.idOsoba);
     if (!book || !person) return false;
 
     ///sprawdz czy jest dostepna
-    let storage: number = 0;
-    this.getBookLoans(newLoan.idKsiazka)
-      .pipe(
-        map((val) => val.reduce((sum, it) => sum + (it.dataOddania ? 0 : 1), 0))
-      )
-      .subscribe((data) => (storage = book.dostepnosc - data))
-      .unsubscribe();
-    if (storage < 1) return false;
+
+    if (book.dostepnosc < 1) return false;
 
     let newId: number = -2;
     this.getAllLoans()
@@ -99,7 +95,8 @@ export class LoansService {
       idKsiazka: newLoan.idKsiazka,
       idOsoba: newLoan.idOsoba,
     });
-    console.log(newId);
+
+    this.booksService.updateBook({ ...book, dostepnosc: book.dostepnosc - 1 });
     return true;
   }
 
@@ -111,6 +108,14 @@ export class LoansService {
       .unsubscribe();
     if (!returned) return false;
     this.loansStore.updateLoan({ ...returned, dataOddania: when });
+    const book = this.booksService.getBook(returned.idKsiazka);
+
+    if (book) {
+      this.booksService.updateBook({
+        ...book,
+        dostepnosc: book.dostepnosc + 1,
+      });
+    }
     return true;
   }
 
