@@ -7,6 +7,8 @@ import { TagModule } from 'primeng/tag';
 import { PrimeIcons } from 'primeng/api';
 import { FocusTrapModule } from 'primeng/focustrap';
 import { TableModule } from 'primeng/table';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,6 +46,8 @@ import { PersonFormComponent } from './osoba/person-form/person-form.component';
     FocusTrapModule,
     ListboxModule,
     TableModule,
+    ToggleButtonModule,
+    SelectButtonModule,
   ],
   providers: [
     BookService,

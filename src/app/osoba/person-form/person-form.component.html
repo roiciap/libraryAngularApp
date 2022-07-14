@@ -1,46 +1,158 @@
-<div *ngIf="!person; else content">nie ma</div>
+<div *ngIf="!person; else content" style="text-align: center">
+  <h3>Nie znaleziono osoby z ID: "{{ this.id }}"!</h3>
+  <button
+    pButton
+    pRipple
+    type="button"
+    label="Powrót"
+    onClick="history.go(-1)"
+    class="p-button-warning"
+  ></button>
+</div>
 
 <ng-template #content>
-  <h1>{{ person?.imie }} {{ person?.nazwisko }}</h1>
+  <div class="name">
+    {{ person?.imie }} <b>{{ person?.nazwisko }}</b>
+  </div>
   <br />
-  <div class="button-container">
-    <button (click)="switchContent()">
-      {{ showAddContent ? "Zakończ" : "Wypożycz" }}
-    </button>
-  </div>
-  <div class="loans-container" *ngIf="!showAddContent; else addContent">
-    <div>
-      <p>oddane ksiazki</p>
-      <ul *ngFor="let l of loansHistory">
-        <li>
-          {{
-            l.Book.nazwa +
-              " | od -" +
-              l.Loan.dataPrzyjecia.toLocaleString() +
-              " - do - " +
-              l.Loan.dataOddania?.toLocaleString()
-          }}
-        </li>
-      </ul>
-    </div>
-    <div>
-      <p>wypozyczone ksiazki</p>
-      <ul *ngFor="let l of activeLoans">
-        <li>
-          {{
-            l.Book.nazwa + " | od - " + l.Loan.dataPrzyjecia.toLocaleString()
-          }}
-          <button (click)="returnBook(l.Loan.id)">Oddaj</button>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <p-toggleButton
+    (click)="switchContent()"
+    onLabel="Zakończ"
+    offLabel="Wypożycz"
+    class="button-container"
+    offIcon="pi pi-arrow-up"
+    onIcon="pi pi-arrow-down"
+    [style]="{ width: '200px' }"
+  >
+    {{ showAddContent ? "Zakończ" : "Wypożycz" }}
+  </p-toggleButton>
+  <hr />
 
+  <div class="loans-container" *ngIf="!showAddContent; else addContent">
+    <div style="width: 45%">
+      <!-- left table -->
+      <p-table
+        [value]="loansHistory"
+        [scrollable]="true"
+        scrollHeight="550px"
+        styleClass="p-datatable-striped"
+      >
+        <ng-template
+          pTemplate="caption"
+          class="name"
+          style="text-align: center"
+        >
+          <h3 style="text-align: center">ODDANE KSIĄŻKI</h3>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="dane">TYTUŁ KSIĄŻKI</th>
+            <th class="dane2">DATA PRZYJĘCIA</th>
+            <th class="dane2">DATA ODDANIA</th>
+            <th class="bttns"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-loans>
+          <tr>
+            <td class="dane">
+              <b>{{ loans.Book.nazwa }}</b>
+            </td>
+            <td class="dane2">
+              {{ loans.Loan.dataPrzyjecia.toLocaleString() }}
+            </td>
+            <td class="dane2">{{ loans.Loan.dataOddania.toLocaleString() }}</td>
+            <td class="bttns"></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <!-- right table -->
+    <div style="width: 45%">
+      <p-table
+        [value]="activeLoans"
+        [scrollable]="true"
+        scrollHeight="550px"
+        styleClass="p-datatable-striped"
+      >
+        <ng-template
+          pTemplate="caption"
+          class="name"
+          style="text-align: center"
+        >
+          <h3 style="text-align: center">WYPOŻYCZONE KSIĄŻKI</h3>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="dane">TYTUŁ KSIĄŻKI</th>
+            <th class="dane2">DATA PRZYJĘCIA</th>
+            <th class="dane2">DATA ODDANIA</th>
+            <th class="bttns"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-loans>
+          <tr>
+            <td class="dane">
+              <b>{{ loans.Book.nazwa }}</b>
+            </td>
+            <td class="dane2">
+              {{ loans.Loan.dataPrzyjecia.toLocaleString() }}
+            </td>
+            <td class="dane2">--</td>
+            <td class="bttns">
+              <button
+                pButton
+                pRipple
+                (click)="returnBook(loans.Loan.id)"
+                type="button"
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-outlined p-button-danger p-button-sm"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <!-- wypozyczanie -->
   <ng-template #addContent class="button-container">
-    <ul *ngFor="let book of books">
-      <li>
-        {{ book.nazwa }} <button (click)="loanBook(book.id)">Wypożycz</button>
-      </li>
-    </ul>
+    <div style="width: 45%">
+      <p-table
+        [value]="books"
+        [scrollable]="true"
+        scrollHeight="550px"
+        styleClass="p-datatable-striped"
+      >
+        <ng-template
+          pTemplate="caption"
+          class="name"
+          style="text-align: center"
+        >
+          <h3 style="text-align: center">KSIĄŻKI DO WYPOŻYCZENIA</h3>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="min-width: 80%">TYTUŁ KSIĄŻKI</th>
+            <th class="bttns"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-book>
+          <tr>
+            <td style="min-width: 80%">
+              <b>{{ book.nazwa }}</b>
+            </td>
+            <td class="bttns">
+              <button
+                pButton
+                pRipple
+                (click)="loanBook(book.id)"
+                type="button"
+                icon="pi pi-chevron-down"
+                class="p-button-rounded p-button-outlined p-button-success p-button-sm"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
   </ng-template>
 </ng-template>
