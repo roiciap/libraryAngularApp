@@ -20,11 +20,4 @@ export class OplatyComponent implements OnInit {
     );
   }
   ngOnInit(): void {}
-
-  go() {
-    this.router.navigateByUrl('/oplaty/1');
-  }
-  back() {
-    this.router.navigateByUrl('/oplaty/0');
-  }
 }

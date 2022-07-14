@@ -24,6 +24,7 @@ import { ListboxModule } from 'primeng/listbox';
 import { BookService } from './services/Books/book.service';
 import { BookStoreServie } from './services/Books/book-store.service';
 import { StringUtilsService } from './services/utils/string-utils.service';
+import { PersonFormComponent } from './osoba/person-form/person-form.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { StringUtilsService } from './services/utils/string-utils.service';
     BookFormComponent,
     OsobaComponent,
     KsiazkaComponent,
+    PersonFormComponent,
   ],
   imports: [
     BrowserModule,

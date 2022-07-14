@@ -40,9 +40,9 @@ export class WypozyczeniaComponent implements OnInit {
       .subscribe((data) => (this.loans = [...data]));
   }
 
-  getLoansDescription(onlyNotReturned: boolean = false) {
+  getLoansDescription(returned: boolean = false) {
     this._loansService
-      .getLoansDetails(onlyNotReturned)
+      .getLoansDetails()
       .subscribe((data) => (this.loansWD = data));
   }
 }

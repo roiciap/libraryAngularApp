@@ -5,6 +5,7 @@ import { OsobaComponent } from './osoba/osoba.component';
 import { KsiazkaComponent } from './ksiazka/ksiazka.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PersonFormComponent } from './osoba/person-form/person-form.component';
 
 const routes: Routes = [
   { path: 'ksiazki', component: KsiazkaComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'oplaty/:id', component: OplatyComponent },
   { path: 'wypozyczenia', component: WypozyczeniaComponent },
   { path: 'ksiazki/:id', component: BookFormComponent },
+  { path: 'osoby/:id', component: PersonFormComponent },
 ];
 
 @NgModule({

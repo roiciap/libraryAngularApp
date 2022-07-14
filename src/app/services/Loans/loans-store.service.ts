@@ -49,7 +49,7 @@ export class LoansStoreService {
       idOsoba: 1,
       idKsiazka: 1,
       dataPrzyjecia: new Date(),
-      dataOddania: null,
+      dataOddania: new Date(),
     },
     {
       id: 7,

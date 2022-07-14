@@ -21,10 +21,16 @@ export class LoansService {
   getAllLoans(): Observable<Array<Wypozyczenie>> {
     return this.loansStore.getLoans();
   }
-  getAllUnreturnedLoans(): Observable<Array<Wypozyczenie>> {
+
+  getAllReturnedLoans(): Observable<Array<Wypozyczenie>> {
     return this.loansStore
       .getLoans()
       .pipe(map((val) => val.filter((loan) => loan.dataOddania)));
+  }
+  getAllUnreturnedLoans(): Observable<Array<Wypozyczenie>> {
+    return this.loansStore
+      .getLoans()
+      .pipe(map((val) => val.filter((loan) => loan.dataOddania == null)));
   }
 
   getAvalibleBooks(search: string = ''): Observable<Array<Ksiazka>> {
@@ -108,16 +114,30 @@ export class LoansService {
     return true;
   }
 
-  getLoansDetails(
-    onlyNotReturned: boolean = false
-  ): Observable<Array<LoanDescription>> {
+  getLoansDetails(settings?: {
+    returned?: boolean;
+    personId?: number;
+    bookId?: number;
+  }): Observable<Array<LoanDescription>> {
     //pobieranie osob oraz ksiazek
     let books: Array<Ksiazka> = [];
     let people: Array<Osoba> = [];
     this.booksService.getAllBooks().subscribe((data) => (books = data));
     this.personService.getAllPersons().subscribe((data) => (people = data));
 
-    const toReturn = this.loansStore.getLoans().pipe(
+    let LoansToPipe = this.loansStore.getLoans();
+    if (settings?.bookId)
+      LoansToPipe.pipe(
+        map((val) => val.filter((loan) => loan.idKsiazka === settings.bookId))
+      );
+    if (settings?.personId) {
+      console.log('dla osoby o id' + settings.personId);
+      LoansToPipe.pipe(
+        map((val) => val.filter((loan) => loan.idOsoba === settings.personId))
+      );
+    }
+
+    const toReturn = LoansToPipe.pipe(
       map((val) =>
         val.map((record) => {
           return {
@@ -128,11 +148,16 @@ export class LoansService {
         })
       )
     );
-    //if parameter is set true then return only not returned loans
-    return onlyNotReturned
-      ? toReturn.pipe(
-          map((val) => val.filter((loan) => loan.Loan.dataOddania == null))
-        )
-      : toReturn;
+    if (settings?.returned == undefined) return toReturn;
+    console.log(settings?.returned);
+    return toReturn.pipe(
+      map((val) =>
+        val.filter((loan) => {
+          return settings?.returned
+            ? loan.Loan.dataOddania !== null
+            : loan.Loan.dataOddania == null;
+        })
+      )
+    );
   }
 }
