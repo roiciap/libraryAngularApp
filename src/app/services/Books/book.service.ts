@@ -51,6 +51,7 @@ export class BookService {
 
   updateBook(updated: Ksiazka): boolean {
     let found: boolean = false;
+    if (updated.dostepnosc < 0) return false;
     this.getAllBooks()
       .pipe(
         map((val) => val.findIndex((searched) => searched.id === updated.id))
@@ -60,6 +61,7 @@ export class BookService {
       })
       .unsubscribe();
     if (!found) return false;
+
     this.bookStoreSrv.updateBook(updated);
     return true;
   }
@@ -68,13 +70,7 @@ export class BookService {
     this.bookStoreSrv.deleteBook(deletedId);
   }
 
-  getBook(id: number): Ksiazka | undefined {
-    let book: Ksiazka | undefined;
-
-    this.getAllBooks()
-      .pipe(map((val) => val.find((searched) => searched.id === id)))
-      .subscribe((data) => (book = data))
-      .unsubscribe();
-    return book ? { ...book } : book;
+  getBook(id: number): Observable<Ksiazka | undefined> {
+    return this.bookStoreSrv.getBook(id);
   }
 }

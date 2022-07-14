@@ -42,7 +42,7 @@ export class WypozyczeniaComponent implements OnInit {
 
   getLoansDescription(returned: boolean = false) {
     this._loansService
-      .getLoansDetails()
+      .getLoansDetails({ returned: false })
       .subscribe((data) => (this.loansWD = data));
   }
 }

@@ -43,14 +43,8 @@ export class PersonService {
   updatePerson(updated: Osoba): void {
     this.personStoreSrv.updatePerson(updated);
   }
-  getPerson(id: number): Osoba | undefined {
-    let returned: Osoba | undefined;
-    this.personStoreSrv
-      .getAllPersons()
-      .pipe(map((val) => val.find((searched) => searched.id === id)))
-      .subscribe((data) => (returned = data))
-      .unsubscribe();
-    return returned ? { ...returned } : undefined;
+  getPerson(id: number): Observable<Osoba | undefined> {
+    return this.personStoreSrv.getPerson(id);
   }
   deletePerson(deleteId: number): void {
     this.personStoreSrv.deletePerson(deleteId);

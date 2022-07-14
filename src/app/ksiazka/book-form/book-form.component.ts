@@ -17,9 +17,12 @@ export class BookFormComponent implements OnInit {
   loans: Array<LoanDescription> = [];
   showSearch: boolean = true;
   showEdit: boolean = true;
-  // editContext: Osoba | null = null;
+  editAutor: string = '';
+  editNazwa: string = '';
+  editRok: number = 0;
+  editDostepnosc: number = 0;
   BookFormComponent: any;
-
+  serach: string = '';
   toggleSearch() {
     this.showSearch = !this.showSearch;
     this.showEdit = true;
@@ -28,17 +31,12 @@ export class BookFormComponent implements OnInit {
   toggleEditBar() {
     this.showEdit = !this.showEdit;
     this.showSearch = true;
-    // if (this.editContext == toEdit) {
-    //   this.editContext = null;
-    //   return;
-    // }
-    // this.editContext = toEdit;
-
-    // this.nameInput = toEdit.imie;
-    // this.surnameInput = toEdit.nazwisko;
-
-    // this.showAdd = true;
-    // this.showSearch = true;
+    if (this.book) {
+      this.editAutor = this.book.autor;
+      this.editDostepnosc = this.book.dostepnosc;
+      this.editNazwa = this.book.nazwa;
+      this.editRok = this.book.rokWydania;
+    }
   }
 
   constructor(
@@ -53,17 +51,41 @@ export class BookFormComponent implements OnInit {
     );
     if (Number.isNaN(Number(this.id))) {
     } else {
-      this.book = this.bookService.getBook(Number(this.id));
       this.loadData();
     }
   }
   loadData() {
+    this.bookService
+      .getBook(Number(this.id))
+      .subscribe((data) => (this.book = data));
     this.loansService
       .getLoansDetails({
         returned: false,
         bookId: this.book?.id,
       })
       .subscribe((data) => (this.loans = data));
-    console.log(this.loans);
+  }
+
+  searchPeople() {
+    this.loansService
+      .getLoansDetails(
+        {
+          returned: false,
+          bookId: this.book?.id,
+        },
+        { personName: this.serach }
+      )
+      .subscribe((data) => (this.loans = data));
+  }
+
+  updateBook() {
+    if (this.book !== undefined)
+      this.bookService.updateBook({
+        id: this.book.id,
+        nazwa: this.editNazwa,
+        autor: this.editAutor,
+        rokWydania: this.editRok,
+        dostepnosc: this.editDostepnosc,
+      });
   }
 }

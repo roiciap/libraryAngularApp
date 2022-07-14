@@ -33,13 +33,15 @@ export class PersonFormComponent implements OnInit {
     );
     if (Number.isNaN(Number(this.id))) {
     } else {
-      this.person = this.personService.getPerson(Number(this.id));
       this.loadData();
     }
     console.log(this.activeLoans);
     console.log(this.loansHistory);
   }
   loadData() {
+    this.personService
+      .getPerson(Number(this.id))
+      .subscribe((data) => (this.person = data));
     if (this.person) {
       this.loansService
         .getLoansDetails({ returned: true, personId: this.person.id })

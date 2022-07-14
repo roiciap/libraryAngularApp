@@ -1,4 +1,4 @@
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, map } from 'rxjs';
 import { Osoba } from './../../Types/Osoba';
 
 export class PersonStoreService {
@@ -19,6 +19,12 @@ export class PersonStoreService {
   addNewPerson(toAdd: Osoba): void {
     this.pList.push(toAdd);
     this.personsObs.next(this.pList);
+  }
+
+  getPerson(id: number): Observable<Osoba | undefined> {
+    return this.personsObs
+      .asObservable()
+      .pipe(map((val) => val.find((p) => p.id == id)));
   }
 
   getAllPersons(): Observable<Array<Osoba>> {

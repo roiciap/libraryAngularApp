@@ -39,15 +39,15 @@ export class KsiazkaComponent implements OnInit {
   }
 
   getAllBooks() {
-    this.loansService.getAvalibleBooks().subscribe((data) => {
+    this.booksService.getAllBooks().subscribe((data) => {
       console.log(data);
       this.books = data;
     });
   }
 
   booksSearch(searched: string) {
-    this.loansService
-      .getAvalibleBooks(this.searchedValue)
+    this.booksService
+      .getSearchedBooks(this.searchedValue)
       .subscribe((data) => (this.books = data.slice()));
   }
 

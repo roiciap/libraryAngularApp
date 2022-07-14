@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Ksiazka } from 'src/Types/Ksiazka';
 
 export class BookStoreServie {
@@ -94,9 +94,10 @@ export class BookStoreServie {
     this.booksObs.next(this.books);
   }
 
-  getBook(id: number): Ksiazka | undefined {
-    const book = this.booksObs.value.find((val) => val.id === id);
-    return book;
+  getBook(id: number): Observable<Ksiazka | undefined> {
+    return this.booksObs
+      .asObservable()
+      .pipe(map((val) => val.find((bok) => bok.id === id)));
   }
 
   getAllBook(): Observable<Array<Ksiazka>> {
