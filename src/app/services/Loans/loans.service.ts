@@ -127,12 +127,12 @@ export class LoansService {
 
     let LoansToPipe = this.loansStore.getLoans();
     if (settings?.bookId)
-      LoansToPipe.pipe(
+      LoansToPipe = LoansToPipe.pipe(
         map((val) => val.filter((loan) => loan.idKsiazka === settings.bookId))
       );
     if (settings?.personId) {
       console.log('dla osoby o id' + settings.personId);
-      LoansToPipe.pipe(
+      LoansToPipe = LoansToPipe.pipe(
         map((val) => val.filter((loan) => loan.idOsoba === settings.personId))
       );
     }
