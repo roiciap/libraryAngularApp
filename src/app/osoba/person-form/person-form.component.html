@@ -12,24 +12,25 @@
 
 <ng-template #content>
   <div class="name">
-    {{ person?.imie }} <b>{{ person?.nazwisko }}</b>
+    {{ person?.imie }}
+    <b>{{ person?.nazwisko }} </b>
   </div>
   <br />
   <p-toggleButton
     (click)="switchContent()"
     onLabel="Zakończ"
-    offLabel="Wypożycz"
+    offLabel="Wypożycz "
     class="button-container"
     offIcon="pi pi-arrow-up"
     onIcon="pi pi-arrow-down"
-    [style]="{ width: '200px' }"
+    [style]="{ width: '100%' }"
   >
     {{ showAddContent ? "Zakończ" : "Wypożycz" }}
   </p-toggleButton>
   <hr />
 
   <div class="loans-container" *ngIf="!showAddContent; else addContent">
-    <div style="width: 45%">
+    <div style="width: 48%">
       <!-- left table -->
       <p-table
         [value]="loansHistory"
@@ -42,7 +43,14 @@
           class="name"
           style="text-align: center"
         >
-          <h3 style="text-align: center">ODDANE KSIĄŻKI</h3>
+          <h3 style="text-align: center">
+            ODDANE KSIĄŻKI
+            <p-tag
+              value="{{ loansHistory.length }}"
+              severity="warning"
+              [rounded]="true"
+            ></p-tag>
+          </h3>
         </ng-template>
         <ng-template pTemplate="header">
           <tr>
@@ -67,7 +75,7 @@
       </p-table>
     </div>
     <!-- right table -->
-    <div style="width: 45%">
+    <div style="width: 48%">
       <p-table
         [value]="activeLoans"
         [scrollable]="true"
@@ -75,11 +83,19 @@
         styleClass="p-datatable-striped"
       >
         <ng-template
+          let-loans
           pTemplate="caption"
           class="name"
           style="text-align: center"
         >
-          <h3 style="text-align: center">WYPOŻYCZONE KSIĄŻKI</h3>
+          <h3 style="text-align: center">
+            WYPOŻYCZONE KSIĄŻKI
+            <p-tag
+              value="{{ activeLoans.length }}"
+              severity="warning"
+              [rounded]="true"
+            ></p-tag>
+          </h3>
         </ng-template>
         <ng-template pTemplate="header">
           <tr>
@@ -115,7 +131,7 @@
   </div>
   <!-- wypozyczanie -->
   <ng-template #addContent class="button-container">
-    <div style="width: 45%">
+    <div style>
       <p-table
         [value]="books"
         [scrollable]="true"
@@ -131,14 +147,22 @@
         </ng-template>
         <ng-template pTemplate="header">
           <tr>
-            <th style="min-width: 80%">TYTUŁ KSIĄŻKI</th>
+            <th class="data3">TYTUŁ KSIĄŻKI</th>
+            <th class="data3">AUTOR</th>
+            <th class="data3">DOSTĘPNOŚĆ</th>
             <th class="bttns"></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-book>
           <tr>
-            <td style="min-width: 80%">
+            <td class="data3">
               <b>{{ book.nazwa }}</b>
+            </td>
+            <td class="data3">
+              {{ book.autor }}
+            </td>
+            <td class="data3">
+              {{ book.dostepnosc }}
             </td>
             <td class="bttns">
               <button
