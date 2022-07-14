@@ -25,6 +25,7 @@
           {{
             l.Book.nazwa + " | od - " + l.Loan.dataPrzyjecia.toLocaleString()
           }}
+          <button (click)="returnBook(l.Loan.id)">Oddaj</button>
         </li>
       </ul>
     </div>

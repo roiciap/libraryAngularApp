@@ -43,4 +43,8 @@ export class PersonFormComponent implements OnInit {
         .subscribe((data) => (this.activeLoans = data.slice()));
     }
   }
+
+  returnBook(loanID: number) {
+    this.loansService.returnBook(loanID);
+  }
 }

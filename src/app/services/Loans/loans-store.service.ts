@@ -78,6 +78,7 @@ export class LoansStoreService {
   updateLoan(newState: Wypozyczenie) {
     let toUpdateIndex = this.loans.findIndex((val) => val.id === newState.id);
     this.loans[toUpdateIndex] = newState;
+    this.loansObs.next(this.loans);
   }
 
   addLoan(newLoan: Wypozyczenie) {
