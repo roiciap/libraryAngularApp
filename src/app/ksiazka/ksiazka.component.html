@@ -89,6 +89,7 @@
       <th>DOSTĘPNOŚĆ</th>
       <th class="bttns"></th>
       <th class="bttns"></th>
+      <th class="bttns"></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-book>
@@ -100,6 +101,17 @@
       </td>
       <td class="dane">{{ book.rokWydania }}</td>
       <td>{{ book.dostepnosc }}</td>
+      <!-- more book info at /id -->
+      <td class="bttns">
+        <button
+          [routerLink]="book.id"
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-search-plus"
+          class="p-button-rounded p-button-text p-button-info p-button-sm"
+        ></button>
+      </td>
       <!-- book incrementation -->
       <td class="bttns">
         <button

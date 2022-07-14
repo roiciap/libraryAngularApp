@@ -1,7 +1,48 @@
-<div *ngIf="book == undefined; else content">
-  <h1>nie ma ksiazki</h1>
+<div *ngIf="book == undefined; else content" style="text-align: center">
+  <h3>Nie znaleziono książki z ID: "{{ this.id }}"!</h3>
+  <button
+    pButton
+    pRipple
+    type="button"
+    label="Powrót"
+    onClick="history.go(-1)"
+    class="p-button-warning"
+  ></button>
 </div>
 
 <ng-template #content>
-  <h1>jest</h1>
+  <p-table>
+    <ng-template pTemplate="header">
+      <tr>
+        <td class="data1">ID</td>
+        <td>
+          <b>{{ book?.id }}</b>
+        </td>
+      </tr>
+      <tr>
+        <td>TYTUŁ</td>
+        <td>
+          <b>{{ book?.nazwa }}</b>
+        </td>
+      </tr>
+      <tr>
+        <td>AUTOR</td>
+        <td>
+          <b>{{ book?.autor }}</b>
+        </td>
+      </tr>
+      <tr>
+        <td>AUTOR</td>
+        <td>
+          <b>{{ book?.rokWydania }}</b>
+        </td>
+      </tr>
+      <tr>
+        <td>DOSTĘPOŚĆ</td>
+        <td>
+          <b>{{ book?.dostepnosc }}</b>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
 </ng-template>

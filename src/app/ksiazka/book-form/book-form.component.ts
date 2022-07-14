@@ -1,7 +1,9 @@
+import { LoansService } from './../../services/Loans/loans.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookService } from 'src/app/services/Books/book.service';
 import { Ksiazka } from 'src/Types/Ksiazka';
+import { Osoba } from 'src/Types/Osoba';
 
 @Component({
   selector: 'app-book-form',
@@ -11,9 +13,12 @@ import { Ksiazka } from 'src/Types/Ksiazka';
 export class BookFormComponent implements OnInit {
   id: string = '';
   book: Ksiazka | undefined;
+  person: Osoba | undefined;
+  BookFormComponent: any;
 
   constructor(
     private router: Router,
+    private loansService: LoansService,
     private Activatedroute: ActivatedRoute,
     private bookService: BookService
   ) {}

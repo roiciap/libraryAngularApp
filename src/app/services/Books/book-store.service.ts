@@ -17,6 +17,55 @@ export class BookStoreServie {
       rokWydania: 1998,
       dostepnosc: 20,
     },
+    {
+      id: 3,
+      nazwa: 'Dziady III',
+      autor: 'Adam Mickiewicz',
+      rokWydania: 2006,
+      dostepnosc: 6,
+    },
+    {
+      id: 4,
+      nazwa: 'Kordian',
+      autor: 'Juliusz Słowacki',
+      rokWydania: 2003,
+      dostepnosc: 32,
+    },
+    {
+      id: 5,
+      nazwa: 'Metro 2033',
+      autor: 'Dmitrij Głuchowski',
+      rokWydania: 2003,
+      dostepnosc: 33,
+    },
+    {
+      id: 6,
+      nazwa: 'Metro 2034',
+      autor: 'Dmitrij Głuchowski',
+      rokWydania: 2009,
+      dostepnosc: 34,
+    },
+    {
+      id: 7,
+      nazwa: 'Metro 2035',
+      autor: 'Dmitrij Głuchowski',
+      rokWydania: 2015,
+      dostepnosc: 35,
+    },
+    {
+      id: 8,
+      nazwa: 'Zew Cthulhu',
+      autor: 'H.P. Lovecraft',
+      rokWydania: 2008,
+      dostepnosc: 12,
+    },
+    {
+      id: 9,
+      nazwa: 'Pan Tadeusz',
+      autor: 'Adam Mickiewicz',
+      rokWydania: 1998,
+      dostepnosc: 28,
+    },
   ];
   private booksObs: BehaviorSubject<Array<Ksiazka>> = new BehaviorSubject(
     this.books
