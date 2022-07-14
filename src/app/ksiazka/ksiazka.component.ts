@@ -18,7 +18,7 @@ export class KsiazkaComponent implements OnInit {
 
   nazwaInput: string = '';
   autorInput: string = '';
-  rokInput: number = 2020;
+  rokInput: number = 2000;
   dostepnoscInput: number = 1;
 
   showSearch: boolean = true;
