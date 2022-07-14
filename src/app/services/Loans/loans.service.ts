@@ -1,4 +1,3 @@
-import { LoanDescription } from './../../../Types/LoanDescription';
 import { PersonService } from './../person.service';
 import { BookService } from './../Books/book.service';
 import { Wypozyczenie } from './../../../Types/Wypozyczenie';
@@ -7,6 +6,7 @@ import { LoansStoreService } from './loans-store.service';
 import { Injectable } from '@angular/core';
 import { Osoba } from 'src/Types/Osoba';
 import { Ksiazka } from 'src/Types/Ksiazka';
+import { LoanDescription } from 'src/Types/LoanDescription';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +20,31 @@ export class LoansService {
 
   getAllLoans(): Observable<Array<Wypozyczenie>> {
     return this.loansStore.getLoans();
+  }
+  getAllUnreturnedLoans(): Observable<Array<Wypozyczenie>> {
+    return this.loansStore
+      .getLoans()
+      .pipe(map((val) => val.filter((loan) => loan.dataOddania)));
+  }
+
+  getAvalibleBooks(search: string = ''): Observable<Array<Ksiazka>> {
+    let loansArr: Array<Wypozyczenie> = [];
+    this.getAllLoans()
+      .subscribe((data) => (loansArr = data))
+      .unsubscribe();
+    return this.booksService.getSearchedBooks(search).pipe(
+      map((val) =>
+        val.map((book) => {
+          console.log(loansArr.filter((loan) => loan.id === book.id));
+          return {
+            ...book,
+            dostepnosc:
+              book.dostepnosc -
+              loansArr.filter((loan) => loan.idKsiazka === book.id).length,
+          };
+        })
+      )
+    );
   }
 
   getPersonLoans(osobaId: number): Observable<Array<Wypozyczenie>> {
@@ -83,13 +108,16 @@ export class LoansService {
     return true;
   }
 
-  getLoansDetails(): Observable<Array<LoanDescription>> {
+  getLoansDetails(
+    onlyNotReturned: boolean = false
+  ): Observable<Array<LoanDescription>> {
     //pobieranie osob oraz ksiazek
     let books: Array<Ksiazka> = [];
     let people: Array<Osoba> = [];
     this.booksService.getAllBooks().subscribe((data) => (books = data));
     this.personService.getAllPersons().subscribe((data) => (people = data));
-    return this.loansStore.getLoans().pipe(
+
+    const toReturn = this.loansStore.getLoans().pipe(
       map((val) =>
         val.map((record) => {
           return {
@@ -100,5 +128,11 @@ export class LoansService {
         })
       )
     );
+    //if parameter is set true then return only not returned loans
+    return onlyNotReturned
+      ? toReturn.pipe(
+          map((val) => val.filter((loan) => loan.Loan.dataOddania == null))
+        )
+      : toReturn;
   }
 }

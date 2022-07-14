@@ -1,7 +1,7 @@
-import { StringUtilsService } from './../services/utils/string-utils.service';
-import { Ksiazka } from './../../Types/Ksiazka';
-import { BookService } from '../services/Books/book.service';
+import { LoansService } from './../services/Loans/loans.service';
 import { Component, OnInit } from '@angular/core';
+import { BookService } from '../services/Books/book.service';
+import { Ksiazka } from 'src/Types/Ksiazka';
 
 @Component({
   selector: 'app-ksiazka',
@@ -9,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./ksiazka.component.css'],
 })
 export class KsiazkaComponent implements OnInit {
-  constructor(private _booksService: BookService) {}
+  constructor(
+    private booksService: BookService,
+    private loansService: LoansService
+  ) {}
   books: Array<Ksiazka> = [];
   searchedValue: string = '';
 
@@ -36,30 +39,20 @@ export class KsiazkaComponent implements OnInit {
   }
 
   getAllBooks() {
-    this._booksService.getAllBooks().subscribe((data) => {
+    this.loansService.getAvalibleBooks().subscribe((data) => {
       console.log(data);
       this.books = data.slice();
     });
   }
 
   booksSearch(searched: string) {
-    this.searchedValue
-      ? this._booksService
-          .getSearchedBooks(this.searchedValue)
-          .subscribe((data) => (this.books = data.slice()))
-      : this.getAllBooks();
+    this.loansService
+      .getAvalibleBooks(this.searchedValue)
+      .subscribe((data) => (this.books = data.slice()));
   }
 
-  // addBook(toAdd: {
-  //   nazwa: string;
-  //   autor: string;
-  //   rokWydania: number;
-  //   dostepnosc: number;
-  // }) {
-  //   this._booksService.addBook(toAdd);
-  // }
   addBook(): void {
-    this._booksService.addBook({
+    this.booksService.addBook({
       nazwa: this.nazwaInput,
       autor: this.autorInput,
       rokWydania: this.rokInput,
@@ -72,6 +65,6 @@ export class KsiazkaComponent implements OnInit {
   }
 
   deleteBook(id: number) {
-    this._booksService.deleteBook(id);
+    this.booksService.deleteBook(id);
   }
 }

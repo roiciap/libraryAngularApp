@@ -11,7 +11,7 @@ import { StringUtilsService } from '../services/utils/string-utils.service';
 })
 export class OsobaComponent implements OnInit {
   constructor(
-    private readonly _personService: PersonService,
+    private readonly personService: PersonService,
     private readonly stringUtils: StringUtilsService
   ) {}
 
@@ -49,7 +49,11 @@ export class OsobaComponent implements OnInit {
     this.showSearch = true;
     this.editContext = null;
   }
-  toggleEditBar(toEdit: Osoba = this.persons[5]) {
+  toggleEditBar(toEdit: Osoba) {
+    if (this.editContext == toEdit) {
+      this.editContext = null;
+      return;
+    }
     this.editContext = toEdit;
 
     this.nameInput = toEdit.imie;
@@ -64,21 +68,21 @@ export class OsobaComponent implements OnInit {
   }
 
   getAllPersons() {
-    this._personService
+    this.personService
       .getAllPersons()
       .subscribe((data) => (this.persons = data.slice()));
   }
 
   personSearch(searched: string) {
     searched
-      ? this._personService
+      ? this.personService
           .getSearchedPersons(searched)
           .subscribe((data) => (this.persons = data.slice()))
       : this.getAllPersons();
   }
 
   addPerson(): void {
-    this._personService.addPerson({
+    this.personService.addPerson({
       imie: this.stringUtils.capitWord(this.nameInput),
       nazwisko: this.stringUtils.capitWord(this.surnameInput),
     });
@@ -88,13 +92,14 @@ export class OsobaComponent implements OnInit {
 
   updatePerson() {
     if (this.editContext == null) return;
-    this._personService.updatePerson({
+    this.personService.updatePerson({
       id: this.editContext.id,
       imie: this.stringUtils.capitWord(this.nameInput),
       nazwisko: this.stringUtils.capitWord(this.surnameInput),
     });
+    this.editContext = null;
   }
   deletePerson(id: number): void {
-    this._personService.deletePerson(id);
+    this.personService.deletePerson(id);
   }
 }

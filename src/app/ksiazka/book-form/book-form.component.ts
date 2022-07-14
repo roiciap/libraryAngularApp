@@ -1,5 +1,6 @@
-import { BookService } from './../../services/Books/book.service';
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BookService } from 'src/app/services/Books/book.service';
 import { Ksiazka } from 'src/Types/Ksiazka';
 
 @Component({
@@ -8,25 +9,21 @@ import { Ksiazka } from 'src/Types/Ksiazka';
   styleUrls: ['./book-form.component.css'],
 })
 export class BookFormComponent implements OnInit {
-  @Input()
-  book: Ksiazka = {
-    id: -1,
-    nazwa: '',
-    autor: '',
-    rokWydania: new Date().getFullYear(),
-    dostepnosc: 0,
-  };
+  id: string = '';
+  book: Ksiazka | undefined;
 
-  done: boolean = false;
-
-  constructor(private _bookService: BookService) {}
+  constructor(
+    private router: Router,
+    private Activatedroute: ActivatedRoute,
+    private bookService: BookService
+  ) {}
   ngOnInit(): void {
-    this.book = { ...this.book };
-  }
-  submit() {
-    this.done =
-      this.book.id < 0
-        ? this._bookService.addBook(this.book)
-        : this._bookService.updateBook(this.book);
+    this.Activatedroute.paramMap.subscribe(
+      (data) => (this.id = data.get('id')?.trim() || '')
+    );
+    if (Number.isNaN(Number(this.id))) {
+    } else {
+      this.book = this.bookService.getBook(Number(this.id));
+    }
   }
 }

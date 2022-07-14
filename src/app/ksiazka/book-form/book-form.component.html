@@ -1,49 +1,7 @@
-<div class="container">
-  <span class="p-float-label">
-    <input
-      id="float-input"
-      type="text"
-      pInputText
-      [(ngModel)]="book.autor"
-      class="form-input"
-    />
-    <label for="float-input">Autor książki</label>
-  </span>
-  <span class="p-float-label">
-    <input
-      class="form-input"
-      id="float-input"
-      type="text"
-      pInputText
-      [(ngModel)]="book.nazwa"
-    />
-    <label for="float-input">Nazwa książki</label>
-  </span>
-  <span class="p-float-label">
-    <input
-      class="form-input"
-      id="float-input"
-      type="number"
-      pInputText
-      [(ngModel)]="book.rokWydania"
-    />
-    <label for="float-input">Rok wydania</label>
-  </span>
-  <span class="p-float-label">
-    <input
-      class="form-input"
-      id="float-input"
-      type="number"
-      [(ngModel)]="book.dostepnosc"
-      pInputText
-    />
-    <label for="float-input">Dostępna ilość</label>
-  </span>
-  <button
-    pButton
-    type="button"
-    label="Zatwierdz"
-    (click)="submit()"
-    class="form-input"
-  ></button>
+<div *ngIf="book == undefined; else content">
+  <h1>nie ma ksiazki</h1>
 </div>
+
+<ng-template #content>
+  <h1>jest</h1>
+</ng-template>

@@ -14,6 +14,7 @@ export class BookService {
   }
 
   getSearchedBooks(searched: string): Observable<Array<Ksiazka>> {
+    if (searched.trim() === '') return this.getAllBooks();
     return this.getAllBooks().pipe(
       map((val) =>
         val.filter((book) =>
