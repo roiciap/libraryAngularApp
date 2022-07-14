@@ -31,6 +31,7 @@ import { StringUtilsService } from './services/utils/string-utils.service';
     routingComponents,
     BookFormComponent,
     OsobaComponent,
+    KsiazkaComponent,
   ],
   imports: [
     BrowserModule,

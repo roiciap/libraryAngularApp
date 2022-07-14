@@ -94,4 +94,7 @@ export class OsobaComponent implements OnInit {
       nazwisko: this.stringUtils.capitWord(this.surnameInput),
     });
   }
+  deletePerson(id: number): void {
+    this._personService.deletePerson(id);
+  }
 }

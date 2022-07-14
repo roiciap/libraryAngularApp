@@ -107,9 +107,9 @@
       <th class="dane">IMIE</th>
       <th class="dane">NAZWISKO</th>
       <th></th>
-      <th clas="editBttns"></th>
-      <th clas="editBttns"></th>
-      <th clas="editBttns"></th>
+      <th class="editBttns"></th>
+      <th class="editBttns"></th>
+      <th class="editBttns"></th>
     </tr>
   </ng-template>
   <ng-template
@@ -120,7 +120,7 @@
     let-ri="rowIndex"
   >
     <tr [pEditableRow]>
-      <td style="max-width: 5%">
+      <td class="editBttns">
         <b>{{ person.id }}</b>
       </td>
       <td class="dane">{{ person.imie }}</td>
@@ -130,7 +130,7 @@
       </td>
       <td></td>
       <!-- guzik dodanie -->
-      <td style="max-width: 5%">
+      <td class="editBttns">
         <button
           pButton
           pRipple
@@ -140,7 +140,7 @@
         ></button>
       </td>
       <!-- guzik edycje -->
-      <td style="max-width: 5%">
+      <td class="editBttns">
         <button
           pButton
           (click)="toggleEditBar(person)"
@@ -156,6 +156,7 @@
           pButton
           pRipple
           type="button"
+          (click)="deletePerson(person)"
           icon="pi pi-times"
           class="p-button-rounded p-button-text p-button-danger p-button-sm"
         ></button>

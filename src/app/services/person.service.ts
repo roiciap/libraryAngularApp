@@ -52,4 +52,7 @@ export class PersonService {
       .unsubscribe();
     return returned ? { ...returned } : undefined;
   }
+  deletePerson(deleteId: number): void {
+    this.personStoreSrv.deletePerson(deleteId);
+  }
 }

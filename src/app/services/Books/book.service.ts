@@ -17,7 +17,7 @@ export class BookService {
     return this.getAllBooks().pipe(
       map((val) =>
         val.filter((book) =>
-          (book.autor + ' ' + book.nazwa)
+          (book.autor + ' ' + book.nazwa + ' ' + book.rokWydania)
             .toLocaleLowerCase()
             .includes(searched.toLowerCase())
         )

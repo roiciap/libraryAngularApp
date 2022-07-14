@@ -14,32 +14,37 @@ export class PersonStoreService {
     { id: 9, imie: 'Bożena', nazwisko: 'Krawiec' },
     { id: 10, imie: 'Malik', nazwisko: 'Montana' },
   ];
-  private persons = new BehaviorSubject<Array<Osoba>>(this.pList);
+  private personsObs = new BehaviorSubject<Array<Osoba>>(this.pList);
 
   addNewPerson(toAdd: Osoba): void {
     this.pList.push(toAdd);
-    this.persons.next(this.pList);
+    this.personsObs.next(this.pList);
   }
 
   getAllPersons(): Observable<Array<Osoba>> {
-    return this.persons.asObservable();
+    return this.personsObs.asObservable();
   }
 
   getNewPerson(adding: Osoba): void {
-    this.persons.value.push(adding);
+    this.personsObs.value.push(adding);
   }
 
   deletePerson(deleting: number): void {
-    const toDelete = this.persons.value.findIndex((val) => val.id === deleting);
+    const toDelete = this.personsObs.value.findIndex(
+      (val) => val.id === deleting
+    );
     if (toDelete === -1) return;
-    this.persons.value.splice(toDelete, 1);
+
+    this.personsObs.value.splice(toDelete, 1);
+    this.personsObs.next(this.pList);
+    console.log(this.pList);
   }
   updatePerson(updated: Osoba): void {
-    const toUpdate = this.persons.value.findIndex(
+    const toUpdate = this.personsObs.value.findIndex(
       (val) => val.id === updated.id
     );
     if (toUpdate === -1) return;
     this.pList[toUpdate] = { ...updated };
-    this.persons.next(this.pList);
+    this.personsObs.next(this.pList);
   }
 }

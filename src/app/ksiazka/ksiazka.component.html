@@ -10,11 +10,11 @@
       badge="8"
       badgeClass="p-badge-info"
     ></button>
-
     <button
       pButton
       type="button"
       label="WYSZUKAJ"
+      (click)="toggleSearch()"
       class="p-button-warning p-button-outlined"
       icon="pi pi-search"
     ></button>
@@ -23,10 +23,53 @@
       type="button"
       icon="pi pi-plus-circle"
       label="DODAJ KSIĄŻKĘ"
+      (click)="toggleAddBar()"
       class="p-button-warning p-button-outlined"
     ></button>
   </span>
+  <!-- search bar -->
+  <div [hidden]="showSearch">
+    <div class="p-inputgroup">
+      <button
+        type="button"
+        pButton
+        pRipple
+        (click)="booksSearch(searchedValue)"
+        icon="pi pi-search"
+        class="p-button-warning p-button-outlined"
+      ></button>
+      <input
+        (keydown.enter)="booksSearch(searchedValue)"
+        type="text"
+        pInputText
+        [(ngModel)]="searchedValue"
+        placeholder="Wyszukaj osobę"
+        class="p-button-warning"
+      />
+    </div>
+  </div>
+  <div [hidden]="showAdd">
+    <div class="p-inputgroup">
+      <button
+        type="button"
+        pButton
+        pRipple
+        (click)="addBook()"
+        icon="pi pi-chevron-circle-right"
+        class="p-button-warning p-button-outlined"
+      ></button>
+      <input type="text" [(ngModel)]="autorInput" placeholder="Autor" />
+      <input type="text" [(ngModel)]="nazwaInput" placeholder="Nazwa" />
+      <input type="text" [(ngModel)]="rokInput" placeholder="Rok" />
+      <input
+        type="text"
+        [(ngModel)]="dostepnoscInput"
+        placeholder="Dostępność"
+      />
+    </div>
+  </div>
 </nav>
+
 <!-- koniec panelu -->
 <hr />
 <p-table
@@ -35,23 +78,48 @@
   scrollHeight="600px"
   [(ngModel)]="getAllBooks"
   styleClass="p-datatable-striped"
+  ngDefaultControl
 >
   <ng-template pTemplate="header">
     <tr>
       <th style="max-width: 5%">ID</th>
       <th class="dane">AUTOR</th>
-      <th class="dane">TYTUŁ</th>
+      <th class="dane2">TYTUŁ</th>
       <th class="dane">ROK WYDANIA</th>
-      <th class="dane">DOSTĘPNOŚĆ</th>
+      <th>DOSTĘPNOŚĆ</th>
+      <th class="bttns"></th>
+      <th class="bttns"></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-book>
     <tr>
       <td style="max-width: 5%">{{ book.id }}</td>
       <td class="dane">{{ book.autor }}</td>
-      <td class="dane">{{ book.nazwa }}</td>
+      <td class="dane2">
+        <b>{{ book.nazwa }}</b>
+      </td>
       <td class="dane">{{ book.rokWydania }}</td>
-      <td class="dane">{{ book.dostepnosc }}</td>
+      <td>{{ book.dostepnosc }}</td>
+      <!-- book incrementation -->
+      <td class="bttns">
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-plus"
+          class="p-button-rounded p-button-text p-button-success p-button-sm"
+        ></button>
+      </td>
+      <!-- book decrementation -->
+      <td class="bttns">
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-minus"
+          class="p-button-rounded p-button-text p-button-danger p-button-sm"
+        ></button>
+      </td>
     </tr>
   </ng-template>
 </p-table>
