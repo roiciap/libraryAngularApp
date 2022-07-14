@@ -43,7 +43,7 @@
         type="text"
         pInputText
         [(ngModel)]="searchedValue"
-        placeholder="Wyszukaj osobę"
+        placeholder="Wyszukaj książkę"
         class="p-button-warning"
       />
     </div>
@@ -60,9 +60,9 @@
       ></button>
       <input type="text" [(ngModel)]="autorInput" placeholder="Autor" />
       <input type="text" [(ngModel)]="nazwaInput" placeholder="Nazwa" />
-      <input type="text" [(ngModel)]="rokInput" placeholder="Rok" />
+      <input type="number" [(ngModel)]="rokInput" placeholder="Rok" />
       <input
-        type="text"
+        type="number"
         [(ngModel)]="dostepnoscInput"
         placeholder="Dostępność"
       />
@@ -76,7 +76,6 @@
   [value]="books"
   [scrollable]="true"
   scrollHeight="600px"
-  [(ngModel)]="getAllBooks"
   styleClass="p-datatable-striped"
   ngDefaultControl
 >

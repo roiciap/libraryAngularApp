@@ -25,7 +25,7 @@ div {
 }
 
 .dane {
-  max-width: 15%;
+  max-width: 10%;
 }
 
 .dane2 {
@@ -35,10 +35,10 @@ div {
 .bttns {
   max-width: 5%;
 }
+.bttnsID {
+  max-width: 6%;
+}
 
 .data1 {
-  width: 5%;
-}
-.data2 {
-  width: 70%;
+  width: 6%;
 }
