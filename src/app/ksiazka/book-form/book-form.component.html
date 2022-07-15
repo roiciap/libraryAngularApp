@@ -152,25 +152,11 @@
         <td class="dane">{{ loans.Person.imie }}</td>
         <td class="dane">{{ loans.Person.nazwisko }}</td>
         <td class="dane">{{ loans.Loan.dataPrzyjecia.toLocaleString() }}</td>
-<<<<<<< HEAD
         <td class="dane">
           {{ loans.Loan.dataOddania?.toLocaleString() || "-" }}
         </td>
         <td class="dane">{{ loans.Payment.kwota }}zł</td>
         <td></td>
-=======
-        <td></td>
-        <td class="bttns">
-          <button
-            routerLink="/osoby/{{ loans.Person.id }}"
-            pButton
-            pRipple
-            type="button"
-            icon="pi pi-user"
-            class="p-button-rounded p-button-text p-button-info p-button-sm"
-          ></button>
-        </td>
->>>>>>> osobaFeatures
         <td class="bttns">
           <button
             pButton
