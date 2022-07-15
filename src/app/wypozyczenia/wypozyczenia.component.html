@@ -9,11 +9,12 @@
       <th class="bttnsID">ID OSOBY</th>
       <th class="dane">IMIĘ</th>
       <th class="dane">NAZWISKO</th>
-      <th class="dane"></th>
+      <th class="bttnsID"></th>
 
       <th class="dane2">NAZWA KSIĄŻKI</th>
       <th class="dane2">AUTOR</th>
       <th></th>
+      <th class="bttns"></th>
       <th class="bttns"></th>
     </tr>
   </ng-template>
@@ -34,13 +35,23 @@
       <td class="dane">
         <b>{{ loan.Person.nazwisko }}</b>
       </td>
-      <td class="dane"></td>
+      <td class="bttnsID"></td>
       <td class="dane2">
         <b>{{ loan.Book.nazwa }}</b>
       </td>
       <td class="dane2">{{ loan.Book.autor }}</td>
       <td></td>
 
+      <td class="bttns">
+        <button
+          routerLink="/osoby/{{ loan.Person.id }}"
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-user"
+          class="p-button-rounded p-button-text p-button-info p-button-sm"
+        ></button>
+      </td>
       <td class="bttns">
         <button
           pButton

@@ -121,4 +121,8 @@ export class BookFormComponent implements OnInit {
       this.bookColor = 'color: red';
     }
   }
+
+  returnBook(loanID: number) {
+    this.loansService.returnBook(loanID);
+  }
 }

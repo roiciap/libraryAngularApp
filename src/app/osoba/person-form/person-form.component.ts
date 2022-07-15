@@ -96,7 +96,6 @@ export class PersonFormComponent implements OnInit {
   loanBook(bookId: number) {
     if (this.person)
       this.loansService.addLoan({ idKsiazka: bookId, idOsoba: this.person.id });
-    console.log(this.activeLoans);
   }
 
   payForLoan(loanId: number) {
@@ -109,7 +108,13 @@ export class PersonFormComponent implements OnInit {
     if (this.toPaySum == 0) {
       this.bookColor = 'p-button-outlined p-button-success';
     } else {
-      this.bookColor = 'p-button-outlined p-button-danger';
+      this.bookColor = ' p-button-danger';
+    }
+  }
+  showWarning = false;
+  checkWarning(): void {
+    if (this.activeLoans.length === 0) {
+      this.showWarning = !this.showWarning;
     }
   }
 }

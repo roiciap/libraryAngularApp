@@ -32,6 +32,7 @@ export class PaymentStoreService {
   addPayment(payment: Oplata) {
     const id =
       this.payments.reduce((max, val) => (max > val.id ? max : val.id), 0) + 1;
+    console.log('dodaje oplate : ' + id);
     this.payments.push({ ...payment, id });
     this.paymentsObs.next(this.payments);
   }

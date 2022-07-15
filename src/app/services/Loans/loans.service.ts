@@ -72,6 +72,13 @@ export class LoansService {
       )
       .subscribe((data) => (newId = data))
       .unsubscribe();
+    this.paymentService.addPayment({
+      id: -1,
+      idWypozyczenia: newId,
+      kwota: 0,
+      oplacone: false,
+    });
+
     this.loansStore.addLoan({
       id: newId,
       dataPrzyjecia: new Date(),
@@ -111,6 +118,7 @@ export class LoansService {
       });
     }
     this.refreshPayments({ loanId }); //{bookId:returned?.idKsiazka,personId:returned?.idOsoba}
+    this.paymentService.refresh();
     this.loansStore.refresh();
 
     return true;
@@ -127,13 +135,31 @@ export class LoansService {
     search?: { personName?: string }
   ): Observable<Array<LoanDescription>> {
     //pobieranie osob oraz ksiazek
+    let LoansToPipe = this.loansStore.getLoans();
     let books: Array<Ksiazka> = [];
     let people: Array<Osoba> = [];
     let payments: Array<Oplata> = [];
     this.booksService.getAllBooks().subscribe((data) => (books = data));
-    this.personService.getAllPersons().subscribe((data) => (people = data));
+
+    if (search?.personName !== undefined)
+      this.personService
+        .getAllPersons()
+        .pipe(
+          map((val) =>
+            val.filter((person) => {
+              if (search?.personName)
+                return (person.imie + ' ' + person.nazwisko).includes(
+                  search?.personName
+                );
+              return true;
+            })
+          )
+        )
+        .subscribe((data) => (people = data));
+    else
+      this.personService.getAllPersons().subscribe((data) => (people = data));
+
     this.paymentService.getAllPayments().subscribe((data) => (payments = data));
-    let LoansToPipe = this.loansStore.getLoans();
     /////loan filters
     if (settings?.bookId)
       LoansToPipe = LoansToPipe.pipe(
@@ -162,37 +188,30 @@ export class LoansService {
       );
     ////Mapping to LoanDetails (refreshPayments to make sure that every loan has existing payment object)
     this.refreshPayments();
-    let LoansDetails = LoansToPipe.pipe(
+
+    return LoansToPipe.pipe(
       map((val) =>
-        val.map((record) => {
-          return {
-            Loan: record,
-            Person: people.find((val) => val.id === record.idOsoba)!,
-            Book: books.find((val) => val.id === record.idKsiazka)!,
-            Payment: payments.find((val) => val.idWypozyczenia === record.id)!,
-          };
-        })
+        val
+          .map((record) => {
+            return {
+              Loan: record,
+              Person: people.find((val) => val.id === record.idOsoba)!,
+              Book: books.find((val) => val.id === record.idKsiazka)!,
+              Payment: payments.find(
+                (val) => val.idWypozyczenia === record.id
+              )!,
+            };
+          })
+          .filter((loan) => {
+            if (settings?.paid != undefined) {
+              console.log('lecymy');
+              return loan.Payment.oplacone === settings.paid;
+            }
+            return true;
+          })
       )
     );
     ///details filter
-    if (search?.personName !== undefined)
-      LoansDetails = LoansDetails.pipe(
-        map((val) =>
-          val.filter((LD) =>
-            (LD.Person.imie + ' ' + LD.Person.nazwisko)
-              .toLowerCase()
-              .includes(search.personName?.toLowerCase()!)
-          )
-        )
-      );
-    if (settings?.paid !== undefined) {
-      LoansDetails = LoansDetails.pipe(
-        map((val) =>
-          val.filter((loan) => loan.Payment.oplacone === settings.paid)
-        )
-      );
-    }
-    return LoansDetails;
   }
   ////////////////////////////////////////////////////////Payment
   refreshPayments(target?: {
@@ -204,11 +223,12 @@ export class LoansService {
     this.getAllLoans().subscribe((data) => (loansTarget = data));
     ///ID filters
     loansTarget = loansTarget.filter((val) => {
-      if (target?.personId != undefined && target.personId !== val.idOsoba)
+      if (target?.personId !== undefined && target.personId !== val.idOsoba)
         return false;
-      if (target?.bookId != undefined && target.bookId !== val.idKsiazka)
+      if (target?.bookId !== undefined && target.bookId !== val.idKsiazka)
         return false;
-      if (target?.loanId != undefined && target.loanId !== val.id) return false;
+      if (target?.loanId !== undefined && target.loanId !== val.id)
+        return false;
       return !this.paymentService.checkPaidLoan(val.id);
     });
     //refresh payment of every target
@@ -234,7 +254,7 @@ export class LoansService {
       this.paymentService.update({ ...payment, kwota });
     });
     //refresh observables
-    this.paymentService.refresh();
+    this.loansStore.refresh();
   }
 
   payLoan(loanId: number) {
