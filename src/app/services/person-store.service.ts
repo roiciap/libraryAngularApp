@@ -1,6 +1,7 @@
 import { Observable, BehaviorSubject, map } from 'rxjs';
 import { Osoba } from './../../Types/Osoba';
 
+// todo czemu to jest poza katalogiem?
 export class PersonStoreService {
   private pList: Array<Osoba> = [
     { id: 1, imie: 'Janusz', nazwisko: 'Kowalski' },

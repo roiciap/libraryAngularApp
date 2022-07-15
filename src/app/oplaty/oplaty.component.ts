@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class OplatyComponent implements OnInit {
   id: string = '';
 
+  // nie używane service i  czemu nie readonly
   constructor(
     private Activatedroute: ActivatedRoute,
     private loanService: LoansService,

@@ -1,6 +1,8 @@
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Ksiazka } from 'src/Types/Ksiazka';
 
+// todo nazwa folderów z małem litery
+
 export class BookStoreServie {
   private books: Array<Ksiazka> = [
     {
@@ -67,6 +69,7 @@ export class BookStoreServie {
       dostepnosc: 28,
     },
   ];
+  // todo: formatowanie
   private booksObs: BehaviorSubject<Array<Ksiazka>> = new BehaviorSubject(
     this.books
   );
@@ -76,6 +79,7 @@ export class BookStoreServie {
     this.booksObs.next(this.books);
   }
 
+  // todo: id jest stringiem
   deleteBook(id: number): void {
     const toDelete = this.booksObs.value.findIndex((val) => val.id === id);
     if (toDelete === -1) return;
@@ -93,6 +97,7 @@ export class BookStoreServie {
     this.booksObs.next(this.books);
   }
 
+  // todo nie powinien zwracać undefined
   getBook(id: number): Observable<Ksiazka | undefined> {
     return this.booksObs
       .asObservable()

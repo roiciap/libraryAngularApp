@@ -1,5 +1,5 @@
 import { Directive, HostListener } from '@angular/core';
-
+// todo: jak nie używane wyjebac
 @Directive({
   selector: '[appBookItem]',
 })

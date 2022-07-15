@@ -26,11 +26,10 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 
 import { ListboxModule } from 'primeng/listbox';
-import { BookService } from './services/Books/book.service';
-import { BookStoreServie } from './services/Books/book-store.service';
+import { BookService } from './services/books/book.service';
+import { BookStoreServie } from './services/books/book-store.service';
 import { StringUtilsService } from './services/utils/string-utils.service';
 import { PersonFormComponent } from './osoba/person-form/person-form.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -43,7 +42,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     ButtonModule,

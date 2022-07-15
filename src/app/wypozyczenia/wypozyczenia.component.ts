@@ -1,4 +1,5 @@
-import { BookService } from './../services/Books/book.service';
+// todo: nie używane importy
+import { BookService } from '../services/books/book.service';
 import { Component, OnInit } from '@angular/core';
 import { Wypozyczenie } from 'src/Types/Wypozyczenie';
 import { Ksiazka } from 'src/Types/Ksiazka';
@@ -11,7 +12,11 @@ import { LoanDescription } from 'src/Types/LoanDescription';
   templateUrl: './wypozyczenia.component.html',
   styleUrls: ['./wypozyczenia.component.css'],
 })
+// todo czemu polska nazwa
 export class WypozyczeniaComponent implements OnInit {
+  // todo pierw deklarujemy zmienne potem constructor potem metody czystosć
+
+  // todo po co _
   constructor(private _loansService: LoansService) {
     _loansService.returnBook(4);
   }
@@ -27,6 +32,7 @@ export class WypozyczeniaComponent implements OnInit {
   ksiazkaInput: number = 0;
   osobaInput: number = 0;
 
+  // todo: zwracany typ
   submit() {
     this._loansService.addLoan({
       idKsiazka: this.ksiazkaInput,
@@ -40,6 +46,7 @@ export class WypozyczeniaComponent implements OnInit {
       .subscribe((data) => (this.loans = [...data]));
   }
 
+  // todo: jak nie uzywane to wyjebanc
   getLoansDescription(returned: boolean = false) {
     this._loansService
       .getLoansDetails({ returned: false })

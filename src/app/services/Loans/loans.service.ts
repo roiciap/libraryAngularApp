@@ -1,6 +1,6 @@
 import { PaymentService } from './../Payment/payment.service';
 import { PersonService } from './../person.service';
-import { BookService } from './../Books/book.service';
+import { BookService } from '../books/book.service';
 import { Wypozyczenie } from './../../../Types/Wypozyczenie';
 import { map, Observable } from 'rxjs';
 import { LoansStoreService } from './loans-store.service';

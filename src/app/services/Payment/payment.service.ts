@@ -22,6 +22,7 @@ export class PaymentService {
           )
         );
   }
+  // todo metody z małej litery
   PayLoan(LoanId: number) {
     let payment: Oplata | undefined;
     this.getPayment(LoanId).subscribe((data) => (payment = data));

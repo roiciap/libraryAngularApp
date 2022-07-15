@@ -1,4 +1,4 @@
-import { BookService } from 'src/app/services/Books/book.service';
+import { BookService } from 'src/app/services/books/book.service';
 import { LoansService } from './../../services/Loans/loans.service';
 import { LoanDescription } from 'src/Types/LoanDescription';
 import { PersonService } from './../../services/person.service';
