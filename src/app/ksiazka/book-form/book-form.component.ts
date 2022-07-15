@@ -113,4 +113,12 @@ export class BookFormComponent implements OnInit {
         dostepnosc: this.editDostepnosc,
       });
   }
+  bookColor = 'color: blue';
+  checkToPay(): void {
+    if (this.toPayForBook == 0) {
+      this.bookColor = 'color: green';
+    } else {
+      this.bookColor = 'color: red';
+    }
+  }
 }

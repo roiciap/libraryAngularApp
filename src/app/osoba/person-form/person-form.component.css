@@ -19,17 +19,41 @@ div {
   font-size: 25px;
 }
 
-.name {
+/* .name {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 30px;
   text-align: center;
   justify-content: center;
+} */
+.name {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding-left: 50px;
+  font-size: 30px;
+  justify-items: center;
 }
 
 .bar {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+/* .refund {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 20px;
+  text-align: center;
+  justify-content: center;
+} */
+.refund {
+  gap: 10px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: right;
+  padding-right: 50px;
+  font-size: 20px;
+  float: right;
 }
 
 .dane {

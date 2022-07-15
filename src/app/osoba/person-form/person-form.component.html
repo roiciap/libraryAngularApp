@@ -11,13 +11,24 @@
 </div>
 
 <ng-template #content>
-  <div class="name">
+  <nav class="name">
+    <b>{{ person?.id }}</b>
     {{ person?.imie }}
     <b>{{ person?.nazwisko }} </b>
-  </div>
-  <br />
-  {{ "łączna zapłacona kwota : " + paidSum }}
-  {{ "łączna kwota do zapłaty : " + toPaySum }}
+
+    <p-button
+      class="refund"
+      styleClass="p-button-outlined p-button-success"
+      label="ŁACZNA ZAPŁACONA KWOTA {{ paidSum }}zł"
+    ></p-button>
+    <p-button
+      class="refund"
+      styleClass="{{ checkToPay() }}{{ bookColor }}"
+      label="ŁACZNA KWOTA DO ZAPŁATY {{ toPaySum }}zł"
+    >
+    </p-button>
+  </nav>
+
   <br />
   <p-toggleButton
     (click)="switchContent()"
@@ -73,9 +84,22 @@
             </td>
             <td class="dane2">{{ loans.Loan.dataOddania.toLocaleString() }}</td>
             <td class="bttns">
-              <!-- ZAPLAC ZA KSIAZKE ------------------------------------------------------------------->
+              <!-- ZAPLAC ZA KSIAZKE -->
+              <!-- <div *ngIf="loans.Payment?.oplacone ?? false : content"> -->
               <div *ngIf="loans.Payment?.oplacone !== true">
-                <button (click)="payForLoan(loans.Loan.id)">zaplac</button>
+                <p-button
+                  styleClass="p-button-outlined p-button-success p-button-rounded"
+                  icon="pi pi-dollar"
+                  (click)="payForLoan(loans.Loan.id)"
+                ></p-button>
+              </div>
+              <!-- CHECKED OPLACONE -->
+              <div *ngIf="loans.Payment?.oplacone !== false">
+                <p-button
+                  styleClass="p-button-text p-button-success p-button-rounded"
+                  icon="pi pi-check-circle"
+                  (click)="payForLoan(loans.Loan.id)"
+                ></p-button>
               </div>
             </td>
           </tr>
@@ -128,7 +152,7 @@
                 pRipple
                 (click)="returnBook(loans.Loan.id)"
                 type="button"
-                icon="pi pi-trash"
+                icon="pi pi-arrow-up"
                 class="p-button-rounded p-button-outlined p-button-danger p-button-sm"
               ></button>
             </td>
