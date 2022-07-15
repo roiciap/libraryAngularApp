@@ -81,11 +81,12 @@ export class LoansService {
     });
 
     this.booksService.updateBook({ ...book, dostepnosc: book.dostepnosc - 1 });
+    this.refreshPayments({ loanId: newId });
     return true;
   }
 
   returnBook(loanId: number, when: Date = new Date()): boolean {
-    // when.setDate(when.getDate() + 5);////////TO DELETE
+    when.setDate(when.getDate() + 5); ////////TO DELETE
 
     let returned: Wypozyczenie | undefined;
     this.getAllLoans()
@@ -106,8 +107,8 @@ export class LoansService {
         dostepnosc: book.dostepnosc + 1,
       });
     }
-    this.refreshPayments(); //{bookId:returned?.idKsiazka,personId:returned?.idOsoba}
-
+    this.refreshPayments({ loanId }); //{bookId:returned?.idKsiazka,personId:returned?.idOsoba}
+    this.loansStore.refresh();
     ////////////////////////
     // let pay;
     // this.paymentService.getPayment(loanId).subscribe((data) => (pay = data));
@@ -122,6 +123,7 @@ export class LoansService {
       personId?: number;
       bookId?: number;
       paid?: boolean;
+      loanId?: number;
     },
     search?: { personName?: string }
   ): Observable<Array<LoanDescription>> {
@@ -133,14 +135,19 @@ export class LoansService {
     this.personService.getAllPersons().subscribe((data) => (people = data));
     this.paymentService.getAllPayments().subscribe((data) => (payments = data));
     let LoansToPipe = this.loansStore.getLoans();
+    /////settings filters
     if (settings?.bookId)
       LoansToPipe = LoansToPipe.pipe(
         map((val) => val.filter((loan) => loan.idKsiazka === settings.bookId))
       );
     if (settings?.personId) {
-      console.log('dla osoby o id' + settings.personId);
       LoansToPipe = LoansToPipe.pipe(
         map((val) => val.filter((loan) => loan.idOsoba === settings.personId))
+      );
+    }
+    if (settings?.loanId) {
+      LoansToPipe = LoansToPipe.pipe(
+        map((val) => val.filter((loan) => loan.id === settings.loanId))
       );
     }
 
@@ -154,8 +161,8 @@ export class LoansService {
           })
         )
       );
-
     ////Mapping to LoanDetails
+    this.refreshPayments();
     let LoansDetails = LoansToPipe.pipe(
       map((val) =>
         val.map((record) => {
@@ -191,12 +198,16 @@ export class LoansService {
   refreshPayments(target?: {
     personId?: number;
     bookId?: number;
-  }): Observable<Array<LoanDescription>> {
+    loanId?: number;
+  }): void {
     let loansTarget: Array<Wypozyczenie> = [];
     this.getAllLoans().subscribe((data) => (loansTarget = data));
     loansTarget = loansTarget.filter((val) => {
-      if (target?.personId && target.personId !== val.idOsoba) return false;
-      if (target?.bookId && target.bookId !== val.idKsiazka) return false;
+      if (target?.personId != undefined && target.personId !== val.idOsoba)
+        return false;
+      if (target?.bookId != undefined && target.bookId !== val.idKsiazka)
+        return false;
+      if (target?.loanId != undefined && target.loanId !== val.id) return false;
       return !this.paymentService.checkPaidLoan(val.id);
     });
     loansTarget.forEach((loan) => {
@@ -204,8 +215,6 @@ export class LoansService {
       let id: number = -1;
       const returnDate = loan.dataOddania ? loan.dataOddania : new Date();
       const kwota = returnDate.getDate() - loan.dataPrzyjecia.getDate();
-      // (returnDate.getTime()-loan.dataPrzyjecia.getTime()) /
-      // (1000 * 3600 * 24);
       this.paymentService
         .getPayment(loan.id)
         .subscribe((data) => (payment = data));
@@ -217,25 +226,30 @@ export class LoansService {
           kwota,
         };
       }
+      if (loan.dataOddania != null && kwota === 0) {
+        payment.oplacone = true;
+      }
       this.paymentService.update({ ...payment, kwota });
     });
     this.paymentService.refresh();
-    return this.getLoansDetails({
-      personId: target?.personId,
-      bookId: target?.bookId,
-    });
   }
 
-  payLoan(loan: Wypozyczenie) {
+  payLoan(loanId: number) {
+    let loan: Wypozyczenie | undefined;
+    this.loansStore.getLoan(loanId).subscribe((data) => (loan = data));
+    if (loan == undefined) return;
     if (loan.dataOddania != null) {
       let payment: Oplata | undefined;
       this.paymentService
         .getPayment(loan.id)
         .subscribe((data) => (payment = data));
       if (payment) {
+        if (payment.oplacone == true) return;
         payment.oplacone = true;
         this.paymentService.update(payment);
       }
     }
+    this.refreshPayments({ loanId: loanId });
+    this.loansStore.refresh();
   }
 }

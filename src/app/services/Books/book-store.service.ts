@@ -90,7 +90,6 @@ export class BookStoreServie {
     if (toUpdate === -1) return;
 
     this.booksObs.value[toUpdate] = { ...updated };
-    console.log(this.books);
     this.booksObs.next(this.books);
   }
 

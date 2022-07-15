@@ -20,6 +20,9 @@ export class PersonFormComponent implements OnInit {
   showAddContent: boolean = false;
   books: Array<Ksiazka> = [];
 
+  paidSum: number = 0;
+  toPaySum: number = 0;
+
   constructor(
     private router: Router,
     private Activatedroute: ActivatedRoute,
@@ -35,8 +38,6 @@ export class PersonFormComponent implements OnInit {
     } else {
       this.loadData();
     }
-    console.log(this.activeLoans);
-    console.log(this.loansHistory);
   }
   loadData() {
     this.personService
@@ -45,10 +46,30 @@ export class PersonFormComponent implements OnInit {
     if (this.person) {
       this.loansService
         .getLoansDetails({ returned: true, personId: this.person.id })
-        .subscribe((data) => (this.loansHistory = data.slice()));
+        .subscribe((data) => (this.loansHistory = data));
       this.loansService
         .getLoansDetails({ returned: false, personId: this.person.id })
-        .subscribe((data) => (this.activeLoans = data.slice()));
+        .subscribe((data) => (this.activeLoans = data));
+      //zaplacone
+      this.loansService
+        .getLoansDetails({ paid: true, personId: this.person.id })
+        .subscribe(
+          (data) =>
+            (this.paidSum = data.reduce(
+              (sum, val) => sum + val.Payment.kwota,
+              0
+            ))
+        );
+      //do zaplaty
+      this.loansService
+        .getLoansDetails({ paid: false, personId: this.person.id })
+        .subscribe(
+          (data) =>
+            (this.toPaySum = data.reduce(
+              (sum, val) => sum + val.Payment.kwota,
+              0
+            ))
+        );
     }
     this.bookService.getAllBooks().subscribe((data) => (this.books = data));
   }
@@ -70,5 +91,9 @@ export class PersonFormComponent implements OnInit {
   loanBook(bookId: number) {
     if (this.person)
       this.loansService.addLoan({ idKsiazka: bookId, idOsoba: this.person.id });
+  }
+
+  payForLoan(loanId: number) {
+    this.loansService.payLoan(loanId);
   }
 }

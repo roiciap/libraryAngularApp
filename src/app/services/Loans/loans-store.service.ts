@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Wypozyczenie } from 'src/Types/Wypozyczenie';
 import { getLocaleEraNames } from '@angular/common';
@@ -83,6 +83,14 @@ export class LoansStoreService {
 
   addLoan(newLoan: Wypozyczenie) {
     this.loans.push(newLoan);
+    this.loansObs.next(this.loans);
+  }
+  getLoan(id: number): Observable<Wypozyczenie | undefined> {
+    return this.loansObs
+      .asObservable()
+      .pipe(map((val) => val.find((loan) => loan.id == id)));
+  }
+  refresh() {
     this.loansObs.next(this.loans);
   }
 }
