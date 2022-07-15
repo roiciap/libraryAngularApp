@@ -1,6 +1,5 @@
 <!-- guziory -->
-
-<p-toolbar class="toolbar">
+<p-toolbar>
   <nav class="p-toolbar-group-left">
     <h1 class="toolbar">
       <i class="pi pi-book" pBadge style="font-size: 2rem" value="2"></i>
@@ -31,6 +30,14 @@
       icon="pi pi-align-justify"
       class="toolbar"
       (onClick)="button('wypozyczenia')"
+    ></p-button>
+    <p-button
+      label="OPLATY"
+      styleClass="{{ paBtn }}"
+      routerLink="/oplaty"
+      icon="pi pi-align-justify"
+      class="toolbar"
+      (onClick)="button('oplaty')"
     ></p-button>
   </nav>
 </p-toolbar>

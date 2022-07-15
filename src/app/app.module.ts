@@ -30,6 +30,7 @@ import { BookService } from './services/Books/book.service';
 import { BookStoreServie } from './services/Books/book-store.service';
 import { StringUtilsService } from './services/utils/string-utils.service';
 import { PersonFormComponent } from './osoba/person-form/person-form.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { PersonFormComponent } from './osoba/person-form/person-form.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     ButtonModule,

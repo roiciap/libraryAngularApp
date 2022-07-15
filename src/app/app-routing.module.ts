@@ -10,7 +10,7 @@ import { PersonFormComponent } from './osoba/person-form/person-form.component';
 const routes: Routes = [
   { path: 'ksiazki', component: KsiazkaComponent },
   { path: 'osoby', component: OsobaComponent },
-  { path: 'oplaty/:id', component: OplatyComponent },
+  { path: 'oplaty', component: OplatyComponent },
   { path: 'wypozyczenia', component: WypozyczeniaComponent },
   { path: 'ksiazki/:id', component: BookFormComponent },
   { path: 'osoby/:id', component: PersonFormComponent },
