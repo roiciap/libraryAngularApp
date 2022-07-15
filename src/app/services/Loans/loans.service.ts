@@ -204,7 +204,6 @@ export class LoansService {
           })
           .filter((loan) => {
             if (settings?.paid != undefined) {
-              console.log('lecymy');
               return loan.Payment.oplacone === settings.paid;
             }
             return true;

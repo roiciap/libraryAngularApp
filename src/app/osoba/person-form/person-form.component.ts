@@ -100,7 +100,6 @@ export class PersonFormComponent implements OnInit {
 
   payForLoan(loanId: number) {
     this.loansService.payLoan(loanId);
-    console.log(this.loansHistory);
   }
 
   bookColor = 'p-button-outlined p-button-help';
