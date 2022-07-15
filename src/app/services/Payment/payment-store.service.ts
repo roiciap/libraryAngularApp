@@ -27,6 +27,7 @@ export class PaymentStoreService {
       this.addPayment(payment);
     }
     this.payments[index] = payment;
+    this.refresh();
   }
   addPayment(payment: Oplata) {
     const id =
@@ -44,6 +45,7 @@ export class PaymentStoreService {
 
   checkPaidLoan(id: number): boolean {
     const toFind = this.payments.find((val) => val.idWypozyczenia === id);
+    if (toFind == undefined) return false;
     return toFind?.oplacone === true;
   }
 }

@@ -41,7 +41,6 @@ export class KsiazkaComponent implements OnInit {
 
   getAllBooks() {
     this.booksService.getAllBooks().subscribe((data) => {
-      console.log(data);
       this.books = data;
     });
   }

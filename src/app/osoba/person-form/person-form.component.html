@@ -16,6 +16,9 @@
     <b>{{ person?.nazwisko }} </b>
   </div>
   <br />
+  {{ "łączna zapłacona kwota : " + paidSum }}
+  {{ "łączna kwota do zapłaty : " + toPaySum }}
+  <br />
   <p-toggleButton
     (click)="switchContent()"
     onLabel="Zakończ"
@@ -69,7 +72,12 @@
               {{ loans.Loan.dataPrzyjecia.toLocaleString() }}
             </td>
             <td class="dane2">{{ loans.Loan.dataOddania.toLocaleString() }}</td>
-            <td class="bttns"></td>
+            <td class="bttns">
+              <!-- ZAPLAC ZA KSIAZKE ------------------------------------------------------------------->
+              <div *ngIf="loans.Payment?.oplacone !== true">
+                <button (click)="payForLoan(loans.Loan.id)">zaplac</button>
+              </div>
+            </td>
           </tr>
         </ng-template>
       </p-table>

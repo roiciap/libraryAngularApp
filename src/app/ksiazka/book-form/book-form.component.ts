@@ -23,6 +23,10 @@ export class BookFormComponent implements OnInit {
   editDostepnosc: number = 0;
   BookFormComponent: any;
   serach: string = '';
+
+  paidForBook: number = 0;
+  toPayForBook: number = 0;
+
   toggleSearch() {
     this.showSearch = !this.showSearch;
     this.showEdit = true;
@@ -64,6 +68,27 @@ export class BookFormComponent implements OnInit {
         bookId: this.book?.id,
       })
       .subscribe((data) => (this.loans = data));
+
+    //obliczanie lacznej zarobionej kwoty na ksiazce
+    this.loansService
+      .getLoansDetails({ paid: true, bookId: this.book?.id })
+      .subscribe(
+        (data) =>
+          (this.paidForBook = data.reduce(
+            (sum, val) => sum + val.Payment.kwota,
+            0
+          ))
+      );
+    //obliczanie lacznej kwoty do zaplacenia za ksiazke przez czytelnikow
+    this.loansService
+      .getLoansDetails({ paid: false, bookId: this.book?.id })
+      .subscribe(
+        (data) =>
+          (this.toPayForBook = data.reduce(
+            (sum, val) => sum + val.Payment.kwota,
+            0
+          ))
+      );
   }
 
   searchPeople() {
