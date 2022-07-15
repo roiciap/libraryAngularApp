@@ -32,7 +32,7 @@ export class BookService {
     rokWydania: number;
     dostepnosc: number;
   }): boolean {
-    if (!toAdd.nazwa || !toAdd.autor) return false;
+    if (!toAdd.nazwa || !toAdd.autor || toAdd.dostepnosc < 0) return false;
     let toAddId: number = 0;
     this.getAllBooks()
       .pipe(

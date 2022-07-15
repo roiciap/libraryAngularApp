@@ -46,10 +46,14 @@ export class PersonFormComponent implements OnInit {
     if (this.person) {
       this.loansService
         .getLoansDetails({ returned: true, personId: this.person.id })
-        .subscribe((data) => (this.loansHistory = data));
+        .subscribe((data) => {
+          this.loansHistory = data;
+        });
       this.loansService
         .getLoansDetails({ returned: false, personId: this.person.id })
-        .subscribe((data) => (this.activeLoans = data));
+        .subscribe((data) => {
+          this.activeLoans = data;
+        });
       //zaplacone
       this.loansService
         .getLoansDetails({ paid: true, personId: this.person.id })
@@ -60,6 +64,7 @@ export class PersonFormComponent implements OnInit {
               0
             ))
         );
+
       //do zaplaty
       this.loansService
         .getLoansDetails({ paid: false, personId: this.person.id })
@@ -91,9 +96,11 @@ export class PersonFormComponent implements OnInit {
   loanBook(bookId: number) {
     if (this.person)
       this.loansService.addLoan({ idKsiazka: bookId, idOsoba: this.person.id });
+    console.log(this.activeLoans);
   }
 
   payForLoan(loanId: number) {
     this.loansService.payLoan(loanId);
+    console.log(this.loansHistory);
   }
 }

@@ -32,18 +32,16 @@ export class PersonStoreService {
   }
 
   getNewPerson(adding: Osoba): void {
-    this.personsObs.value.push(adding);
+    this.pList.push(adding);
+    this.personsObs.next(this.pList);
   }
 
   deletePerson(deleting: number): void {
-    const toDelete = this.personsObs.value.findIndex(
-      (val) => val.id === deleting
-    );
+    const toDelete = this.pList.findIndex((val) => val.id === deleting);
     if (toDelete === -1) return;
 
-    this.personsObs.value.splice(toDelete, 1);
+    this.pList.splice(toDelete, 1);
     this.personsObs.next(this.pList);
-    console.log(this.pList);
   }
   updatePerson(updated: Osoba): void {
     const toUpdate = this.personsObs.value.findIndex(

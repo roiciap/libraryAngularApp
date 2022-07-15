@@ -72,7 +72,6 @@ export class LoansService {
       )
       .subscribe((data) => (newId = data))
       .unsubscribe();
-
     this.loansStore.addLoan({
       id: newId,
       dataPrzyjecia: new Date(),
@@ -83,6 +82,8 @@ export class LoansService {
 
     this.booksService.updateBook({ ...book, dostepnosc: book.dostepnosc - 1 });
     this.refreshPayments({ loanId: newId });
+    this.paymentService.refresh();
+    this.loansStore.refresh();
     return true;
   }
 
@@ -111,11 +112,7 @@ export class LoansService {
     }
     this.refreshPayments({ loanId }); //{bookId:returned?.idKsiazka,personId:returned?.idOsoba}
     this.loansStore.refresh();
-    ////////////////////////
-    // let pay;
-    // this.paymentService.getPayment(loanId).subscribe((data) => (pay = data));
-    // console.log(pay);
-    ////////////////////////////
+
     return true;
   }
 
