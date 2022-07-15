@@ -58,6 +58,13 @@ export class LoansStoreService {
       dataPrzyjecia: new Date(),
       dataOddania: null,
     },
+    {
+      id: 8,
+      idOsoba: 4,
+      idKsiazka: 1,
+      dataPrzyjecia: new Date(),
+      dataOddania: null,
+    },
   ];
 
   private loansObs: BehaviorSubject<Array<Wypozyczenie>> = new BehaviorSubject<

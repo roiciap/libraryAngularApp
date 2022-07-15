@@ -102,7 +102,13 @@ export class PersonFormComponent implements OnInit {
     if (this.toPaySum == 0) {
       this.bookColor = 'p-button-outlined p-button-success';
     } else {
-      this.bookColor = 'p-button-outlined p-button-danger';
+      this.bookColor = ' p-button-danger';
+    }
+  }
+  showWarning = false;
+  checkWarning(): void {
+    if (this.activeLoans.length === 0) {
+      this.showWarning = !this.showWarning;
     }
   }
 }

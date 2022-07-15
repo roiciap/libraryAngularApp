@@ -24,9 +24,16 @@
     <p-button
       class="refund"
       styleClass="{{ checkToPay() }}{{ bookColor }}"
-      label="ŁACZNA KWOTA DO ZAPŁATY {{ toPaySum }}zł"
+      label="ŁACZNA KWOTA DO ZAPŁATY {{ toPaySum }} {{ checkWarning() }} zł"
     >
     </p-button>
+    <p-button
+      [hidden]="showWarning"
+      class="refund"
+      styleClass="p-button-outlined p-button-danger"
+      label="KSIĄŻKI DO ODDANIA: {{ activeLoans.length }}"
+      icon="pi pi-exclamation-triangle"
+    ></p-button>
   </nav>
 
   <br />

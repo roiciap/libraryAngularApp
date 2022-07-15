@@ -140,21 +140,33 @@
         <th class="dane">NAZWISKO</th>
         <th class="dane">DATA PRZYJĘCIA</th>
         <th class></th>
+        <th class></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-loans>
       <tr>
-        <td class="bttnsID">{{ loans.Loan.id }}</td>
+        <td class="bttnsID">{{ loans.Person.id }}</td>
         <td class="dane">{{ loans.Person.imie }}</td>
         <td class="dane">{{ loans.Person.nazwisko }}</td>
         <td class="dane">{{ loans.Loan.dataPrzyjecia.toLocaleString() }}</td>
-        <td style="min-width: 55%"></td>
+        <td></td>
+        <td class="bttns">
+          <button
+            routerLink="/osoby/{{ loans.Person.id }}"
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-user"
+            class="p-button-rounded p-button-text p-button-info p-button-sm"
+          ></button>
+        </td>
         <td class="bttns">
           <button
             pButton
             pRipple
             type="button"
             icon="pi pi-trash"
+            (click)="returnBook(loans.Loan.id)"
             class="p-button-rounded p-button-text p-button-danger p-button-sm"
           ></button>
         </td>
