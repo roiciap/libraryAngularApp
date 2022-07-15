@@ -40,5 +40,12 @@ div {
 }
 
 .data1 {
-  width: 6%;
+  width: 8%;
+}
+
+.checkGood {
+  color: green;
+}
+.checkBad {
+  color: red;
 }

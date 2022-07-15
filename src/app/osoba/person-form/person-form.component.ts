@@ -103,4 +103,13 @@ export class PersonFormComponent implements OnInit {
     this.loansService.payLoan(loanId);
     console.log(this.loansHistory);
   }
+
+  bookColor = 'p-button-outlined p-button-help';
+  checkToPay(): void {
+    if (this.toPaySum == 0) {
+      this.bookColor = 'p-button-outlined p-button-success';
+    } else {
+      this.bookColor = 'p-button-outlined p-button-danger';
+    }
+  }
 }

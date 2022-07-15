@@ -113,6 +113,18 @@
           <b>{{ book?.dostepnosc }}</b>
         </td>
       </tr>
+      <tr>
+        <td>ZAPŁACONO</td>
+        <td>
+          <b>{{ paidForBook }}zł </b>
+        </td>
+      </tr>
+      <tr>
+        <td>DO ZAPŁACENIA</td>
+        <td style="{{ bookColor }}">
+          <b>{{ checkToPay() }}{{ toPayForBook }}zł</b>
+        </td>
+      </tr>
     </ng-template>
   </p-table>
   <hr />
@@ -156,6 +168,4 @@
       </tr>
     </ng-template>
   </p-table>
-  {{ "zaplacono za ksiazke : " + paidForBook }}
-  {{ "do zaplacenia za ksiazke : " + toPayForBook }}
 </ng-template>
