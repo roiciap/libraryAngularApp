@@ -1,3 +1,4 @@
+import { PaymentService } from './../Payment/payment.service';
 import { PersonService } from './../person.service';
 import { BookService } from './../Books/book.service';
 import { Wypozyczenie } from './../../../Types/Wypozyczenie';
@@ -7,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { Osoba } from 'src/Types/Osoba';
 import { Ksiazka } from 'src/Types/Ksiazka';
 import { LoanDescription } from 'src/Types/LoanDescription';
+import { Oplata } from 'src/Types/Oplata';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +17,8 @@ export class LoansService {
   constructor(
     private loansStore: LoansStoreService,
     private booksService: BookService,
-    private personService: PersonService
+    private personService: PersonService,
+    private paymentService: PaymentService
   ) {}
 
   getAllLoans(): Observable<Array<Wypozyczenie>> {
@@ -56,7 +59,6 @@ export class LoansService {
       .getPerson(newLoan.idOsoba)
       .subscribe((data) => (person = data));
     if (!book || !person) return false;
-
     if (book.dostepnosc < 1) return false;
 
     let newId: number = -2;
@@ -83,6 +85,8 @@ export class LoansService {
   }
 
   returnBook(loanId: number, when: Date = new Date()): boolean {
+    // when.setDate(when.getDate() + 5);////////TO DELETE
+
     let returned: Wypozyczenie | undefined;
     this.getAllLoans()
       .pipe(map((val) => val.find((searched) => searched.id === loanId)))
@@ -102,6 +106,13 @@ export class LoansService {
         dostepnosc: book.dostepnosc + 1,
       });
     }
+    this.refreshPayments(); //{bookId:returned?.idKsiazka,personId:returned?.idOsoba}
+
+    ////////////////////////
+    // let pay;
+    // this.paymentService.getPayment(loanId).subscribe((data) => (pay = data));
+    // console.log(pay);
+    ////////////////////////////
     return true;
   }
 
@@ -110,15 +121,17 @@ export class LoansService {
       returned?: boolean;
       personId?: number;
       bookId?: number;
+      paid?: boolean;
     },
     search?: { personName?: string }
   ): Observable<Array<LoanDescription>> {
     //pobieranie osob oraz ksiazek
     let books: Array<Ksiazka> = [];
     let people: Array<Osoba> = [];
+    let payments: Array<Oplata> = [];
     this.booksService.getAllBooks().subscribe((data) => (books = data));
     this.personService.getAllPersons().subscribe((data) => (people = data));
-
+    this.paymentService.getAllPayments().subscribe((data) => (payments = data));
     let LoansToPipe = this.loansStore.getLoans();
     if (settings?.bookId)
       LoansToPipe = LoansToPipe.pipe(
@@ -141,6 +154,7 @@ export class LoansService {
           })
         )
       );
+
     ////Mapping to LoanDetails
     let LoansDetails = LoansToPipe.pipe(
       map((val) =>
@@ -149,6 +163,7 @@ export class LoansService {
             Loan: record,
             Person: people.find((val) => val.id === record.idOsoba)!,
             Book: books.find((val) => val.id === record.idKsiazka)!,
+            Payment: payments.find((val) => val.idWypozyczenia === record.id)!,
           };
         })
       )
@@ -163,6 +178,64 @@ export class LoansService {
           )
         )
       );
+    if (settings?.paid !== undefined) {
+      LoansDetails = LoansDetails.pipe(
+        map((val) =>
+          val.filter((loan) => loan.Payment.oplacone === settings.paid)
+        )
+      );
+    }
     return LoansDetails;
+  }
+  /////////////////////////Payment
+  refreshPayments(target?: {
+    personId?: number;
+    bookId?: number;
+  }): Observable<Array<LoanDescription>> {
+    let loansTarget: Array<Wypozyczenie> = [];
+    this.getAllLoans().subscribe((data) => (loansTarget = data));
+    loansTarget = loansTarget.filter((val) => {
+      if (target?.personId && target.personId !== val.idOsoba) return false;
+      if (target?.bookId && target.bookId !== val.idKsiazka) return false;
+      return !this.paymentService.checkPaidLoan(val.id);
+    });
+    loansTarget.forEach((loan) => {
+      let payment: Oplata | undefined;
+      let id: number = -1;
+      const returnDate = loan.dataOddania ? loan.dataOddania : new Date();
+      const kwota = returnDate.getDate() - loan.dataPrzyjecia.getDate();
+      // (returnDate.getTime()-loan.dataPrzyjecia.getTime()) /
+      // (1000 * 3600 * 24);
+      this.paymentService
+        .getPayment(loan.id)
+        .subscribe((data) => (payment = data));
+      if (!payment) {
+        payment = {
+          id,
+          idWypozyczenia: loan.id,
+          oplacone: false,
+          kwota,
+        };
+      }
+      this.paymentService.update({ ...payment, kwota });
+    });
+    this.paymentService.refresh();
+    return this.getLoansDetails({
+      personId: target?.personId,
+      bookId: target?.bookId,
+    });
+  }
+
+  payLoan(loan: Wypozyczenie) {
+    if (loan.dataOddania != null) {
+      let payment: Oplata | undefined;
+      this.paymentService
+        .getPayment(loan.id)
+        .subscribe((data) => (payment = data));
+      if (payment) {
+        payment.oplacone = true;
+        this.paymentService.update(payment);
+      }
+    }
   }
 }
