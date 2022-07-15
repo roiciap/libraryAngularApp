@@ -45,4 +45,7 @@ export class WypozyczeniaComponent implements OnInit {
       .getLoansDetails({ returned: false })
       .subscribe((data) => (this.loansWD = data));
   }
+  returnBook(loanID: number) {
+    this._loansService.returnBook(loanID);
+  }
 }

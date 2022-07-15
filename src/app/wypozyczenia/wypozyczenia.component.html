@@ -6,66 +6,51 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th style="max-width: 5%">ID</th>
-      <th class="dane">IMIE</th>
+      <th class="bttnsID">ID OSOBY</th>
+      <th class="dane">IMIĘ</th>
       <th class="dane">NAZWISKO</th>
-      <th class="dane">NAZWISKO</th>
+      <th class="dane"></th>
+
+      <th class="dane2">NAZWA KSIĄŻKI</th>
+      <th class="dane2">AUTOR</th>
       <th></th>
-      <th clas="editBttns"></th>
-      <th clas="editBttns"></th>
+      <th class="bttns"></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-loan>
     <tr>
-      <td style="max-width: 5%">{{ loan.id }}</td>
-      <td class="dane">{{ loan.Person.imie }}</td>
-      <td class="dane">{{ loan.Person.nazwisko.toUpperCase() }}</td>
-      <td class="dane">{{ loan.Book.nazwa.toUpperCase() }}</td>
-      <td></td>
-      <td style="max-width: 2%">
+      <td class="bttnsID">
         <button
           pButton
           pRipple
           type="button"
-          icon="pi pi-pencil"
+          icon="pi pi-user"
+          label="{{ loan.Person.id }}"
           class="p-button-rounded p-button-text p-button-info p-button-sm"
+          routerLink="/osoby/{{ loan.Person.id }}"
         ></button>
       </td>
+      <td class="dane">{{ loan.Person.imie }}</td>
+      <td class="dane">
+        <b>{{ loan.Person.nazwisko }}</b>
+      </td>
+      <td class="dane"></td>
+      <td class="dane2">
+        <b>{{ loan.Book.nazwa }}</b>
+      </td>
+      <td class="dane2">{{ loan.Book.autor }}</td>
+      <td></td>
 
-      <td style="max-width: 5%">
+      <td class="bttns">
         <button
           pButton
           pRipple
           type="button"
-          icon="pi pi-times"
-          class="p-button-rounded p-button-text p-button-danger p-button-sm"
+          icon="pi pi-dollar"
+          (click)="returnBook(loan.Loan.id)"
+          class="p-button-rounded p-button-text p-button-success p-button-sm"
         ></button>
       </td>
     </tr>
   </ng-template>
 </p-table>
-
-<!-- <span class="p-float-label">
-  <input id="float-input" [(ngModel)]="osobaInput" type="number" pInputText />
-  <label for="float-input">OsobaID</label>
-</span>
-<span class="p-float-label">
-  <input id="float-input" [(ngModel)]="ksiazkaInput" type="number" pInputText />
-  <label for="float-input">KsiazkaID</label>
-</span>
-
-<button (click)="submit()">Dodaj</button> -->
-
-<!-- <ul *ngFor="let line of loansWD">
-  <li>
-    {{
-      line.Loan.id +
-        "-" +
-        line.Person.imie +
-        "-" +
-        line.Person.nazwisko +
-        "-" +
-        line.Book.nazwa
-    }},
-  </li>
-</ul> -->
