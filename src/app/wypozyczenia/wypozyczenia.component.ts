@@ -9,9 +9,9 @@ import { LoanDescription } from 'src/Types/LoanDescription';
   styleUrls: ['./wypozyczenia.component.css'],
 })
 export class WypozyczeniaComponent implements OnInit {
-  constructor(private _loansService: LoansService) {}
-
   loansWD: Array<LoanDescription> = [];
+
+  constructor(private _loansService: LoansService) {}
 
   ngOnInit(): void {
     this.getLoansDescription(true);

@@ -11,12 +11,6 @@ import { StringUtilsService } from '../services/utils/string-utils.service';
   providers: [MessageService],
 })
 export class OsobaComponent implements OnInit {
-  constructor(
-    private readonly personService: PersonService,
-    private readonly stringUtils: StringUtilsService,
-    private messageService: MessageService
-  ) {}
-
   persons: Array<Osoba> = [];
   searchedValue: string = '';
   showSearch: boolean = true;
@@ -28,6 +22,11 @@ export class OsobaComponent implements OnInit {
 
   editContext: Osoba | null = null;
 
+  constructor(
+    private readonly personService: PersonService,
+    private readonly stringUtils: StringUtilsService,
+    private messageService: MessageService
+  ) {}
   resetInput() {
     this.nameInput = '';
     this.surnameInput = '';

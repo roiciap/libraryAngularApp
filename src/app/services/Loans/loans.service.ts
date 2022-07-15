@@ -256,7 +256,7 @@ export class LoansService {
     this.loansStore.refresh();
   }
 
-  payLoan(loanId: number) {
+  payLoan(loanId: number): void {
     let loan: Wypozyczenie | undefined;
     this.loansStore.getLoan(loanId).subscribe((data) => (loan = data));
     if (loan == undefined) return;

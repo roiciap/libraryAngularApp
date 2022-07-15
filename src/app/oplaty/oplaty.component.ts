@@ -1,7 +1,6 @@
-import { LoansService } from './../services/Loans/loans.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-oplaty',
   templateUrl: './oplaty.component.html',
@@ -10,11 +9,7 @@ import { Router } from '@angular/router';
 export class OplatyComponent implements OnInit {
   id: string = '';
 
-  constructor(
-    private Activatedroute: ActivatedRoute,
-    private loanService: LoansService,
-    private router: Router
-  ) {
+  constructor(private Activatedroute: ActivatedRoute) {
     this.Activatedroute.paramMap.subscribe(
       (data) => (this.id = data.get('id') || '')
     );

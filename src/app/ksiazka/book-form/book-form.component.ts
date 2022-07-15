@@ -1,10 +1,9 @@
 import { LoanDescription } from 'src/Types/LoanDescription';
 import { LoansService } from './../../services/Loans/loans.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookService } from 'src/app/services/Books/book.service';
 import { Ksiazka } from 'src/Types/Ksiazka';
-import { Osoba } from 'src/Types/Osoba';
 
 @Component({
   selector: 'app-book-form',
@@ -27,6 +26,12 @@ export class BookFormComponent implements OnInit {
   paidForBook: number = 0;
   toPayForBook: number = 0;
 
+  constructor(
+    private readonly router: Router,
+    private readonly loansService: LoansService,
+    private readonly Activatedroute: ActivatedRoute,
+    private readonly bookService: BookService
+  ) {}
   toggleSearch() {
     this.showSearch = !this.showSearch;
     this.showEdit = true;
@@ -43,12 +48,6 @@ export class BookFormComponent implements OnInit {
     }
   }
 
-  constructor(
-    private router: Router,
-    private loansService: LoansService,
-    private Activatedroute: ActivatedRoute,
-    private bookService: BookService
-  ) {}
   ngOnInit(): void {
     this.Activatedroute.paramMap.subscribe(
       (data) => (this.id = data.get('id')?.trim() || '')
