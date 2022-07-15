@@ -53,6 +53,7 @@
         [(ngModel)]="searchedValue"
         placeholder="Wyszukaj osobę"
         class="p-button-warning"
+        (ngModelChange)="personSearch(searchedValue)"
       />
     </div>
   </div>

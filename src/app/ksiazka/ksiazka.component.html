@@ -45,6 +45,7 @@
         [(ngModel)]="searchedValue"
         placeholder="Wyszukaj książkę"
         class="p-button-warning"
+        (ngModelChange)="booksSearch(searchedValue)"
       />
     </div>
   </div>
