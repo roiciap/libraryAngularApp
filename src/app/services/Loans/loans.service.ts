@@ -226,7 +226,9 @@ export class LoansService {
           kwota,
         };
       }
-      console.log(payment);
+      if (loan.dataOddania != null && kwota === 0) {
+        payment.oplacone = true;
+      }
       this.paymentService.update({ ...payment, kwota });
     });
     this.paymentService.refresh();
