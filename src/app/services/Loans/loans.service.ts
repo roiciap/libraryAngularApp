@@ -1,5 +1,4 @@
 import { PaymentService } from './../Payment/payment.service';
-import { PaymentStoreService } from './../Payment/payment-store.service';
 import { PersonService } from './../person.service';
 import { BookService } from './../Books/book.service';
 import { Wypozyczenie } from './../../../Types/Wypozyczenie';
@@ -19,7 +18,7 @@ export class LoansService {
     private loansStore: LoansStoreService,
     private booksService: BookService,
     private personService: PersonService,
-    private paymentStore: PaymentService
+    private paymentService: PaymentService
   ) {}
 
   getAllLoans(): Observable<Array<Wypozyczenie>> {
@@ -107,11 +106,11 @@ export class LoansService {
         dostepnosc: book.dostepnosc + 1,
       });
     }
-    this.calculatePayments(); //{bookId:returned?.idKsiazka,personId:returned?.idOsoba}
+    this.refreshPayments(); //{bookId:returned?.idKsiazka,personId:returned?.idOsoba}
 
     ////////////////////////
     // let pay;
-    // this.paymentStore.getPayment(loanId).subscribe((data) => (pay = data));
+    // this.paymentService.getPayment(loanId).subscribe((data) => (pay = data));
     // console.log(pay);
     ////////////////////////////
     return true;
@@ -122,6 +121,7 @@ export class LoansService {
       returned?: boolean;
       personId?: number;
       bookId?: number;
+      paid?: boolean;
     },
     search?: { personName?: string }
   ): Observable<Array<LoanDescription>> {
@@ -131,7 +131,7 @@ export class LoansService {
     let payments: Array<Oplata> = [];
     this.booksService.getAllBooks().subscribe((data) => (books = data));
     this.personService.getAllPersons().subscribe((data) => (people = data));
-    this.paymentStore.getAllPayments().subscribe((data) => (payments = data));
+    this.paymentService.getAllPayments().subscribe((data) => (payments = data));
     let LoansToPipe = this.loansStore.getLoans();
     if (settings?.bookId)
       LoansToPipe = LoansToPipe.pipe(
@@ -154,6 +154,7 @@ export class LoansService {
           })
         )
       );
+
     ////Mapping to LoanDetails
     let LoansDetails = LoansToPipe.pipe(
       map((val) =>
@@ -177,10 +178,17 @@ export class LoansService {
           )
         )
       );
+    if (settings?.paid !== undefined) {
+      LoansDetails = LoansDetails.pipe(
+        map((val) =>
+          val.filter((loan) => loan.Payment.oplacone === settings.paid)
+        )
+      );
+    }
     return LoansDetails;
   }
   /////////////////////////Payment
-  calculatePayments(target?: {
+  refreshPayments(target?: {
     personId?: number;
     bookId?: number;
   }): Observable<Array<LoanDescription>> {
@@ -189,7 +197,7 @@ export class LoansService {
     loansTarget = loansTarget.filter((val) => {
       if (target?.personId && target.personId !== val.idOsoba) return false;
       if (target?.bookId && target.bookId !== val.idKsiazka) return false;
-      return !this.paymentStore.checkPaidLoan(val.id);
+      return !this.paymentService.checkPaidLoan(val.id);
     });
     loansTarget.forEach((loan) => {
       let payment: Oplata | undefined;
@@ -198,7 +206,7 @@ export class LoansService {
       const kwota = returnDate.getDate() - loan.dataPrzyjecia.getDate();
       // (returnDate.getTime()-loan.dataPrzyjecia.getTime()) /
       // (1000 * 3600 * 24);
-      this.paymentStore
+      this.paymentService
         .getPayment(loan.id)
         .subscribe((data) => (payment = data));
       if (!payment) {
@@ -209,12 +217,25 @@ export class LoansService {
           kwota,
         };
       }
-      this.paymentStore.update({ ...payment, kwota });
+      this.paymentService.update({ ...payment, kwota });
     });
-    this.paymentStore.refresh();
+    this.paymentService.refresh();
     return this.getLoansDetails({
       personId: target?.personId,
       bookId: target?.bookId,
     });
+  }
+
+  payLoan(loan: Wypozyczenie) {
+    if (loan.dataOddania != null) {
+      let payment: Oplata | undefined;
+      this.paymentService
+        .getPayment(loan.id)
+        .subscribe((data) => (payment = data));
+      if (payment) {
+        payment.oplacone = true;
+        this.paymentService.update(payment);
+      }
+    }
   }
 }
