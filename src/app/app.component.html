@@ -1,39 +1,39 @@
-<h1>Biblioteka</h1>
 <!-- guziory -->
 
-<nav type-allign>
-  <span class="p-buttonset">
-    <button
-      pButton
-      type="button"
+<p-toolbar class="toolbar">
+  <nav class="p-toolbar-group-left">
+    <h1 class="toolbar">
+      <i class="pi pi-book" pBadge style="font-size: 2rem" value="2"></i>
+      Biblioteka
+    </h1>
+  </nav>
+  <nav class="p-toolbar-group-right">
+    <p-button
+      label="KSIĄŻKI"
+      styleClass="{{ ksBtn }}"
       routerLink="/ksiazki"
-      label="KSIAZKI"
-      class="p-button-warning"
-    ></button>
-    <button
-      pButton
-      type="button"
-      routerLink="/osoby"
+      icon="pi pi-book"
+      class="toolbar"
+      (onClick)="button('ksiazki')"
+    ></p-button>
+    <p-button
       label="OSOBY"
-      class="p-button-warning"
-    ></button>
-    <button
-      pButton
-      type="button"
+      styleClass="{{ osBtn }}"
+      routerLink="/osoby"
+      icon="pi pi-user"
+      class="toolbar"
+      (onClick)="button('osoby')"
+    ></p-button>
+    <p-button
+      label="WYPOŻYCZENIA"
+      styleClass="{{ loBtn }}"
       routerLink="/wypozyczenia"
-      label="WYPOZYCZENIA"
-      class="p-button-warning"
-      onFocus=""
-    ></button>
-    <button
-      pButton
-      type="button"
-      [routerLink]="['/oplaty', 0]"
-      label="OPLATY"
-      class="p-button-warning"
-    ></button>
-  </span>
-</nav>
+      icon="pi pi-align-justify"
+      class="toolbar"
+      (onClick)="button('wypozyczenia')"
+    ></p-button>
+  </nav>
+</p-toolbar>
 <hr />
 
 <router-outlet></router-outlet>

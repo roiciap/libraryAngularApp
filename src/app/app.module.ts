@@ -9,7 +9,8 @@ import { FocusTrapModule } from 'primeng/focustrap';
 import { TableModule } from 'primeng/table';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { SelectButtonModule } from 'primeng/selectbutton';
-
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { OsobaComponent } from './osoba/osoba.component';
@@ -21,6 +22,8 @@ import { BookFormComponent } from './ksiazka/book-form/book-form.component';
 import { FormsModule } from '@angular/forms';
 import { PersonService } from './services/person.service';
 import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
 
 import { ListboxModule } from 'primeng/listbox';
 import { BookService } from './services/Books/book.service';
@@ -48,6 +51,10 @@ import { PersonFormComponent } from './osoba/person-form/person-form.component';
     TableModule,
     ToggleButtonModule,
     SelectButtonModule,
+    ToastModule,
+    MessagesModule,
+    MessageModule,
+    ToolbarModule,
   ],
   providers: [
     BookService,

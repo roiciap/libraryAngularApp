@@ -7,4 +7,29 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'library';
+
+  selBtn = 'p-button-warning';
+  defBtn = 'p-button-warning p-button-outlined';
+  osBtn = this.defBtn;
+  ksBtn = this.defBtn;
+  loBtn = this.defBtn;
+  button(type: string): void {
+    switch (type) {
+      case 'ksiazki':
+        this.ksBtn = this.selBtn;
+        this.osBtn = this.defBtn;
+        this.loBtn = this.defBtn;
+        break;
+      case 'osoby':
+        this.osBtn = this.selBtn;
+        this.ksBtn = this.defBtn;
+        this.loBtn = this.defBtn;
+        break;
+      case 'wypozyczenia':
+        this.loBtn = this.selBtn;
+        this.osBtn = this.defBtn;
+        this.ksBtn = this.defBtn;
+        break;
+    }
+  }
 }
