@@ -36,8 +36,4 @@ export class OplatyComponent implements OnInit {
           ))
       );
   }
-
-  payLoan(id: number): void {
-    this.loansService.payLoan(id);
-  }
 }
