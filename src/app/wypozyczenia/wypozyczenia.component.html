@@ -1,3 +1,22 @@
+<span class="p-buttonset">
+  <button
+    pButton
+    p-button-text
+    type="button"
+    label="dłużnicy: {{ loans.length }}"
+    icon="pi pi-user"
+    class="p-button-warning p-button-outlined"
+  ></button>
+  <button
+    pButton
+    p-button-text
+    type="button"
+    label="wypozyczenia: {{ loans.length }}"
+    icon="pi pi-book"
+    class="p-button-warning p-button-outlined"
+  ></button>
+</span>
+<hr />
 <p-table
   [value]="loansWD"
   [scrollable]="true"
@@ -6,13 +25,13 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th class="bttnsID">ID OSOBY</th>
-      <th class="dane">IMIĘ</th>
-      <th class="dane">NAZWISKO</th>
-      <th class="bttnsID"></th>
+      <th class="bttnsID upprText">id osoby</th>
+      <th class="dane upprText">imię</th>
+      <th class="dane upprText">nazwisko</th>
+      <th class="bttnsID upprText"></th>
 
-      <th class="dane2">NAZWA KSIĄŻKI</th>
-      <th class="dane2">AUTOR</th>
+      <th class="dane2 upprText">nazwa książki</th>
+      <th class="dane2 upprText">autor</th>
       <th></th>
       <th class="bttns"></th>
       <th class="bttns"></th>

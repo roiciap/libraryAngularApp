@@ -1,1 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+  font-family: Segoe UI;
+}
+h1 {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 40px;
+}
+
+a {
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+}
+nav {
+  text-align: center;
+  border-spacing: 10px;
+}
+
+.toolbar {
+  margin: 5px;
+  font-family: Segoe UI;
+}
+button {
+  text-transform: uppercase;
+}
+.upprText {
+  text-transform: uppercase;
+}
+
+.dane {
+  max-width: 10%;
+}
+
+.dane2 {
+  max-width: 30%;
+}
+
+.bttns {
+  max-width: 5%;
+}
+.bttnsID {
+  max-width: 6%;
+}
+
+.data1 {
+  width: 6%;
+}

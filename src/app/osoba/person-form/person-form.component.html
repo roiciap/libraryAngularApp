@@ -94,11 +94,10 @@
               <!-- ZAPLAC ZA KSIAZKE -->
               <!-- <div *ngIf="loans.Payment?.oplacone ?? false : content"> -->
               <div *ngIf="loans.Payment.oplacone !== true">
-                <!------------------------------------------------------------------------------------- KWOTA-->
-                {{ loans.Payment.kwota + "zł" }}
                 <p-button
                   styleClass="p-button-outlined p-button-success p-button-rounded"
                   icon="pi pi-dollar"
+                  label="{{ loans.Payment.kwota }}"
                   (click)="payForLoan(loans.Loan.id)"
                 ></p-button>
               </div>

@@ -13,10 +13,18 @@ export class OplatyComponent implements OnInit {
   cashToPay: number = 0;
   booksToReturn: number = 0;
   constructor(private readonly loansService: LoansService) {}
+
   ngOnInit(): void {
     this.loadData();
   }
 
+  checkButtonColor(sum: number): string {
+    if (sum == 0) {
+      return 'p-button-warning p-button-outlined';
+    } else {
+      return 'p-button-danger';
+    }
+  }
   loadData(): void {
     this.loansService.getAwaitingPaymentUsersInfo().subscribe((data) => {
       this.loans = data;

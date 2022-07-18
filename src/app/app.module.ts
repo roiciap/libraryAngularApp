@@ -23,18 +23,17 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ListboxModule } from 'primeng/listbox';
 import { BookService } from './services/books/book.service';
-import { StringUtilsService } from './services/utils/string-utils.service';
 
 import { LoansService } from './services/loans/loans.service';
 
-import { PersonFormComponent } from './osoba/person-form/person-form.component';
-
 import { BookStoreService } from './services/books/book-store.service';
 
-import { NavComponent } from './nav/nav.component';
-import { PersonStoreService } from './services/utils/person-store.service';
 import { PersonService } from './services/utils/person.service';
+import { NavComponent } from './nav/nav.component';
+import { PersonFormComponent } from './osoba/person-form/person-form.component';
+import { PersonStoreService } from './services/persons/person-store.service';
 import { LoansStoreService } from './services/loans/loans-store.service';
+import { StringUtilsService } from './services/persons/string-utils.service';
 
 @NgModule({
   declarations: [
