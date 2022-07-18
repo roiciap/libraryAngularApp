@@ -3,7 +3,7 @@
     pButton
     p-button-text
     type="button"
-    label="dłużnicy: {{ loans.length }}"
+    label="dłużnicy: {{ peopleWithLoans }}"
     icon="pi pi-user"
     class="p-button-warning p-button-outlined"
   ></button>
@@ -18,7 +18,7 @@
 </span>
 <hr />
 <p-table
-  [value]="loansWD"
+  [value]="loans"
   [scrollable]="true"
   scrollHeight="600px"
   styleClass="p-datatable-striped"
