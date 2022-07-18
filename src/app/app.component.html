@@ -1,5 +1,4 @@
 <!-- todo przestawić w vsc aby tak nie formatował i nie dodawal / do znacznikó np <hr> -->
-<!-- guziory -->
 <p-toolbar>
   <nav class="p-toolbar-group-left" routerLink="/">
     <h1 class="toolbar">
@@ -9,39 +8,38 @@
   </nav>
   <nav class="p-toolbar-group-right">
     <p-button
-      label="KSIĄŻKI"
-      styleClass="{{ ksBtn }}"
+      label="książki"
+      styleClass="{{ ksiazkaButton }}"
       routerLink="/ksiazki"
       icon="pi pi-book"
       class="toolbar"
-      (onClick)="button('ksiazki')"
+      (onClick)="button()"
     ></p-button>
     <p-button
-      label="OSOBY"
-      styleClass="{{ osBtn }}"
+      label="osoby"
+      styleClass="{{ osobaButton }}"
       routerLink="/osoby"
       icon="pi pi-user"
       class="toolbar"
-      (onClick)="button('osoby')"
+      (onClick)="button()"
     ></p-button>
     <p-button
-      label="WYPOŻYCZENIA"
-      styleClass="{{ loBtn }}"
+      label="wypożyczenia"
+      styleClass="{{ wypozyczeniaButton }}"
       routerLink="/wypozyczenia"
       icon="pi pi-align-justify"
       class="toolbar"
-      (onClick)="button('wypozyczenia')"
+      (onClick)="button()"
     ></p-button>
     <p-button
-      label="OPLATY"
-      styleClass="{{ paBtn }}"
+      label="opłaty"
+      styleClass="{{ oplatyButton }}"
       routerLink="/oplaty"
       icon="pi pi-align-justify"
       class="toolbar"
-      (onClick)="button('oplaty')"
+      (onClick)="button()"
     ></p-button>
   </nav>
 </p-toolbar>
 <hr />
-
 <router-outlet></router-outlet>

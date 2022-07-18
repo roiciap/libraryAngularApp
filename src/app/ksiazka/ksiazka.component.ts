@@ -1,5 +1,4 @@
-import { MessageService } from 'primeng/api';
-import { LoansService } from './../services/Loans/loans.service';
+import { LoansService } from '../services/loans/loans.service';
 import { Component, OnInit } from '@angular/core';
 import { BookService } from '../services/books/book.service';
 import { Ksiazka } from 'src/Types/Ksiazka';

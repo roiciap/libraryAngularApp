@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Osoba } from 'src/Types/Osoba';
 import { MessageService } from 'primeng/api';
-import { PersonService } from '../services/person.service';
 import { StringUtilsService } from '../services/utils/string-utils.service';
+import { PersonService } from '../services/utils/person.service';
 
 @Component({
   selector: 'app-osoba',
@@ -103,13 +103,5 @@ export class OsobaComponent implements OnInit {
   }
   deletePerson(id: number): void {
     this.personService.deletePerson(id);
-  }
-
-  save(severity: string) {
-    this.messageService.add({
-      severity: severity,
-      summary: 'Success',
-      detail: 'Data Saved',
-    });
   }
 }

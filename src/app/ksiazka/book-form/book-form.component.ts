@@ -1,10 +1,10 @@
 import { LoanDescription } from 'src/Types/LoanDescription';
-import { LoansService } from './../../services/Loans/loans.service';
+
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookService } from 'src/app/services/books/book.service';
 import { Ksiazka } from 'src/Types/Ksiazka';
-import { Osoba } from 'src/Types/Osoba';
+import { LoansService } from 'src/app/services/loans/loans.service';
 
 @Component({
   selector: 'app-book-form',
@@ -113,12 +113,12 @@ export class BookFormComponent implements OnInit {
         dostepnosc: this.editDostepnosc,
       });
   }
-  bookColor = 'color: blue';
-  checkToPay(): void {
+
+  checkToPay(): string {
     if (this.toPayForBook == 0) {
-      this.bookColor = 'color: green';
+      return 'color: green';
     } else {
-      this.bookColor = 'color: red';
+      return 'color: red';
     }
   }
 

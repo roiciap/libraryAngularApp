@@ -1,11 +1,11 @@
 import { BookService } from 'src/app/services/books/book.service';
-import { LoansService } from './../../services/Loans/loans.service';
 import { LoanDescription } from 'src/Types/LoanDescription';
-import { PersonService } from './../../services/person.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Osoba } from 'src/Types/Osoba';
 import { Ksiazka } from 'src/Types/Ksiazka';
+import { PersonService } from 'src/app/services/utils/person.service';
+import { LoansService } from 'src/app/services/loans/loans.service';
 
 @Component({
   selector: 'app-person-form',
@@ -19,7 +19,6 @@ export class PersonFormComponent implements OnInit {
   loansHistory: Array<LoanDescription> = [];
   showAddContent: boolean = false;
   books: Array<Ksiazka> = [];
-
   paidSum: number = 0;
   toPaySum: number = 0;
 

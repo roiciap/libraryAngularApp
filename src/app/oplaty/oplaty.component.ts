@@ -1,4 +1,4 @@
-import { LoansService } from './../services/Loans/loans.service';
+import { LoansService } from '../services/loans/loans.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';

@@ -54,6 +54,7 @@
           placeholder="Wyszukaj osobę"
           class="p-button-warning"
           [(ngModel)]="serach"
+          ngDefaultControl
         />
       </div>
     </div>
@@ -68,13 +69,29 @@
           class="p-button-warning p-button-outlined"
           (click)="updateBook()"
         ></button>
-        <input type="text" placeholder="Tytuł" [(ngModel)]="editNazwa" />
-        <input type="text" placeholder="Autor" [(ngModel)]="editAutor" />
-        <input type="number" placeholder="Rok Wydania" [(ngModel)]="editRok" />
+        <input
+          type="text"
+          placeholder="Tytuł"
+          [(ngModel)]="editNazwa"
+          ngDefaultControl
+        />
+        <input
+          type="text"
+          placeholder="Autor"
+          [(ngModel)]="editAutor"
+          ngDefaultControl
+        />
+        <input
+          type="number"
+          placeholder="Rok Wydania"
+          [(ngModel)]="editRok"
+          ngDefaultControl
+        />
         <input
           type="number"
           placeholder="Dostępność"
           [(ngModel)]="editDostepnosc"
+          ngDefaultControl
         />
       </div>
     </div>
@@ -120,8 +137,8 @@
       </tr>
       <tr>
         <td>DO ZAPŁACENIA</td>
-        <td style="{{ bookColor }}">
-          <b>{{ checkToPay() }}{{ toPayForBook }}zł</b>
+        <td style="{{ checkToPay() }}">
+          <b>{{ toPayForBook }}zł</b>
         </td>
       </tr>
     </ng-template>

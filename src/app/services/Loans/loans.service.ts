@@ -1,5 +1,3 @@
-import { PaymentService } from './../Payment/payment.service';
-import { PersonService } from './../person.service';
 import { BookService } from '../books/book.service';
 import { Wypozyczenie } from './../../../Types/Wypozyczenie';
 import { map, Observable } from 'rxjs';
@@ -9,6 +7,8 @@ import { Osoba } from 'src/Types/Osoba';
 import { Ksiazka } from 'src/Types/Ksiazka';
 import { LoanDescription } from 'src/Types/LoanDescription';
 import { Oplata } from 'src/Types/Oplata';
+import { PersonService } from '../utils/person.service';
+import { PaymentService } from '../payment/payment.service';
 
 @Injectable({
   providedIn: 'root',

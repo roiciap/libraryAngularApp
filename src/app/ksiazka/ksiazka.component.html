@@ -43,6 +43,7 @@
         type="text"
         pInputText
         [(ngModel)]="searchedValue"
+        ngDefaultControl
         placeholder="Wyszukaj książkę"
         class="p-button-warning"
       />
@@ -58,13 +59,29 @@
         icon="pi pi-chevron-circle-right"
         class="p-button-warning p-button-outlined"
       ></button>
-      <input type="text" [(ngModel)]="autorInput" placeholder="Autor" />
-      <input type="text" [(ngModel)]="nazwaInput" placeholder="Nazwa" />
-      <input type="number" [(ngModel)]="rokInput" placeholder="Rok" />
+      <input
+        type="text"
+        [(ngModel)]="autorInput"
+        placeholder="Autor"
+        ngDefaultControl
+      />
+      <input
+        type="text"
+        [(ngModel)]="nazwaInput"
+        placeholder="Nazwa"
+        ngDefaultControl
+      />
+      <input
+        type="number"
+        [(ngModel)]="rokInput"
+        placeholder="Rok"
+        ngDefaultControl
+      />
       <input
         type="number"
         [(ngModel)]="dostepnoscInput"
         placeholder="Dostępność"
+        ngDefaultControl
       />
     </div>
   </div>

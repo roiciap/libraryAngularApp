@@ -1,4 +1,7 @@
+import { NavigationStart, Router } from '@angular/router';
 import { Component } from '@angular/core';
+import { defBtn, selBtn } from './consts/const';
+import { PageName } from './enums/page-name.enum';
 
 @Component({
   selector: 'app-root',
@@ -6,49 +9,63 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  // todo: do wyjebania
-  title = 'library';
+  osobaButton = defBtn;
+  ksiazkaButton = defBtn;
+  wypozyczeniaButton = defBtn;
+  oplatyButton = defBtn;
 
-  // todo czemu to jest publiczne jak to jest używane tylko tu!
-  selBtn = 'p-button-warning';
-  defBtn = 'p-button-warning p-button-outlined';
+  readonly book: PageName = PageName.ksiazki;
+  readonly persons: PageName = PageName.osoby;
+  readonly loans: PageName = PageName.wypozyczenia;
+  readonly payments: PageName = PageName.oplaty;
 
-  // todo jakaś lepsza nazwa bo nie wiem czy os to osoba czy jan paweł 2
-  osBtn = this.defBtn;
-  ksBtn = this.defBtn;
-  loBtn = this.defBtn;
-  paBtn = this.defBtn;
+  constructor(private readonly router: Router) {
+    this.router.events.subscribe((path) => {
+      if (path instanceof NavigationStart) {
+        this.resetBtnColors();
+        this.button();
+      }
+    });
+  }
 
-  // todo zrobił bym enuma zawierającego wszystkie podstrony i je tutaj użył
-  button(type: string): void {
-    switch (type) {
-      case 'ksiazki':
-        // todo zamiast za każdym razem ustawiać wszystkie kontrolki zrobić metodę która deakktywuje wszystko
-        // i aktuwyje tylko jeden
-        this.ksBtn = this.selBtn;
-        this.osBtn = this.defBtn;
-        this.loBtn = this.defBtn;
-        this.paBtn = this.defBtn;
-        break;
-      case 'osoby':
-        this.osBtn = this.selBtn;
-        this.ksBtn = this.defBtn;
-        this.loBtn = this.defBtn;
-        this.paBtn = this.defBtn;
-        break;
-      case 'wypozyczenia':
-        this.loBtn = this.selBtn;
-        this.osBtn = this.defBtn;
-        this.ksBtn = this.defBtn;
-        this.paBtn = this.defBtn;
-        break;
-      case 'oplaty':
-        this.paBtn = this.selBtn;
-        this.loBtn = this.defBtn;
-        this.osBtn = this.defBtn;
-        this.ksBtn = this.defBtn;
-        break;
-      // todo: a co jeśli opcja będzie np jan paweł ? dodać throw
-    }
+  ngOnInit(): void {
+    this.button();
+  }
+
+  resetBtnColors(): void {
+    this.osobaButton = defBtn;
+    this.ksiazkaButton = defBtn;
+    this.wypozyczeniaButton = defBtn;
+    this.oplatyButton = defBtn;
+  }
+
+  button(): void {
+    this.router.events.subscribe((path) => {
+      if (path instanceof NavigationStart) {
+        // const type: PageName = <PageName>path.url.substring(1);
+        const type: PageName = <PageName>path.url.substring(1).split('/')[0];
+        console.log(type);
+        switch (type) {
+          case PageName.ksiazki:
+            this.resetBtnColors();
+            this.ksiazkaButton = selBtn;
+            break;
+          case PageName.osoby:
+            this.resetBtnColors();
+            this.osobaButton = selBtn;
+            break;
+          case PageName.wypozyczenia:
+            this.resetBtnColors();
+            this.wypozyczeniaButton = selBtn;
+            break;
+          case PageName.oplaty:
+            this.resetBtnColors();
+            this.oplatyButton = selBtn;
+            break;
+          default:
+            throw Error('Bad color assignment in app.components.ts');
+        }
+      }
+    });
   }
 }

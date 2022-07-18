@@ -1,5 +1,3 @@
-import { LoansStoreService } from './services/Loans/loans-store.service';
-import { LoansService } from './services/Loans/loans.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ButtonModule } from 'primeng/button';
@@ -17,18 +15,20 @@ import { OsobaComponent } from './osoba/osoba.component';
 import { WypozyczeniaComponent } from './wypozyczenia/wypozyczenia.component';
 import { OplatyComponent } from './oplaty/oplaty.component';
 import { KsiazkaComponent } from './ksiazka/ksiazka.component';
-import { PersonStoreService } from './services/person-store.service';
+import { PersonStoreService } from './services/utils/person-store.service';
 import { BookFormComponent } from './ksiazka/book-form/book-form.component';
 import { FormsModule } from '@angular/forms';
-import { PersonService } from './services/person.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-
 import { ListboxModule } from 'primeng/listbox';
 import { BookService } from './services/books/book.service';
 import { BookStoreServie } from './services/books/book-store.service';
 import { StringUtilsService } from './services/utils/string-utils.service';
+import { NavComponent } from './nav/nav.component';
+import { PersonService } from './services/utils/person.service';
+import { LoansService } from './services/loans/loans.service';
+import { LoansStoreService } from './services/loans/loans-store.service';
 import { PersonFormComponent } from './osoba/person-form/person-form.component';
 
 @NgModule({
@@ -39,6 +39,7 @@ import { PersonFormComponent } from './osoba/person-form/person-form.component';
     OsobaComponent,
     KsiazkaComponent,
     PersonFormComponent,
+    NavComponent,
   ],
   imports: [
     BrowserModule,

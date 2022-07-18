@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, filter, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Osoba } from 'src/Types/Osoba';
 import { PersonStoreService } from './person-store.service';
 

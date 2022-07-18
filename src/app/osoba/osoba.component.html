@@ -51,8 +51,10 @@
         type="text"
         pInputText
         [(ngModel)]="searchedValue"
+        ngDefaultControl
         placeholder="Wyszukaj osobę"
         class="p-button-warning"
+        ngDefaultControl
       />
     </div>
   </div>
@@ -67,8 +69,18 @@
         icon="pi pi-user-plus"
         class="p-button-warning p-button-outlined"
       ></button>
-      <input type="text" [(ngModel)]="nameInput" placeholder="Imie" />
-      <input type="text" [(ngModel)]="surnameInput" placeholder="Nazwisko" />
+      <input
+        type="text"
+        [(ngModel)]="nameInput"
+        placeholder="Imie"
+        ngDefaultControl
+      />
+      <input
+        type="text"
+        [(ngModel)]="surnameInput"
+        placeholder="Nazwisko"
+        ngDefaultControl
+      />
     </div>
   </div>
   <!-- panel edycji osoby -->
@@ -82,8 +94,18 @@
         icon="pi pi-pencil"
         class="p-button-warning p-button-outlined"
       ></button>
-      <input type="text" [(ngModel)]="nameInput" placeholder="Imie" />
-      <input type="text" [(ngModel)]="surnameInput" placeholder="Nazwisko" />
+      <input
+        type="text"
+        [(ngModel)]="nameInput"
+        ngDefaultControl
+        placeholder="Imie"
+      />
+      <input
+        type="text"
+        [(ngModel)]="surnameInput"
+        ngDefaultControl
+        placeholder="Nazwisko"
+      />
     </div>
   </div>
 </nav>
@@ -97,6 +119,7 @@
   scrollHeight="600px"
   [(ngModel)]="getAllPersons"
   styleClass="p-datatable-striped"
+  ngDefaultControl
 >
   <ng-template pTemplate="header">
     <tr>
