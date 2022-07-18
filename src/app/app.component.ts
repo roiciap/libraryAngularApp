@@ -2,6 +2,7 @@ import { NavigationStart, Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { defBtn, selBtn } from './consts/const';
 import { PageName } from './enums/page-name.enum';
+import { StringUtilsService } from './services/persons/string-utils.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,10 @@ export class AppComponent {
   readonly loans: PageName = PageName.wypozyczenia;
   readonly payments: PageName = PageName.oplaty;
 
-  constructor(private readonly router: Router) {
+  constructor(
+    private readonly router: Router,
+    private readonly strUtilsSrv: StringUtilsService
+  ) {
     this.router.events.subscribe((path) => {
       if (path instanceof NavigationStart) {
         this.resetBtnColors();
@@ -42,9 +46,7 @@ export class AppComponent {
   button(): void {
     this.router.events.subscribe((path) => {
       if (path instanceof NavigationStart) {
-        // const type: PageName = <PageName>path.url.substring(1);
-        const type: PageName = <PageName>path.url.substring(1).split('/')[0];
-        console.log(type);
+        const type: PageName = this.strUtilsSrv.pathToPageName(path.url);
         switch (type) {
           case PageName.ksiazki:
             this.resetBtnColors();

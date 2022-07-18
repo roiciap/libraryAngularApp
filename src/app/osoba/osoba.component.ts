@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Osoba } from 'src/Types/Osoba';
 import { MessageService } from 'primeng/api';
-import { StringUtilsService } from '../services/utils/string-utils.service';
+import { StringUtilsService } from '../services/persons/string-utils.service';
 import { PersonService } from '../services/utils/person.service';
 
 @Component({

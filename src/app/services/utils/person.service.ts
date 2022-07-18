@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { Osoba } from 'src/Types/Osoba';
-import { PersonStoreService } from './person-store.service';
+import { PersonStoreService } from '../persons/person-store.service';
 
 @Injectable({
   providedIn: 'root',
