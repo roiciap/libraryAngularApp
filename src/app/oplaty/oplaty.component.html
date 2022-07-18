@@ -7,3 +7,17 @@
   id = {{ id }} = tutaj ma byc historia wypozyczen mozliwosc wypozyczenia oplaty
   itd
 </ng-template> -->
+
+ilosc ksiazek do oddania : {{ booksToReturn }}<br />
+ile winni są czytelnicy : {{ cashToPay }} zł <br />
+ilość wszystkich czytelników którzy zalegają : {{ loans.length }}<br />
+kwota zarobiona przez ksiegarnie : {{ cashEarned }} zł<br /><br />
+id - imie i nazwisko - ilość książek do oddania - kwota zalegana
+<ul *ngFor="let loan of loans">
+  <li>
+    {{ loan.personId }} - {{ loan.personName }} {{ loan.personSurname }} -
+    {{ loan.booksAmount }} - {{ loan.toPay }}zł
+  </li>
+</ul>
+<!-- top panel: ilosc wypozyczen ogolnie, ilosc osob ogolnie, ile wiszą wszyscy ogolnie / ile zarobiłą -->
+<!-- ID imie nazwisko (ks ilosc do oddania) pieniadze do zaplacenia [odnosnik do profilu]  -->

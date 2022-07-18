@@ -15,7 +15,7 @@ import { OsobaComponent } from './osoba/osoba.component';
 import { WypozyczeniaComponent } from './wypozyczenia/wypozyczenia.component';
 
 import { KsiazkaComponent } from './ksiazka/ksiazka.component';
-import { PersonStoreService } from './services/utils/person-store.service';
+
 import { BookFormComponent } from './ksiazka/book-form/book-form.component';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
@@ -24,13 +24,16 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ListboxModule } from 'primeng/listbox';
 import { BookService } from './services/books/book.service';
 import { StringUtilsService } from './services/utils/string-utils.service';
-import { NavComponent } from './nav/nav.component';
-import { PersonService } from './services/utils/person.service';
+
 import { LoansService } from './services/loans/loans.service';
 
 import { PersonFormComponent } from './osoba/person-form/person-form.component';
 
 import { BookStoreService } from './services/books/book-store.service';
+
+import { NavComponent } from './nav/nav.component';
+import { PersonStoreService } from './services/utils/person-store.service';
+import { PersonService } from './services/utils/person.service';
 import { LoansStoreService } from './services/loans/loans-store.service';
 
 @NgModule({
