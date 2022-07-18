@@ -1,3 +1,22 @@
+<span class="p-buttonset">
+  <button
+    pButton
+    p-button-text
+    type="button"
+    label="dłużnicy: {{ loans.length }}"
+    icon="pi pi-user"
+    class="p-button-warning p-button-outlined"
+  ></button>
+  <button
+    pButton
+    p-button-text
+    type="button"
+    label="wypozyczenia: {{ loans.length }}"
+    icon="pi pi-book"
+    class="p-button-warning p-button-outlined"
+  ></button>
+</span>
+<hr />
 <p-table
   [value]="loansWD"
   [scrollable]="true"

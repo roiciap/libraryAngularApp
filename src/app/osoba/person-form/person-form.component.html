@@ -92,8 +92,8 @@
             <td class="dane2">{{ loans.Loan.dataOddania.toLocaleString() }}</td>
             <td class="bttns">
               <!-- ZAPLAC ZA KSIAZKE -->
+              <!-- <div *ngIf="loans.Payment?.oplacone ?? false : content"> -->
               <div *ngIf="loans.Payment.oplacone !== true">
-                <!------------------------------------------------------------------------------------- KWOTA-->
                 <p-button
                   styleClass="p-button-outlined p-button-success p-button-rounded"
                   icon="pi pi-dollar"

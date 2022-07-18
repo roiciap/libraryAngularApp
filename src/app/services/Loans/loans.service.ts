@@ -1,14 +1,14 @@
 import { BookService } from '../books/book.service';
-import { Wypozyczenie } from './../../../Types/Wypozyczenie';
+import { Wypozyczenie } from '../../../Types/Wypozyczenie';
 import { map, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Osoba } from 'src/Types/Osoba';
 import { Ksiazka } from 'src/Types/Ksiazka';
 import { LoanDescription } from 'src/Types/LoanDescription';
 import { Oplata } from 'src/Types/Oplata';
-import { PersonService } from '../utils/person.service';
 import { PaymentService } from '../Payment/payment.service';
 import { LoansStoreService } from './loans-store.service';
+import { PersonService } from '../utils/person.service';
 
 @Injectable({
   providedIn: 'root',
@@ -145,14 +145,15 @@ export class LoansService {
       this.personService
         .getAllPersons()
         .pipe(
-          map((val) =>
-            val.filter((person) => {
-              if (search?.personName)
-                return (person.imie + ' ' + person.nazwisko).includes(
-                  search?.personName
-                );
-              return true;
-            })
+          map(
+            (val) =>
+              (people = val.filter((person) => {
+                if (search?.personName)
+                  return (person.imie + ' ' + person.nazwisko).includes(
+                    search?.personName
+                  );
+                return true;
+              }))
           )
         )
         .subscribe((data) => (people = data));
@@ -210,7 +211,6 @@ export class LoansService {
           })
       )
     );
-    ///details filter
   }
   ////////////////////////////////////////////////////////Payment
   refreshPayments(target?: {
@@ -274,4 +274,36 @@ export class LoansService {
     this.refreshPayments({ loanId: loanId });
     this.loansStore.refresh();
   }
+  ////////////////////////////////////////////////////////
+
+  getAwaitingPaymentUsersInfo(): Observable<Array<userPaymentInfo>> {
+    return this.getLoansDetails({ paid: false }).pipe(
+      map((val) => {
+        let people: Set<Osoba> = new Set<Osoba>(val.map((loan) => loan.Person));
+        let newArr: Array<userPaymentInfo> = [];
+        people.forEach((person) => {
+          let unreturnedLoans = val.filter((loan) => loan.Person === person);
+          let costSum = unreturnedLoans.reduce(
+            (count, loan) => count + loan.Payment.kwota,
+            0
+          );
+          newArr.push({
+            personId: person.id,
+            personName: person.imie,
+            personSurname: person.nazwisko,
+            toPay: costSum,
+            booksAmount: unreturnedLoans.length,
+          });
+        });
+        return newArr;
+      })
+    );
+  }
 }
+export type userPaymentInfo = {
+  personId: number;
+  personName: string;
+  personSurname: string;
+  toPay: number;
+  booksAmount: number;
+};

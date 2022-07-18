@@ -7,11 +7,83 @@
   id = {{ id }} = tutaj ma byc historia wypozyczen mozliwosc wypozyczenia oplaty
   itd
 </ng-template> -->
-Oplaty
-<!-- <ng-template #content>
-  <nav class="name">
-    <b>{{ person?.id }}</b>
-    {{ person?.imie }}
-    <b>{{ person?.nazwisko }} </b>
-  </nav>
-</ng-template> -->
+
+<span class="p-buttonset">
+  <button
+    pButton
+    p-button-text
+    type="button"
+    label="książki do opłacenia: {{ booksToReturn }}"
+    icon="pi pi-book"
+    class="p-button-warning p-button-outlined"
+  ></button>
+  <button
+    pButton
+    p-button-text
+    type="button"
+    label="łączne zaległośći: {{ cashToPay }}zł"
+    icon="pi pi-money-bill"
+    class="{{ checkButtonColor(cashToPay) }}"
+  ></button>
+  <button
+    pButton
+    p-button-text
+    type="button"
+    label="dłużnicy: {{ loans.length }}"
+    icon="pi pi-users"
+    class="p-button-warning p-button-outlined"
+  ></button>
+  <button
+    pButton
+    p-button-text
+    type="button"
+    label="zyski biblioteki: {{ cashEarned }}zł"
+    icon="pi pi-dollar"
+    class="p-button-warning p-button-outlined"
+  ></button>
+</span>
+<hr />
+<!-- tabela -->
+<p-table
+  [scrollable]="true"
+  scrollHeight="600px"
+  ngDefaultControl
+  [value]="loans"
+  styleClass="p-datatable-striped"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th class="upprText idBttns">id</th>
+      <th class="upprText dane">imie</th>
+      <th class="upprText dane2">nazwisko</th>
+      <th class="upprText editBttns">książki</th>
+      <th class="upprText">dług</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-loan>
+    <tr>
+      <td class="idBttns">{{ loan.personId }}</td>
+      <td class="dane">
+        {{ loan.personName }}
+      </td>
+      <td class="dane2">
+        <b>{{ loan.personSurname }}</b>
+      </td>
+      <td class="editBttns">{{ loan.booksAmount }}</td>
+      <td>{{ loan.toPay }}zł</td>
+      <td></td>
+      <td>
+        <button
+          style="margin-left: 80%"
+          routerLink="/osoby/{{ loan.personId }}"
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-user"
+          class="p-button-rounded p-button-text p-button-info p-button-sm"
+        ></button>
+      </td></tr
+  ></ng-template>
+</p-table>
