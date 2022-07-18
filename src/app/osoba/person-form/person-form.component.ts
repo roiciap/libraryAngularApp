@@ -1,7 +1,7 @@
 import { BookService } from 'src/app/services/books/book.service';
 import { LoanDescription } from 'src/Types/LoanDescription';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Osoba } from 'src/Types/Osoba';
 import { Ksiazka } from 'src/Types/Ksiazka';
 import { PersonService } from 'src/app/services/utils/person.service';
@@ -23,7 +23,6 @@ export class PersonFormComponent implements OnInit {
   toPaySum: number = 0;
 
   constructor(
-    private router: Router,
     private Activatedroute: ActivatedRoute,
     private personService: PersonService,
     private loansService: LoansService,

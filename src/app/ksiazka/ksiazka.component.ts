@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import { LoansService } from '../services/loans/loans.service';
-=======
->>>>>>> bookFeature
 import { Component, OnInit } from '@angular/core';
 import { BookService } from '../services/books/book.service';
 import { Ksiazka } from 'src/Types/Ksiazka';

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Ksiazka } from 'src/Types/Ksiazka';
-import { BookStoreServie } from './book-store.service';
+import { BookStoreService } from './book-store.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
-  constructor(private readonly bookStoreSrv: BookStoreServie) {}
+  constructor(private readonly bookStoreSrv: BookStoreService) {}
 
   getAllBooks(): Observable<Array<Ksiazka>> {
     return this.bookStoreSrv.getAllBook();

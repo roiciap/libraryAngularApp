@@ -1,18 +1,10 @@
 import { LoanDescription } from 'src/Types/LoanDescription';
-<<<<<<< HEAD
 
 import { Component, Input, OnInit } from '@angular/core';
-=======
-import { LoansService } from './../../services/Loans/loans.service';
-import { Component, OnInit } from '@angular/core';
->>>>>>> bookFeature
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookService } from 'src/app/services/books/book.service';
 import { Ksiazka } from 'src/Types/Ksiazka';
-<<<<<<< HEAD
 import { LoansService } from 'src/app/services/loans/loans.service';
-=======
->>>>>>> bookFeature
 
 @Component({
   selector: 'app-book-form',

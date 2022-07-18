@@ -3,7 +3,7 @@ import { Ksiazka } from 'src/Types/Ksiazka';
 
 // todo nazwa folderów z małem litery
 
-export class BookStoreServie {
+export class BookStoreService {
   private books: Array<Ksiazka> = [
     {
       id: 1,
