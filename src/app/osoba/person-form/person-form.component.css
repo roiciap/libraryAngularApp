@@ -19,12 +19,9 @@ div {
   font-size: 25px;
 }
 
-/* .name {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 30px;
-  text-align: center;
-  justify-content: center;
-} */
+.name {
+  text-align: left;
+}
 .name {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding-left: 50px;

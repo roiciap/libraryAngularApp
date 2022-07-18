@@ -1,18 +1,18 @@
 <!-- todo przestawić w vsc aby tak nie formatował i nie dodawal / do znacznikó np <hr> -->
 <p-toolbar>
-  <nav class="p-toolbar-group-left" routerLink="/">
+  <nav class="p-toolbar-group-left" routerLink="/" (click)="mainPage = true">
     <h1 class="toolbar">
       <i class="pi pi-book" pBadge style="font-size: 2rem" value="2"></i>
       Biblioteka
     </h1>
   </nav>
-  <nav class="p-toolbar-group-right">
+  <nav class="p-toolbar-group-right btnMenu">
     <p-button
       label="książki"
       styleClass="{{ ksiazkaButton }}"
       routerLink="/ksiazki"
       icon="pi pi-book"
-      class="toolbar"
+      class="toolbar btnMenu"
       (onClick)="button()"
     ></p-button>
     <p-button
@@ -42,4 +42,7 @@
   </nav>
 </p-toolbar>
 <hr />
+<nav *ngIf="mainPage">
+  <div>Projekt biblioteki</div>
+</nav>
 <router-outlet></router-outlet>

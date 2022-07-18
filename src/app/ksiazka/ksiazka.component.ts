@@ -9,10 +9,6 @@ import { Ksiazka } from 'src/Types/Ksiazka';
   styleUrls: ['./ksiazka.component.css'],
 })
 export class KsiazkaComponent implements OnInit {
-  constructor(
-    private booksService: BookService,
-    private loansService: LoansService
-  ) {}
   books: Array<Ksiazka> = [];
   searchedValue: string = '';
 
@@ -23,6 +19,9 @@ export class KsiazkaComponent implements OnInit {
 
   showSearch: boolean = true;
   showAdd: boolean = true;
+
+  constructor(private readonly booksService: BookService) {}
+
   toggleSearch() {
     this.showSearch = !this.showSearch;
     this.showAdd = true;

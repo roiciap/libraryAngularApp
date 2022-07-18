@@ -14,6 +14,7 @@ export class AppComponent {
   ksiazkaButton = defBtn;
   wypozyczeniaButton = defBtn;
   oplatyButton = defBtn;
+  mainPage: boolean = true;
 
   readonly book: PageName = PageName.ksiazki;
   readonly persons: PageName = PageName.osoby;
@@ -43,6 +44,10 @@ export class AppComponent {
     this.oplatyButton = defBtn;
   }
 
+  hideMain(): void {
+    this.mainPage = false;
+  }
+
   button(): void {
     this.router.events.subscribe((path) => {
       if (path instanceof NavigationStart) {
@@ -51,18 +56,22 @@ export class AppComponent {
           case PageName.ksiazki:
             this.resetBtnColors();
             this.ksiazkaButton = selBtn;
+            this.hideMain();
             break;
           case PageName.osoby:
             this.resetBtnColors();
             this.osobaButton = selBtn;
+            this.hideMain();
             break;
           case PageName.wypozyczenia:
             this.resetBtnColors();
             this.wypozyczeniaButton = selBtn;
+            this.hideMain();
             break;
           case PageName.oplaty:
             this.resetBtnColors();
             this.oplatyButton = selBtn;
+            this.hideMain();
             break;
           default:
             throw Error('Bad color assignment in app.components.ts');

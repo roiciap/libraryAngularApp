@@ -2,8 +2,6 @@
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Wypozyczenie } from 'src/Types/Wypozyczenie';
-import { getLocaleEraNames } from '@angular/common';
-import { Statement } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root',

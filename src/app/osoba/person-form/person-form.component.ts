@@ -1,7 +1,7 @@
 import { BookService } from 'src/app/services/books/book.service';
 import { LoanDescription } from 'src/Types/LoanDescription';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Osoba } from 'src/Types/Osoba';
 import { Ksiazka } from 'src/Types/Ksiazka';
 import { PersonService } from 'src/app/services/utils/person.service';
@@ -23,7 +23,6 @@ export class PersonFormComponent implements OnInit {
   toPaySum: number = 0;
 
   constructor(
-    private router: Router,
     private Activatedroute: ActivatedRoute,
     private personService: PersonService,
     private loansService: LoansService,
@@ -43,12 +42,22 @@ export class PersonFormComponent implements OnInit {
       .getPerson(Number(this.id))
       .subscribe((data) => (this.person = data));
     if (this.person) {
+      //oddane ksiazki
       this.loansService
         .getLoansDetails({ returned: true, personId: this.person.id })
-        .subscribe((data) => (this.loansHistory = data));
+        .subscribe((data) => {
+          this.loansHistory = data.sort((a, b) => {
+            if (a.Payment.oplacone == false && b.Payment.oplacone == true)
+              return -1;
+            return 1;
+          });
+        });
+      //nieoddane ksiazki
       this.loansService
         .getLoansDetails({ returned: false, personId: this.person.id })
-        .subscribe((data) => (this.activeLoans = data));
+        .subscribe((data) => {
+          this.activeLoans = data;
+        });
       //zaplacone
       this.loansService
         .getLoansDetails({ paid: true, personId: this.person.id })
@@ -59,6 +68,7 @@ export class PersonFormComponent implements OnInit {
               0
             ))
         );
+
       //do zaplaty
       this.loansService
         .getLoansDetails({ paid: false, personId: this.person.id })

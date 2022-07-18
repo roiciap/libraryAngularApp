@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Ksiazka } from 'src/Types/Ksiazka';
-import { BookStoreServie } from './book-store.service';
+import { BookStoreService } from './book-store.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
-  constructor(private readonly bookStoreSrv: BookStoreServie) {}
+  constructor(private readonly bookStoreSrv: BookStoreService) {}
 
   getAllBooks(): Observable<Array<Ksiazka>> {
     return this.bookStoreSrv.getAllBook();
@@ -32,7 +32,7 @@ export class BookService {
     rokWydania: number;
     dostepnosc: number;
   }): boolean {
-    if (!toAdd.nazwa || !toAdd.autor) return false;
+    if (!toAdd.nazwa || !toAdd.autor || toAdd.dostepnosc < 0) return false;
     let toAddId: number = 0;
     this.getAllBooks()
       .pipe(

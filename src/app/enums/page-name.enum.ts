@@ -3,4 +3,5 @@ export enum PageName {
   osoby = 'osoby',
   wypozyczenia = 'wypozyczenia',
   oplaty = 'oplaty',
+  home = '',
 }
