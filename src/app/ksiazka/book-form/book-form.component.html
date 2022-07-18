@@ -54,7 +54,11 @@
           placeholder="Wyszukaj osobę"
           class="p-button-warning"
           [(ngModel)]="serach"
+<<<<<<< HEAD
           ngDefaultControl
+=======
+          (ngModelChange)="searchPeople()"
+>>>>>>> bookFeature
         />
       </div>
     </div>
@@ -156,6 +160,8 @@
         <th class="dane">IMIE</th>
         <th class="dane">NAZWISKO</th>
         <th class="dane">DATA PRZYJĘCIA</th>
+        <th class="dane">DATA ODDANIA</th>
+        <th class="dane">KWOTA DO ZAPŁATY</th>
         <th class></th>
         <th class></th>
       </tr>
@@ -166,17 +172,11 @@
         <td class="dane">{{ loans.Person.imie }}</td>
         <td class="dane">{{ loans.Person.nazwisko }}</td>
         <td class="dane">{{ loans.Loan.dataPrzyjecia.toLocaleString() }}</td>
-        <td></td>
-        <td class="bttns">
-          <button
-            routerLink="/osoby/{{ loans.Person.id }}"
-            pButton
-            pRipple
-            type="button"
-            icon="pi pi-user"
-            class="p-button-rounded p-button-text p-button-info p-button-sm"
-          ></button>
+        <td class="dane">
+          {{ loans.Loan.dataOddania?.toLocaleString() || "-" }}
         </td>
+        <td class="dane">{{ loans.Payment.kwota }}zł</td>
+        <td></td>
         <td class="bttns">
           <button
             pButton

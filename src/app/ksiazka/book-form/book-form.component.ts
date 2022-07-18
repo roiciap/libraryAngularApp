@@ -1,10 +1,18 @@
 import { LoanDescription } from 'src/Types/LoanDescription';
+<<<<<<< HEAD
 
 import { Component, Input, OnInit } from '@angular/core';
+=======
+import { LoansService } from './../../services/Loans/loans.service';
+import { Component, OnInit } from '@angular/core';
+>>>>>>> bookFeature
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookService } from 'src/app/services/books/book.service';
 import { Ksiazka } from 'src/Types/Ksiazka';
+<<<<<<< HEAD
 import { LoansService } from 'src/app/services/loans/loans.service';
+=======
+>>>>>>> bookFeature
 
 @Component({
   selector: 'app-book-form',
@@ -27,6 +35,12 @@ export class BookFormComponent implements OnInit {
   paidForBook: number = 0;
   toPayForBook: number = 0;
 
+  constructor(
+    private readonly router: Router,
+    private readonly loansService: LoansService,
+    private readonly Activatedroute: ActivatedRoute,
+    private readonly bookService: BookService
+  ) {}
   toggleSearch() {
     this.showSearch = !this.showSearch;
     this.showEdit = true;
@@ -43,12 +57,6 @@ export class BookFormComponent implements OnInit {
     }
   }
 
-  constructor(
-    private router: Router,
-    private loansService: LoansService,
-    private Activatedroute: ActivatedRoute,
-    private bookService: BookService
-  ) {}
   ngOnInit(): void {
     this.Activatedroute.paramMap.subscribe(
       (data) => (this.id = data.get('id')?.trim() || '')
@@ -62,12 +70,12 @@ export class BookFormComponent implements OnInit {
     this.bookService
       .getBook(Number(this.id))
       .subscribe((data) => (this.book = data));
-    this.loansService
-      .getLoansDetails({
-        returned: false,
-        bookId: this.book?.id,
-      })
-      .subscribe((data) => (this.loans = data));
+    // this.loansService
+    //   .getLoansDetails({
+    //     returned: false,
+    //     bookId: this.book?.id,
+    //   })
+    //   .subscribe((data) => (this.loans = data));
 
     //obliczanie lacznej zarobionej kwoty na ksiazce
     this.loansService
@@ -82,13 +90,13 @@ export class BookFormComponent implements OnInit {
     //obliczanie lacznej kwoty do zaplacenia za ksiazke przez czytelnikow
     this.loansService
       .getLoansDetails({ paid: false, bookId: this.book?.id })
-      .subscribe(
-        (data) =>
-          (this.toPayForBook = data.reduce(
-            (sum, val) => sum + val.Payment.kwota,
-            0
-          ))
-      );
+      .subscribe((data) => {
+        this.loans = data;
+        this.toPayForBook = data.reduce(
+          (sum, val) => sum + val.Payment.kwota,
+          0
+        );
+      });
   }
 
   searchPeople() {

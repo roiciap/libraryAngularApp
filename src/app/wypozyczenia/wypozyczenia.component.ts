@@ -1,9 +1,7 @@
 // todo: nie używane importy
-import { BookService } from '../services/books/book.service';
+
 import { Component, OnInit } from '@angular/core';
 import { Wypozyczenie } from 'src/Types/Wypozyczenie';
-import { Ksiazka } from 'src/Types/Ksiazka';
-import { Osoba } from 'src/Types/Osoba';
 import { LoanDescription } from 'src/Types/LoanDescription';
 import { LoansService } from '../services/loans/loans.service';
 
@@ -17,16 +15,13 @@ export class WypozyczeniaComponent implements OnInit {
   // todo pierw deklarujemy zmienne potem constructor potem metody czystosć
 
   // todo po co _
-  constructor(private _loansService: LoansService) {
-    _loansService.returnBook(4);
-  }
+  constructor(private loansService: LoansService) {}
 
   loans: Array<Wypozyczenie> = [];
 
   loansWD: Array<LoanDescription> = [];
 
   ngOnInit(): void {
-    this.getLoans();
     this.getLoansDescription(true);
   }
   ksiazkaInput: number = 0;
@@ -34,25 +29,25 @@ export class WypozyczeniaComponent implements OnInit {
 
   // todo: zwracany typ
   submit(): void {
-    this._loansService.addLoan({
+    this.loansService.addLoan({
       idKsiazka: this.ksiazkaInput,
       idOsoba: this.osobaInput,
     });
   }
 
   getLoans(): void {
-    this._loansService
+    this.loansService
       .getAllLoans()
       .subscribe((data) => (this.loans = [...data]));
   }
 
   // todo: jak nie uzywane to wyjebanc
   getLoansDescription(returned: boolean = false): void {
-    this._loansService
+    this.loansService
       .getLoansDetails({ returned: false })
       .subscribe((data) => (this.loansWD = data));
   }
   returnBook(loanID: number): void {
-    this._loansService.returnBook(loanID);
+    this.loansService.returnBook(loanID);
   }
 }

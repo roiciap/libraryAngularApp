@@ -39,13 +39,13 @@
         class="p-button-warning p-button-outlined"
       ></button>
       <input
-        (keydown.enter)="booksSearch(searchedValue)"
         type="text"
         pInputText
         [(ngModel)]="searchedValue"
         ngDefaultControl
         placeholder="Wyszukaj książkę"
         class="p-button-warning"
+        (ngModelChange)="booksSearch(searchedValue)"
       />
     </div>
   </div>

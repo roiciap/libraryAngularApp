@@ -62,6 +62,7 @@ export class LoansService {
     if (book.dostepnosc < 1) return false;
 
     let newId: number = -2;
+    ///find higest id and add 1 to specify current id
     this.getAllLoans()
       .pipe(
         map(
@@ -71,6 +72,12 @@ export class LoansService {
       )
       .subscribe((data) => (newId = data))
       .unsubscribe();
+    this.paymentService.addPayment({
+      id: -1,
+      idWypozyczenia: newId,
+      kwota: 0,
+      oplacone: false,
+    });
 
     this.loansStore.addLoan({
       id: newId,
@@ -82,11 +89,13 @@ export class LoansService {
 
     this.booksService.updateBook({ ...book, dostepnosc: book.dostepnosc - 1 });
     this.refreshPayments({ loanId: newId });
+    this.paymentService.refresh();
+    this.loansStore.refresh();
     return true;
   }
 
-  returnBook(loanId: number, when: Date = new Date()): boolean {
-    when.setDate(when.getDate() + 5); ////////TO DELETE
+  returnBook(loanId: number, returnDate: Date = new Date()): boolean {
+    returnDate.setDate(returnDate.getDate() + 5); ////////Adds 5 days to return Date - test purpose only - to delete
 
     let returned: Wypozyczenie | undefined;
     this.getAllLoans()
@@ -95,7 +104,8 @@ export class LoansService {
       .unsubscribe();
     if (!returned) return false;
     if (returned.dataOddania) return false;
-    this.loansStore.updateLoan({ ...returned, dataOddania: when });
+    if (returned.dataPrzyjecia > returnDate) return false;
+    this.loansStore.updateLoan({ ...returned, dataOddania: returnDate });
     let book: Ksiazka | undefined;
     this.booksService
       .getBook(returned.idKsiazka)
@@ -108,12 +118,9 @@ export class LoansService {
       });
     }
     this.refreshPayments({ loanId }); //{bookId:returned?.idKsiazka,personId:returned?.idOsoba}
+    this.paymentService.refresh();
     this.loansStore.refresh();
-    ////////////////////////
-    // let pay;
-    // this.paymentService.getPayment(loanId).subscribe((data) => (pay = data));
-    // console.log(pay);
-    ////////////////////////////
+
     return true;
   }
 
@@ -128,14 +135,32 @@ export class LoansService {
     search?: { personName?: string }
   ): Observable<Array<LoanDescription>> {
     //pobieranie osob oraz ksiazek
+    let LoansToPipe = this.loansStore.getLoans();
     let books: Array<Ksiazka> = [];
     let people: Array<Osoba> = [];
     let payments: Array<Oplata> = [];
     this.booksService.getAllBooks().subscribe((data) => (books = data));
-    this.personService.getAllPersons().subscribe((data) => (people = data));
+
+    if (search?.personName !== undefined)
+      this.personService
+        .getAllPersons()
+        .pipe(
+          map((val) =>
+            val.filter((person) => {
+              if (search?.personName)
+                return (person.imie + ' ' + person.nazwisko).includes(
+                  search?.personName
+                );
+              return true;
+            })
+          )
+        )
+        .subscribe((data) => (people = data));
+    else
+      this.personService.getAllPersons().subscribe((data) => (people = data));
+
     this.paymentService.getAllPayments().subscribe((data) => (payments = data));
-    let LoansToPipe = this.loansStore.getLoans();
-    /////settings filters
+    /////loan filters
     if (settings?.bookId)
       LoansToPipe = LoansToPipe.pipe(
         map((val) => val.filter((loan) => loan.idKsiazka === settings.bookId))
@@ -161,40 +186,33 @@ export class LoansService {
           })
         )
       );
-    ////Mapping to LoanDetails
+    ////Mapping to LoanDetails (refreshPayments to make sure that every loan has existing payment object)
     this.refreshPayments();
-    let LoansDetails = LoansToPipe.pipe(
+
+    return LoansToPipe.pipe(
       map((val) =>
-        val.map((record) => {
-          return {
-            Loan: record,
-            Person: people.find((val) => val.id === record.idOsoba)!,
-            Book: books.find((val) => val.id === record.idKsiazka)!,
-            Payment: payments.find((val) => val.idWypozyczenia === record.id)!,
-          };
-        })
+        val
+          .map((record) => {
+            return {
+              Loan: record,
+              Person: people.find((val) => val.id === record.idOsoba)!,
+              Book: books.find((val) => val.id === record.idKsiazka)!,
+              Payment: payments.find(
+                (val) => val.idWypozyczenia === record.id
+              )!,
+            };
+          })
+          .filter((loan) => {
+            if (settings?.paid != undefined) {
+              return loan.Payment.oplacone === settings.paid;
+            }
+            return true;
+          })
       )
     );
-    if (search?.personName !== undefined)
-      LoansDetails = LoansDetails.pipe(
-        map((val) =>
-          val.filter((LD) =>
-            (LD.Person.imie + ' ' + LD.Person.nazwisko)
-              .toLowerCase()
-              .includes(search.personName?.toLowerCase()!)
-          )
-        )
-      );
-    if (settings?.paid !== undefined) {
-      LoansDetails = LoansDetails.pipe(
-        map((val) =>
-          val.filter((loan) => loan.Payment.oplacone === settings.paid)
-        )
-      );
-    }
-    return LoansDetails;
+    ///details filter
   }
-  /////////////////////////Payment
+  ////////////////////////////////////////////////////////Payment
   refreshPayments(target?: {
     personId?: number;
     bookId?: number;
@@ -202,19 +220,22 @@ export class LoansService {
   }): void {
     let loansTarget: Array<Wypozyczenie> = [];
     this.getAllLoans().subscribe((data) => (loansTarget = data));
+    ///ID filters
     loansTarget = loansTarget.filter((val) => {
-      if (target?.personId != undefined && target.personId !== val.idOsoba)
+      if (target?.personId !== undefined && target.personId !== val.idOsoba)
         return false;
-      if (target?.bookId != undefined && target.bookId !== val.idKsiazka)
+      if (target?.bookId !== undefined && target.bookId !== val.idKsiazka)
         return false;
-      if (target?.loanId != undefined && target.loanId !== val.id) return false;
+      if (target?.loanId !== undefined && target.loanId !== val.id)
+        return false;
       return !this.paymentService.checkPaidLoan(val.id);
     });
+    //refresh payment of every target
     loansTarget.forEach((loan) => {
-      let payment: Oplata | undefined;
       let id: number = -1;
       const returnDate = loan.dataOddania ? loan.dataOddania : new Date();
       const kwota = returnDate.getDate() - loan.dataPrzyjecia.getDate();
+      let payment: Oplata | undefined;
       this.paymentService
         .getPayment(loan.id)
         .subscribe((data) => (payment = data));
@@ -231,10 +252,11 @@ export class LoansService {
       }
       this.paymentService.update({ ...payment, kwota });
     });
-    this.paymentService.refresh();
+    //refresh observables
+    this.loansStore.refresh();
   }
 
-  payLoan(loanId: number) {
+  payLoan(loanId: number): void {
     let loan: Wypozyczenie | undefined;
     this.loansStore.getLoan(loanId).subscribe((data) => (loan = data));
     if (loan == undefined) return;
