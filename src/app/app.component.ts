@@ -44,7 +44,6 @@ export class AppComponent {
       if (path instanceof NavigationStart) {
         // const type: PageName = <PageName>path.url.substring(1);
         const type: PageName = <PageName>path.url.substring(1).split('/')[0];
-        console.log(type);
         switch (type) {
           case PageName.ksiazki:
             this.resetBtnColors();
