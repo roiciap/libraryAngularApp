@@ -53,11 +53,15 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th class="upprText idBttns">id</th>
+      <th pSortableColumn="personId" class="upprText idBttns">
+        id<p-sortIcon field="personId"></p-sortIcon>
+      </th>
       <th class="upprText dane">imie</th>
       <th class="upprText dane2">nazwisko</th>
       <th class="upprText editBttns">książki</th>
-      <th class="upprText">dług</th>
+      <th pSortableColumn="toPay" class="upprText">
+        dług <p-sortIcon field="toPay"></p-sortIcon>
+      </th>
       <th></th>
       <th></th>
     </tr>
@@ -72,7 +76,7 @@
         <b>{{ loan.personSurname }}</b>
       </td>
       <td class="editBttns">{{ loan.booksAmount }}</td>
-      <td>{{ loan.toPay }}zł</td>
+      <td class="{{ alertPay(loan.toPay) }}">{{ loan.toPay }}zł</td>
       <td></td>
       <td>
         <button

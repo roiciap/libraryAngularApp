@@ -99,10 +99,16 @@
   <ng-template pTemplate="header">
     <tr>
       <th style="max-width: 5%">ID</th>
-      <th class="dane">AUTOR</th>
+      <th pSortableColumn="autor" class="dane">
+        AUTOR <p-sortIcon field="autor"></p-sortIcon>
+      </th>
       <th class="dane2">TYTUŁ</th>
-      <th class="dane">ROK WYDANIA</th>
-      <th>DOSTĘPNOŚĆ</th>
+      <th pSortableColumn="rokWydania" class="dane">
+        ROK WYDANIA<p-sortIcon field="rokWydania"></p-sortIcon>
+      </th>
+      <th pSortableColumn="dostepnosc">
+        DOSTĘPNOŚĆ<p-sortIcon field="dostepnosc"></p-sortIcon>
+      </th>
       <th class="bttns"></th>
       <th class="bttns"></th>
       <th class="bttns"></th>

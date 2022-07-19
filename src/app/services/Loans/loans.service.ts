@@ -6,7 +6,7 @@ import { Osoba } from 'src/Types/Osoba';
 import { Ksiazka } from 'src/Types/Ksiazka';
 import { LoanDescription } from 'src/Types/LoanDescription';
 import { Oplata } from 'src/Types/Oplata';
-import { PaymentService } from '../Payment/payment.service';
+import { PaymentService } from '../payment/payment.service';
 import { LoansStoreService } from './loans-store.service';
 import { PersonService } from '../persons/person.service';
 

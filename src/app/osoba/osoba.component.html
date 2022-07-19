@@ -123,8 +123,12 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th class="dane upprText">imie</th>
-      <th class="dane upprText">nazwisko</th>
+      <th pSortableColumn="imie" class="dane upprText">
+        imie<p-sortIcon field="imie"></p-sortIcon>
+      </th>
+      <th pSortableColumn="nazwisko" class="dane upprText">
+        nazwisko<p-sortIcon field="nawisko"></p-sortIcon>
+      </th>
       <th></th>
       <th class="editBttns"></th>
       <th class="editBttns"></th>

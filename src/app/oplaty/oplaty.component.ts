@@ -25,6 +25,13 @@ export class OplatyComponent implements OnInit {
       return 'p-button-danger';
     }
   }
+  alertPay(sum: number): string {
+    if (sum != 0) {
+      return 'alertToPay';
+    } else {
+      return 'alertNotToPay';
+    }
+  }
   loadData(): void {
     this.loansService.getAwaitingPaymentUsersInfo().subscribe((data) => {
       this.loans = data;
