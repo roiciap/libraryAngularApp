@@ -1,3 +1,4 @@
+import { PaymentStoreService } from './services/payment/payment-store.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ButtonModule } from 'primeng/button';
@@ -34,6 +35,7 @@ import { PersonFormComponent } from './osoba/person-form/person-form.component';
 import { LoansStoreService } from './services/loans/loans-store.service';
 import { PersonStoreService } from './services/persons/person-store.service';
 import { StringUtilsService } from './services/persons/string-utils.service';
+import { PaymentService } from './services/payment/payment.service';
 
 @NgModule({
   declarations: [
@@ -73,6 +75,8 @@ import { StringUtilsService } from './services/persons/string-utils.service';
     LoansStoreService,
     StringUtilsService,
     MessageService,
+    PaymentService,
+    PaymentStoreService,
   ],
   bootstrap: [AppComponent],
 })
