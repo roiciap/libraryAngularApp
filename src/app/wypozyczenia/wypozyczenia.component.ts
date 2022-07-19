@@ -13,11 +13,10 @@ import { LoansService } from '../services/loans/loans.service';
 export class WypozyczeniaComponent implements OnInit {
   // todo pierw deklarujemy zmienne potem constructor potem metody czystosć
 
-  // todo po co _
-  constructor(private loansService: LoansService) {}
-
   loans: Array<LoanDescription> = [];
   peopleWithLoans: number = 0;
+  // todo po co _
+  constructor(private loansService: LoansService) {}
 
   ngOnInit(): void {
     this.getLoansDescription();
@@ -36,7 +35,7 @@ export class WypozyczeniaComponent implements OnInit {
         )
       );
   }
-  returnBook(loanID: number): void {
+  returnBook(loanID: string): void {
     this.loansService.returnBook(loanID);
   }
 }

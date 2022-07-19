@@ -32,14 +32,13 @@ export class PersonFormComponent implements OnInit {
     this.Activatedroute.paramMap.subscribe(
       (data) => (this.id = data.get('id')?.trim() || '')
     );
-    if (Number.isNaN(Number(this.id))) {
-    } else {
+    if (this.id) {
       this.loadData();
     }
   }
   loadData() {
     this.personService
-      .getPerson(Number(this.id))
+      .getPerson(this.id)
       .subscribe((data) => (this.person = data));
     if (this.person) {
       //oddane ksiazki
@@ -89,7 +88,7 @@ export class PersonFormComponent implements OnInit {
       .subscribe((data) => (this.books = data));
   }
 
-  returnBook(loanID: number) {
+  returnBook(loanID: string) {
     this.loansService.returnBook(loanID);
   }
 
@@ -97,12 +96,12 @@ export class PersonFormComponent implements OnInit {
     this.showAddContent = !this.showAddContent;
   }
 
-  loanBook(bookId: number) {
+  loanBook(bookId: string) {
     if (this.person)
       this.loansService.addLoan({ idKsiazka: bookId, idOsoba: this.person.id });
   }
 
-  payForLoan(loanId: number) {
+  payForLoan(loanId: string) {
     this.loansService.payLoan(loanId);
   }
 

@@ -44,12 +44,12 @@ export class KsiazkaComponent implements OnInit {
 
   booksSearch(searched: string) {
     this.booksService
-      .getSearchedBooks(this.searchedValue)
+      .getSearchedBooks(searched)
       .subscribe((data) => (this.books = data.slice()));
   }
 
-  addBook(): void {
-    this.booksService.addBook({
+  addBook(): string {
+    const val = this.booksService.addBook({
       nazwa: this.nazwaInput,
       autor: this.autorInput,
       rokWydania: this.rokInput,
@@ -59,9 +59,10 @@ export class KsiazkaComponent implements OnInit {
     this.autorInput = '';
     this.rokInput = 2020;
     this.dostepnoscInput = 1;
+    return val;
   }
 
-  deleteBook(id: number) {
+  deleteBook(id: string) {
     this.booksService.deleteBook(id);
   }
 }

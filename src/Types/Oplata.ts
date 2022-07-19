@@ -1,6 +1,6 @@
 export interface Oplata {
-  id: number;
-  idWypozyczenia: number;
+  id: string;
+  idWypozyczenia: string;
   kwota: number;
   oplacone: boolean;
 }

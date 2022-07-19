@@ -6,63 +6,63 @@ import { Ksiazka } from 'src/Types/Ksiazka';
 export class BookStoreService {
   private books: Array<Ksiazka> = [
     {
-      id: 1,
+      id: '1',
       nazwa: 'Harry Potter i Kamień Filozoficzny',
       autor: 'J.K. Rowling',
       rokWydania: 1997,
       dostepnosc: 20,
     },
     {
-      id: 2,
+      id: '2',
       nazwa: 'Harry Potter i Komnata Tajemnic',
       autor: 'J.K. Rowling',
       rokWydania: 1998,
       dostepnosc: 20,
     },
     {
-      id: 3,
+      id: '3',
       nazwa: 'Dziady III',
       autor: 'Adam Mickiewicz',
       rokWydania: 2006,
       dostepnosc: 6,
     },
     {
-      id: 4,
+      id: '4',
       nazwa: 'Kordian',
       autor: 'Juliusz Słowacki',
       rokWydania: 2003,
       dostepnosc: 32,
     },
     {
-      id: 5,
+      id: '5',
       nazwa: 'Metro 2033',
       autor: 'Dmitrij Głuchowski',
       rokWydania: 2003,
       dostepnosc: 33,
     },
     {
-      id: 6,
+      id: '6',
       nazwa: 'Metro 2034',
       autor: 'Dmitrij Głuchowski',
       rokWydania: 2009,
       dostepnosc: 34,
     },
     {
-      id: 7,
+      id: '7',
       nazwa: 'Metro 2035',
       autor: 'Dmitrij Głuchowski',
       rokWydania: 2015,
       dostepnosc: 35,
     },
     {
-      id: 8,
+      id: '8',
       nazwa: 'Zew Cthulhu',
       autor: 'H.P. Lovecraft',
       rokWydania: 2008,
       dostepnosc: 12,
     },
     {
-      id: 9,
+      id: '9',
       nazwa: 'Pan Tadeusz',
       autor: 'Adam Mickiewicz',
       rokWydania: 1998,
@@ -80,7 +80,7 @@ export class BookStoreService {
   }
 
   // todo: id jest stringiem
-  deleteBook(id: number): void {
+  deleteBook(id: string): void {
     const toDelete = this.booksObs.value.findIndex((val) => val.id === id);
     if (toDelete === -1) return;
     this.booksObs.value.splice(toDelete, 1);
@@ -98,7 +98,7 @@ export class BookStoreService {
   }
 
   // todo nie powinien zwracać undefined
-  getBook(id: number): Observable<Ksiazka | undefined> {
+  getBook(id: string): Observable<Ksiazka | undefined> {
     return this.booksObs
       .asObservable()
       .pipe(map((val) => val.find((bok) => bok.id === id)));

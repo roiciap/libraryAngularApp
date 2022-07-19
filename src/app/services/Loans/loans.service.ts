@@ -36,20 +36,20 @@ export class LoansService {
       .pipe(map((val) => val.filter((loan) => loan.dataOddania == null)));
   }
 
-  getPersonLoans(osobaId: number): Observable<Array<Wypozyczenie>> {
+  getPersonLoans(osobaId: string): Observable<Array<Wypozyczenie>> {
     return this.getAllLoans().pipe(
       map((val) => val.filter((loan) => loan.idOsoba === osobaId))
     );
   }
 
-  getBookLoans(bookId: number): Observable<Array<Wypozyczenie>> {
+  getBookLoans(bookId: string): Observable<Array<Wypozyczenie>> {
     return this.getAllLoans().pipe(
       map((val) => val.filter((loan) => loan.idKsiazka === bookId))
     );
   }
 
   // id powinny być strigami
-  addLoan(newLoan: { idKsiazka: number; idOsoba: number }): boolean {
+  addLoan(newLoan: { idKsiazka: string; idOsoba: string }): string {
     let book: Ksiazka | undefined;
     let person: Osoba | undefined;
     this.booksService
@@ -58,22 +58,13 @@ export class LoansService {
     this.personService
       .getPerson(newLoan.idOsoba)
       .subscribe((data) => (person = data));
-    if (!book || !person) return false;
-    if (book.dostepnosc < 1) return false;
+    if (!book || !person) return '';
+    if (book.dostepnosc < 1) return '';
 
-    let newId: number = -2;
-    ///find higest id and add 1 to specify current id
-    this.getAllLoans()
-      .pipe(
-        map(
-          (val) =>
-            val.reduce((max, loan) => (loan.id > max ? loan.id : max), 0) + 1
-        )
-      )
-      .subscribe((data) => (newId = data))
-      .unsubscribe();
+    let newId: string = '';
+    newId = Math.random().toString(36).substring(2, 9);
     this.paymentService.addPayment({
-      id: -1,
+      id: '',
       idWypozyczenia: newId,
       kwota: 0,
       oplacone: false,
@@ -91,10 +82,10 @@ export class LoansService {
     this.refreshPayments({ loanId: newId });
     this.paymentService.refresh();
     this.loansStore.refresh();
-    return true;
+    return newId;
   }
 
-  returnBook(loanId: number, returnDate: Date = new Date()): boolean {
+  returnBook(loanId: string, returnDate: Date = new Date()): boolean {
     returnDate.setDate(returnDate.getDate() + 5); ////////Adds 5 days to return Date - test purpose only - to delete
 
     let returned: Wypozyczenie | undefined;
@@ -104,7 +95,7 @@ export class LoansService {
       .unsubscribe();
     if (!returned) return false;
     if (returned.dataOddania) return false;
-    if (returned.dataPrzyjecia > returnDate) return false;
+    if (returned.dataPrzyjecia.getDate() > returnDate.getDate()) return false;
     this.loansStore.updateLoan({ ...returned, dataOddania: returnDate });
     let book: Ksiazka | undefined;
     this.booksService
@@ -127,10 +118,10 @@ export class LoansService {
   getLoansDetails(
     settings?: {
       returned?: boolean;
-      personId?: number;
-      bookId?: number;
+      personId?: string;
+      bookId?: string;
       paid?: boolean;
-      loanId?: number;
+      loanId?: string;
     },
     search?: { personName?: string }
   ): Observable<Array<LoanDescription>> {
@@ -149,9 +140,9 @@ export class LoansService {
             (val) =>
               (people = val.filter((person) => {
                 if (search?.personName)
-                  return (person.imie + ' ' + person.nazwisko).includes(
-                    search?.personName
-                  );
+                  return (person.imie + ' ' + person.nazwisko)
+                    .toLowerCase()
+                    .includes(search?.personName.toLowerCase());
                 return true;
               }))
           )
@@ -214,9 +205,9 @@ export class LoansService {
   }
   ////////////////////////////////////////////////////////Payment
   refreshPayments(target?: {
-    personId?: number;
-    bookId?: number;
-    loanId?: number;
+    personId?: string;
+    bookId?: string;
+    loanId?: string;
   }): void {
     let loansTarget: Array<Wypozyczenie> = [];
     this.getAllLoans().subscribe((data) => (loansTarget = data));
@@ -232,7 +223,7 @@ export class LoansService {
     });
     //refresh payment of every target
     loansTarget.forEach((loan) => {
-      let id: number = -1;
+      let id: string = '';
       const returnDate = loan.dataOddania ? loan.dataOddania : new Date();
       const kwota = returnDate.getDate() - loan.dataPrzyjecia.getDate();
       let payment: Oplata | undefined;
@@ -256,7 +247,7 @@ export class LoansService {
     this.loansStore.refresh();
   }
 
-  payLoan(loanId: number): void {
+  payLoan(loanId: string): void {
     let loan: Wypozyczenie | undefined;
     this.loansStore.getLoan(loanId).subscribe((data) => (loan = data));
     if (loan == undefined) return;
@@ -301,7 +292,7 @@ export class LoansService {
   }
 }
 export type userPaymentInfo = {
-  personId: number;
+  personId: string;
   personName: string;
   personSurname: string;
   toPay: number;

@@ -123,7 +123,6 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th style="max-width: 5%" class="upprText">id</th>
       <th class="dane upprText">imie</th>
       <th class="dane upprText">nazwisko</th>
       <th></th>
@@ -140,9 +139,6 @@
     let-ri="rowIndex"
   >
     <tr [pEditableRow]>
-      <td class="editBttns">
-        <b>{{ person.id }}</b>
-      </td>
       <td class="dane">{{ person.imie }}</td>
 
       <td class="dane">

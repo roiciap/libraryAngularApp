@@ -16,7 +16,7 @@ export class PaymentStoreService {
     return this.paymentsObs.asObservable();
   }
 
-  getPayment(LoanId: number): Observable<Oplata | undefined> {
+  getPayment(LoanId: string): Observable<Oplata | undefined> {
     return this.getAllPayments().pipe(
       map((val) => val.find((payment) => payment.idWypozyczenia === LoanId))
     );
@@ -30,20 +30,19 @@ export class PaymentStoreService {
     this.refresh();
   }
   addPayment(payment: Oplata) {
-    const id =
-      this.payments.reduce((max, val) => (max > val.id ? max : val.id), 0) + 1;
+    const id = Math.random().toString(36).substring(2, 9);
     this.payments.push({ ...payment, id });
     this.paymentsObs.next(this.payments);
   }
   refresh() {
     this.paymentsObs.next(this.payments);
   }
-  checkPaid(id: number): boolean {
+  checkPaid(id: string): boolean {
     const toFind = this.payments.find((val) => val.id === id);
     return toFind?.oplacone === true;
   }
 
-  checkPaidLoan(id: number): boolean {
+  checkPaidLoan(id: string): boolean {
     const toFind = this.payments.find((val) => val.idWypozyczenia === id);
     if (toFind == undefined) return false;
     return toFind?.oplacone === true;

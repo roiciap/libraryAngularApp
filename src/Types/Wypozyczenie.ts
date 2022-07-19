@@ -1,7 +1,7 @@
 export interface Wypozyczenie {
-  id: number;
-  idOsoba: number;
-  idKsiazka: number;
+  id: string;
+  idOsoba: string;
+  idKsiazka: string;
   dataPrzyjecia: Date;
   dataOddania: Date | null;
 }

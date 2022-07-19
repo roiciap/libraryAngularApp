@@ -31,22 +31,12 @@ export class BookService {
     autor: string;
     rokWydania: number;
     dostepnosc: number;
-  }): boolean {
-    if (!toAdd.nazwa || !toAdd.autor || toAdd.dostepnosc < 0) return false;
-    let toAddId: number = 0;
-    this.getAllBooks()
-      .pipe(
-        map((data) =>
-          data.reduce((max, val) => (max < val.id ? val.id : max), 0)
-        )
-      )
-      .subscribe((data) => {
-        toAddId = data + 1;
-      })
-      .unsubscribe();
+  }): string {
+    if (!toAdd.nazwa || !toAdd.autor || toAdd.dostepnosc < 0) return '';
+    let toAddId: string = Math.random().toString(36).substring(2, 9);
     const addedItem = { ...toAdd, id: toAddId };
     this.bookStoreSrv.addNewBook(addedItem);
-    return true;
+    return toAddId;
   }
 
   updateBook(updated: Ksiazka): boolean {
@@ -66,11 +56,11 @@ export class BookService {
     return true;
   }
 
-  deleteBook(deletedId: number): void {
+  deleteBook(deletedId: string): void {
     this.bookStoreSrv.deleteBook(deletedId);
   }
 
-  getBook(id: number): Observable<Ksiazka | undefined> {
+  getBook(id: string): Observable<Ksiazka | undefined> {
     return this.bookStoreSrv.getBook(id);
   }
 }

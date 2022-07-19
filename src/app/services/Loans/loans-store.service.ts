@@ -9,58 +9,58 @@ import { Wypozyczenie } from 'src/Types/Wypozyczenie';
 export class LoansStoreService {
   private loans: Array<Wypozyczenie> = [
     {
-      id: 1,
-      idOsoba: 1,
-      idKsiazka: 1,
+      id: '1',
+      idOsoba: '1',
+      idKsiazka: '1',
       dataPrzyjecia: new Date(),
       dataOddania: null,
     },
     {
-      id: 2,
-      idOsoba: 1,
-      idKsiazka: 2,
+      id: '2',
+      idOsoba: '1',
+      idKsiazka: '2',
       dataPrzyjecia: new Date(),
       dataOddania: null,
     },
     {
-      id: 3,
-      idOsoba: 2,
-      idKsiazka: 2,
+      id: '3',
+      idOsoba: '2',
+      idKsiazka: '2',
       dataPrzyjecia: new Date(),
       dataOddania: null,
     },
     {
-      id: 4,
-      idOsoba: 1,
-      idKsiazka: 1,
+      id: '4',
+      idOsoba: '1',
+      idKsiazka: '1',
       dataPrzyjecia: new Date(),
       dataOddania: null,
     },
     {
-      id: 5,
-      idOsoba: 1,
-      idKsiazka: 1,
+      id: '5',
+      idOsoba: '1',
+      idKsiazka: '1',
       dataPrzyjecia: new Date(),
       dataOddania: null,
     },
     {
-      id: 6,
-      idOsoba: 1,
-      idKsiazka: 1,
+      id: '6',
+      idOsoba: '1',
+      idKsiazka: '1',
       dataPrzyjecia: new Date(),
       dataOddania: new Date(),
     },
     {
-      id: 7,
-      idOsoba: 10,
-      idKsiazka: 2,
+      id: '7',
+      idOsoba: '10',
+      idKsiazka: '2',
       dataPrzyjecia: new Date(),
       dataOddania: null,
     },
     {
-      id: 8,
-      idOsoba: 4,
-      idKsiazka: 1,
+      id: '8',
+      idOsoba: '4',
+      idKsiazka: '1',
       dataPrzyjecia: new Date(),
       dataOddania: null,
     },
@@ -75,7 +75,7 @@ export class LoansStoreService {
     return this.loansObs.asObservable();
   }
 
-  deleteLoan(id: number) {
+  deleteLoan(id: string) {
     const toDeleteIndex = this.loans.findIndex((val) => val.id === id);
     this.loans.splice(toDeleteIndex, 1);
     this.loansObs.next(this.loans);
@@ -91,7 +91,7 @@ export class LoansStoreService {
     this.loans.push(newLoan);
     this.loansObs.next(this.loans);
   }
-  getLoan(id: number): Observable<Wypozyczenie | undefined> {
+  getLoan(id: string): Observable<Wypozyczenie | undefined> {
     return this.loansObs
       .asObservable()
       .pipe(map((val) => val.find((loan) => loan.id == id)));

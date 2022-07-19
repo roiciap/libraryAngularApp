@@ -9,19 +9,11 @@ import { PaymentStoreService } from './payment-store.service';
 export class PaymentService {
   constructor(private paymentStore: PaymentStoreService) {}
 
-  getAllPayments(LoanIdTarget?: Array<number>): Observable<Array<Oplata>> {
-    let payments = this.paymentStore.getAllPayments();
-    return LoanIdTarget == undefined
-      ? payments
-      : payments.pipe(
-          map(
-            (val) =>
-              val.filter((pay) => LoanIdTarget.includes(pay.idWypozyczenia)) ///nw czy includes
-          )
-        );
+  getAllPayments(): Observable<Array<Oplata>> {
+    return this.paymentStore.getAllPayments();
   }
 
-  getPayment(LoanId: number): Observable<Oplata | undefined> {
+  getPayment(LoanId: string): Observable<Oplata | undefined> {
     return this.paymentStore.getPayment(LoanId);
   }
   update(payment: Oplata) {
@@ -33,11 +25,11 @@ export class PaymentService {
   refresh() {
     return this.paymentStore.refresh();
   }
-  checkPaid(id: number): boolean {
+  checkPaid(id: string): boolean {
     return this.paymentStore.checkPaid(id);
   }
 
-  checkPaidLoan(id: number): boolean {
+  checkPaidLoan(id: string): boolean {
     return this.paymentStore.checkPaidLoan(id);
   }
 }

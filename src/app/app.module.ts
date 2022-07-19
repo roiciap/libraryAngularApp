@@ -31,8 +31,8 @@ import { BookStoreService } from './services/books/book-store.service';
 import { PersonService } from './services/utils/person.service';
 import { NavComponent } from './nav/nav.component';
 import { PersonFormComponent } from './osoba/person-form/person-form.component';
-import { PersonStoreService } from './services/persons/person-store.service';
 import { LoansStoreService } from './services/loans/loans-store.service';
+import { PersonStoreService } from './services/persons/person-store.service';
 import { StringUtilsService } from './services/persons/string-utils.service';
 
 @NgModule({

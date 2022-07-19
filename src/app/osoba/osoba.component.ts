@@ -24,8 +24,7 @@ export class OsobaComponent implements OnInit {
 
   constructor(
     private readonly personService: PersonService,
-    private readonly stringUtils: StringUtilsService,
-    private messageService: MessageService
+    private readonly stringUtils: StringUtilsService
   ) {}
   resetInput() {
     this.nameInput = '';
@@ -100,7 +99,7 @@ export class OsobaComponent implements OnInit {
     });
     this.editContext = null;
   }
-  deletePerson(id: number): void {
+  deletePerson(id: string): void {
     this.personService.deletePerson(id);
   }
 }

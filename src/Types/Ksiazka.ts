@@ -1,5 +1,5 @@
 export interface Ksiazka {
-  id: number;
+  id: string;
   nazwa: string;
   autor: string;
   rokWydania: number;

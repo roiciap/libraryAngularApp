@@ -1,7 +1,7 @@
 import { LoanDescription } from 'src/Types/LoanDescription';
 
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BookService } from 'src/app/services/books/book.service';
 import { Ksiazka } from 'src/Types/Ksiazka';
 import { LoansService } from 'src/app/services/loans/loans.service';
@@ -28,7 +28,6 @@ export class BookFormComponent implements OnInit {
   toPayForBook: number = 0;
 
   constructor(
-    private readonly router: Router,
     private readonly loansService: LoansService,
     private readonly Activatedroute: ActivatedRoute,
     private readonly bookService: BookService
@@ -51,23 +50,14 @@ export class BookFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.Activatedroute.paramMap.subscribe(
-      (data) => (this.id = data.get('id')?.trim() || '')
+      (data) => (this.id = data.get('id') || '')
     );
-    if (Number.isNaN(Number(this.id))) {
-    } else {
+    if (this.id) {
       this.loadData();
     }
   }
   loadData() {
-    this.bookService
-      .getBook(Number(this.id))
-      .subscribe((data) => (this.book = data));
-    // this.loansService
-    //   .getLoansDetails({
-    //     returned: false,
-    //     bookId: this.book?.id,
-    //   })
-    //   .subscribe((data) => (this.loans = data));
+    this.bookService.getBook(this.id).subscribe((data) => (this.book = data));
 
     //obliczanie lacznej zarobionej kwoty na ksiazce
     this.loansService
@@ -122,7 +112,7 @@ export class BookFormComponent implements OnInit {
     }
   }
 
-  returnBook(loanID: number) {
+  returnBook(loanID: string) {
     this.loansService.returnBook(loanID);
   }
 }
