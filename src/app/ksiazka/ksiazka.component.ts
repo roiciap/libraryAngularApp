@@ -28,7 +28,6 @@ export class KsiazkaComponent implements OnInit {
 
   toggleAddBar() {
     this.showAdd = !this.showAdd;
-    console.log(this.showAdd);
     this.showSearch = true;
   }
 

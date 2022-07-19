@@ -1,10 +1,10 @@
 import { LoanDescription } from 'src/Types/LoanDescription';
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BookService } from 'src/app/services/books/book.service';
+import { BookService } from '../../services/books/book.service';
 import { Ksiazka } from 'src/Types/Ksiazka';
-import { LoansService } from 'src/app/services/loans/loans.service';
+import { LoansService } from '../../services/loans/loans.service';
 
 @Component({
   selector: 'app-book-form',

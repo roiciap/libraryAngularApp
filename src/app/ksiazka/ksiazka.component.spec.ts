@@ -67,7 +67,6 @@ describe('KsiazkaComponent', () => {
       dostepnosc: 28,
     },
   ];
-
   let component: KsiazkaComponent;
   let booksService: any;
   beforeEach(() => {

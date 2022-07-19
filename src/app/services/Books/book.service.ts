@@ -1,4 +1,3 @@
-import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { map, Observable, throwError } from 'rxjs';
 import { Ksiazka } from 'src/Types/Ksiazka';
