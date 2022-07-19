@@ -16,8 +16,8 @@ export class KsiazkaComponent implements OnInit {
   rokInput: number = 2000;
   dostepnoscInput: number = 1;
 
-  showSearch: boolean = true;
-  showAdd: boolean = true;
+  showSearch: boolean = true; //true means hidden
+  showAdd: boolean = true; //true means hidden
 
   constructor(private readonly booksService: BookService) {}
 
