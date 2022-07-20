@@ -3,5 +3,12 @@
 button {
   width: 300px;
   padding: 10px;
-  color: black;
+  color: white !important;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.btnMenu {
+  background-color: rgba(37, 8, 8, 0.021);
+  color: white;
+  border-radius: 10px;
 }

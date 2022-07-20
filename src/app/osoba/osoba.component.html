@@ -6,14 +6,14 @@
       type="button"
       label="LISTA OSOB"
       icon="pi pi-list"
-      class="p-button-warning p-button-outlined"
+      class="p-button-secondary p-button-outlined"
       (click)="toggleList()"
     ></button>
     <button
       pButton
       type="button"
       label="ILOSC_OSOB"
-      class="p-button-warning p-button-outlined"
+      class="p-button-secondary p-button-outlined"
       label="{{ persons.length }}"
       icon="pi pi-users"
       badge="8"
@@ -23,7 +23,7 @@
       pButton
       type="button"
       label="WYSZUKAJ"
-      class="p-button-warning p-button-outlined"
+      class="p-button-secondary p-button-outlined"
       icon="pi pi-search"
       (click)="toggleSearch()"
     ></button>
@@ -32,7 +32,7 @@
       type="button"
       icon="pi pi-user-plus"
       label="DODAJ OSOBĘ"
-      class="p-button-warning p-button-outlined"
+      class="p-button-secondary p-button-outlined"
       (click)="toggleAddBar()"
     ></button>
   </span>
@@ -44,7 +44,7 @@
         pRipple
         (click)="personSearch(searchedValue)"
         icon="pi pi-search"
-        class="p-button-warning p-button-outlined"
+        class="p-button-secondary p-button-outlined"
       ></button>
       <input
         (keydown.enter)="personSearch(searchedValue)"
@@ -53,7 +53,7 @@
         [(ngModel)]="searchedValue"
         ngDefaultControl
         placeholder="Wyszukaj osobę"
-        class="p-button-warning"
+        class="p-button-secondary"
         ngDefaultControl
       />
     </div>
@@ -67,7 +67,7 @@
         pRipple
         (click)="addPerson()"
         icon="pi pi-user-plus"
-        class="p-button-warning p-button-outlined"
+        class="p-button-secondary p-button-outlined"
       ></button>
       <input
         type="text"
@@ -92,7 +92,7 @@
         pRipple
         (click)="updatePerson()"
         icon="pi pi-pencil"
-        class="p-button-warning p-button-outlined"
+        class="p-button-secondary p-button-outlined"
       ></button>
       <input
         type="text"

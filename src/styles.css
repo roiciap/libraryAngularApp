@@ -22,6 +22,9 @@ nav {
 .toolbar {
   margin: 5px;
   font-family: Segoe UI;
+  margin-top: 5%;
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
 }
 button {
   text-transform: uppercase;
@@ -47,4 +50,32 @@ button {
 
 .data1 {
   width: 6%;
+}
+.p-toolbar {
+  color: #ffffff;
+  overflow: hidden;
+  background: linear-gradient(to top, #5a554d, #8a8885cc),
+    url(https://wallpapercave.com/wp/IlpLRYK.jpg) no-repeat center;
+  color: white !important;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.brnLbl {
+  color: white;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.p-button.p-button-help.p-button-outlined,
+.p-buttonset.p-button-help > .p-button.p-button-outlined,
+.p-splitbutton.p-button-help > .p-button.p-button-outlined {
+  background-color: transparent;
+  color: white;
+  border: 1px solid;
+}
+.p-button.p-button-help.p-button-outlined:enabled:hover,
+.p-buttonset.p-button-help > .p-button.p-button-outlined:enabled:hover,
+.p-splitbutton.p-button-help > .p-button.p-button-outlined:enabled:hover {
+  background: rgba(190, 187, 187, 0.04);
+  color: #777b81;
+  border: 1px solid;
 }

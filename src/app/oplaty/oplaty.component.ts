@@ -20,7 +20,7 @@ export class OplatyComponent implements OnInit {
 
   checkButtonColor(sum: number): string {
     if (sum == 0) {
-      return 'p-button-warning p-button-outlined';
+      return 'p-button-secondary p-button-outlined';
     } else {
       return 'p-button-danger';
     }
