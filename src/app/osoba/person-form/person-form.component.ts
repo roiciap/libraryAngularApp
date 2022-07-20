@@ -21,7 +21,7 @@ export class PersonFormComponent implements OnInit {
   books: Array<Ksiazka> = [];
   paidSum: number = 0;
   toPaySum: number = 0;
-
+  searchedValue: string = '';
   constructor(
     private Activatedroute: ActivatedRoute,
     private personService: PersonService,

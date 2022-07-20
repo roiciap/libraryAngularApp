@@ -183,7 +183,29 @@
           class="name"
           style="text-align: center"
         >
-          <h3 style="text-align: center">KSIĄŻKI DO WYPOŻYCZENIA</h3>
+          <nav>
+            <div class="p-inputgroup" style="flex-direction: row">
+              <a style="margin-left: 0px">DOSTĘPNE KSIĄŻKI</a>
+              <button
+                type="button"
+                pButton
+                pRipple
+                (click)="searchBooks(searchedValue)"
+                icon="pi pi-search"
+                class="p-button-secondary p-button-outlined"
+              ></button>
+              <input
+                (keydown.enter)="searchBooks(searchedValue)"
+                type="text"
+                pInputText
+                [(ngModel)]="searchedValue"
+                ngDefaultControl
+                placeholder="Wyszukaj książkę"
+                class="p-button-secondary"
+                ngDefaultControl
+              />
+            </div>
+          </nav>
         </ng-template>
         <ng-template pTemplate="header">
           <tr>
