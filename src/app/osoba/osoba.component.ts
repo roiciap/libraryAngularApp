@@ -3,6 +3,7 @@ import { Osoba } from 'src/Types/Osoba';
 import { MessageService } from 'primeng/api';
 import { StringUtilsService } from '../services/utils/string-utils.service';
 import { PersonService } from '../services/persons/person.service';
+import { LoansService } from '../services/loans/loans.service';
 
 @Component({
   selector: 'app-osoba',
@@ -24,6 +25,7 @@ export class OsobaComponent implements OnInit {
 
   constructor(
     private readonly personService: PersonService,
+    private readonly loansService: LoansService,
     private readonly stringUtils: StringUtilsService
   ) {}
   resetInput() {
@@ -100,6 +102,6 @@ export class OsobaComponent implements OnInit {
     this.editContext = null;
   }
   deletePerson(id: string): void {
-    this.personService.deletePerson(id);
+    this.loansService.deletePerson(id);
   }
 }

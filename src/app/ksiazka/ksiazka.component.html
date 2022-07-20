@@ -126,7 +126,15 @@
       <!-- more book info at /id -->
       <td class="bttns">
         <button
-          [routerLink]="book.id"
+          [routerLink]="
+            book.nazwa +
+            '-' +
+            book.autor +
+            '-' +
+            book.rokWydania +
+            '+' +
+            book.id
+          "
           pButton
           pRipple
           type="button"
