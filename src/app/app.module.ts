@@ -1,4 +1,3 @@
-import { PaymentStoreService } from './services/payment/payment-store.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ButtonModule } from 'primeng/button';
@@ -29,13 +28,14 @@ import { LoansService } from './services/loans/loans.service';
 
 import { BookStoreService } from './services/books/book-store.service';
 
-import { PersonService } from './services/utils/person.service';
-import { NavComponent } from './nav/nav.component';
-import { PersonFormComponent } from './osoba/person-form/person-form.component';
 import { LoansStoreService } from './services/loans/loans-store.service';
 import { PersonStoreService } from './services/persons/person-store.service';
-import { StringUtilsService } from './services/persons/string-utils.service';
+import { StringUtilsService } from './services/utils/string-utils.service';
 import { PaymentService } from './services/payment/payment.service';
+import { NavComponent } from './nav/nav.component';
+import { PersonFormComponent } from './osoba/person-form/person-form.component';
+import { PersonService } from './services/persons/person.service';
+import { PaymentStoreService } from './services/payment/payment-store.service';
 
 @NgModule({
   declarations: [

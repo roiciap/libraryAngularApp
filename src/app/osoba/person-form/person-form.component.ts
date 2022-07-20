@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Osoba } from 'src/Types/Osoba';
 import { Ksiazka } from 'src/Types/Ksiazka';
-import { PersonService } from 'src/app/services/utils/person.service';
+import { PersonService } from 'src/app/services/persons/person.service';
 import { LoansService } from 'src/app/services/loans/loans.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class PersonFormComponent implements OnInit {
   books: Array<Ksiazka> = [];
   paidSum: number = 0;
   toPaySum: number = 0;
-
+  searchedValue: string = '';
   constructor(
     private Activatedroute: ActivatedRoute,
     private personService: PersonService,

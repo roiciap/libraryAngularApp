@@ -12,7 +12,7 @@
       styleClass="{{ ksiazkaButton }}"
       routerLink="/ksiazki"
       icon="pi pi-book"
-      class="toolbar btnMenu"
+      class="toolbar"
       (onClick)="button()"
     ></p-button>
     <p-button
@@ -43,6 +43,6 @@
 </p-toolbar>
 <hr />
 <nav *ngIf="mainPage">
-  <div>Projekt biblioteki</div>
+  <h2>Projekt biblioteki</h2>
 </nav>
 <router-outlet></router-outlet>

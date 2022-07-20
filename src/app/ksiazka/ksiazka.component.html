@@ -4,7 +4,7 @@
       pButton
       type="button"
       label="ILOSC_OSOB"
-      class="p-button-warning p-button-outlined"
+      class="p-button-secondary p-button-outlined"
       label="{{ books.length }}"
       icon="pi pi-book"
       badge="8"
@@ -15,7 +15,7 @@
       type="button"
       label="WYSZUKAJ"
       (click)="toggleSearch()"
-      class="p-button-warning p-button-outlined"
+      class="p-button-secondary p-button-outlined"
       icon="pi pi-search"
     ></button>
     <button
@@ -24,7 +24,7 @@
       icon="pi pi-plus-circle"
       label="DODAJ KSIĄŻKĘ"
       (click)="toggleAddBar()"
-      class="p-button-warning p-button-outlined"
+      class="p-button-secondary p-button-outlined"
     ></button>
   </span>
   <!-- search bar -->
@@ -36,7 +36,7 @@
         pRipple
         (click)="booksSearch(searchedValue)"
         icon="pi pi-search"
-        class="p-button-warning p-button-outlined"
+        class="p-button-secondary p-button-outlined"
       ></button>
       <input
         type="text"
@@ -44,7 +44,7 @@
         [(ngModel)]="searchedValue"
         ngDefaultControl
         placeholder="Wyszukaj książkę"
-        class="p-button-warning"
+        class="p-button-secondary"
         (ngModelChange)="booksSearch(searchedValue)"
       />
     </div>
@@ -57,7 +57,7 @@
         pRipple
         (click)="addBook()"
         icon="pi pi-chevron-circle-right"
-        class="p-button-warning p-button-outlined"
+        class="p-button-secondary p-button-outlined"
       ></button>
       <input
         type="text"
@@ -99,10 +99,16 @@
   <ng-template pTemplate="header">
     <tr>
       <th style="max-width: 5%">ID</th>
-      <th class="dane">AUTOR</th>
+      <th pSortableColumn="autor" class="dane">
+        AUTOR <p-sortIcon field="autor"></p-sortIcon>
+      </th>
       <th class="dane2">TYTUŁ</th>
-      <th class="dane">ROK WYDANIA</th>
-      <th>DOSTĘPNOŚĆ</th>
+      <th pSortableColumn="rokWydania" class="dane">
+        ROK WYDANIA<p-sortIcon field="rokWydania"></p-sortIcon>
+      </th>
+      <th pSortableColumn="dostepnosc">
+        DOSTĘPNOŚĆ<p-sortIcon field="dostepnosc"></p-sortIcon>
+      </th>
       <th class="bttns"></th>
       <th class="bttns"></th>
       <th class="bttns"></th>

@@ -2,7 +2,7 @@ import { NavigationStart, Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { defBtn, selBtn } from './consts/const';
 import { PageName } from './enums/page-name.enum';
-import { StringUtilsService } from './services/persons/string-utils.service';
+import { StringUtilsService } from './services/utils/string-utils.service';
 
 @Component({
   selector: 'app-root',

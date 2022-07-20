@@ -26,3 +26,12 @@ div {
 .editBttns {
   max-width: 8%;
 }
+
+.alertToPay {
+  color: red;
+  font-weight: bold;
+  font-size: 25px;
+}
+.alertNotToPay {
+  color: black;
+}

@@ -6,7 +6,7 @@
     type="button"
     label="Powrót"
     onClick="history.go(-1)"
-    class="p-button-warning"
+    class="p-button-secondary"
   ></button>
 </div>
 
@@ -42,8 +42,8 @@
     onLabel="Zakończ"
     offLabel="Wypożycz "
     class="button-container"
+    Icon="pi pi-arrow-down"
     offIcon="pi pi-arrow-up"
-    onIcon="pi pi-arrow-down"
     [style]="{ width: '100%' }"
   >
     {{ showAddContent ? "Zakończ" : "Wypożycz" }}
@@ -68,7 +68,7 @@
             ODDANE KSIĄŻKI
             <p-tag
               value="{{ loansHistory.length }}"
-              severity="warning"
+              severity="info"
               [rounded]="true"
             ></p-tag>
           </h3>
@@ -132,7 +132,7 @@
             WYPOŻYCZONE KSIĄŻKI
             <p-tag
               value="{{ activeLoans.length }}"
-              severity="warning"
+              severity="secondary"
               [rounded]="true"
             ></p-tag>
           </h3>
@@ -183,7 +183,29 @@
           class="name"
           style="text-align: center"
         >
-          <h3 style="text-align: center">KSIĄŻKI DO WYPOŻYCZENIA</h3>
+          <nav>
+            <div class="p-inputgroup" style="flex-direction: row">
+              <a style="margin-left: 0px">DOSTĘPNE KSIĄŻKI</a>
+              <button
+                type="button"
+                pButton
+                pRipple
+                (click)="searchBooks(searchedValue)"
+                icon="pi pi-search"
+                class="p-button-secondary p-button-outlined"
+              ></button>
+              <input
+                (keydown.enter)="searchBooks(searchedValue)"
+                type="text"
+                pInputText
+                [(ngModel)]="searchedValue"
+                ngDefaultControl
+                placeholder="Wyszukaj książkę"
+                class="p-button-secondary"
+                ngDefaultControl
+              />
+            </div>
+          </nav>
         </ng-template>
         <ng-template pTemplate="header">
           <tr>
