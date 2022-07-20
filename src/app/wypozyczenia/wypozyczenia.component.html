@@ -5,7 +5,7 @@
     type="button"
     label="dłużnicy: {{ peopleWithLoans }}"
     icon="pi pi-user"
-    class="p-button-warning p-button-outlined"
+    class="p-button-secondary p-button-outlined"
   ></button>
   <button
     pButton
@@ -13,7 +13,7 @@
     type="button"
     label="wypozyczenia: {{ loans.length }}"
     icon="pi pi-book"
-    class="p-button-warning p-button-outlined"
+    class="p-button-secondary p-button-outlined"
   ></button>
 </span>
 <hr />
@@ -25,12 +25,16 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th class="bttnsID upprText">id osoby</th>
+      <th pSortableColumn="Person.id" class="bttnsSort upprText">
+        id<p-sortIcon field="Person.id"></p-sortIcon>
+      </th>
       <th class="dane upprText">imię</th>
       <th class="dane upprText">nazwisko</th>
       <th class="bttnsID upprText"></th>
 
-      <th class="dane2 upprText">nazwa książki</th>
+      <th pSortableColumn="Book.nazwa" class="dane2 upprText">
+        nazwa książki<p-sortIcon field="Book.nazwa"></p-sortIcon>
+      </th>
       <th class="dane2 upprText">autor</th>
       <th></th>
       <th class="bttns"></th>

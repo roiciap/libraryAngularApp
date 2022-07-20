@@ -8,7 +8,7 @@ import { LoanDescription } from 'src/Types/LoanDescription';
 import { Oplata } from 'src/Types/Oplata';
 import { PaymentService } from '../payment/payment.service';
 import { LoansStoreService } from './loans-store.service';
-import { PersonService } from '../utils/person.service';
+import { PersonService } from '../persons/person.service';
 
 @Injectable({
   providedIn: 'root',

@@ -13,7 +13,17 @@ export class PersonStoreService {
     { id: '7', imie: 'Anna', nazwisko: 'Kowalska' },
     { id: '8', imie: 'Weronika', nazwisko: 'Kmiecik' },
     { id: '9', imie: 'Bożena', nazwisko: 'Krawiec' },
-    { id: '10', imie: 'Malik', nazwisko: 'Montana' },
+    { id: '10', imie: 'Adam', nazwisko: 'Montana' },
+    { id: '11', imie: 'Robert', nazwisko: 'Ostatni' },
+    { id: '12', imie: 'Ewa', nazwisko: 'Kasprowiak' },
+    { id: '13', imie: 'Kasia', nazwisko: 'Adamczak' },
+    { id: '14', imie: 'Ola', nazwisko: 'Sandomierska' },
+    { id: '15', imie: 'Natalia', nazwisko: 'Klimek' },
+    { id: '16', imie: 'Beata', nazwisko: 'Drej' },
+    { id: '17', imie: 'Jakub', nazwisko: 'Andrzejewski' },
+    { id: '18', imie: 'Dariusz', nazwisko: 'Kubowski' },
+    { id: '19', imie: 'Kamil', nazwisko: 'Ślimak' },
+    { id: '20', imie: 'Marek', nazwisko: 'Bizon' },
   ];
   private personsObs = new BehaviorSubject<Array<Osoba>>(this.pList);
 

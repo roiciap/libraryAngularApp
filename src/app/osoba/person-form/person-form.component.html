@@ -6,7 +6,7 @@
     type="button"
     label="Powrót"
     onClick="history.go(-1)"
-    class="p-button-warning"
+    class="p-button-secondary"
   ></button>
 </div>
 
@@ -42,8 +42,8 @@
     onLabel="Zakończ"
     offLabel="Wypożycz "
     class="button-container"
+    Icon="pi pi-arrow-down"
     offIcon="pi pi-arrow-up"
-    onIcon="pi pi-arrow-down"
     [style]="{ width: '100%' }"
   >
     {{ showAddContent ? "Zakończ" : "Wypożycz" }}
@@ -68,7 +68,7 @@
             ODDANE KSIĄŻKI
             <p-tag
               value="{{ loansHistory.length }}"
-              severity="warning"
+              severity="info"
               [rounded]="true"
             ></p-tag>
           </h3>
@@ -132,7 +132,7 @@
             WYPOŻYCZONE KSIĄŻKI
             <p-tag
               value="{{ activeLoans.length }}"
-              severity="warning"
+              severity="secondary"
               [rounded]="true"
             ></p-tag>
           </h3>
