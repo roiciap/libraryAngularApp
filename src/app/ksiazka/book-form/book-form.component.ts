@@ -32,6 +32,20 @@ export class BookFormComponent implements OnInit {
     private readonly Activatedroute: ActivatedRoute,
     private readonly bookService: BookService
   ) {}
+  ngOnInit(): void {
+    let url: string = '';
+    this.Activatedroute.paramMap.subscribe(
+      (data) => (url = data.get('id') || '')
+    );
+    const strings: string[] = url.split('+');
+    if (strings.length > 0) {
+      this.id = strings.pop()!;
+    }
+    if (this.id) {
+      this.loadData();
+    }
+  }
+
   toggleSearch() {
     this.showSearch = !this.showSearch;
     this.showEdit = true;
@@ -48,14 +62,6 @@ export class BookFormComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.Activatedroute.paramMap.subscribe(
-      (data) => (this.id = data.get('id') || '')
-    );
-    if (this.id) {
-      this.loadData();
-    }
-  }
   loadData() {
     this.bookService.getBook(this.id).subscribe((data) => (this.book = data));
 
