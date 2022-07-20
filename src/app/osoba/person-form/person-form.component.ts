@@ -22,6 +22,8 @@ export class PersonFormComponent implements OnInit {
   paidSum: number = 0;
   toPaySum: number = 0;
   searchedValue: string = '';
+  showWarning = false;
+  bookColor = 'p-button-outlined p-button-help';
   constructor(
     private Activatedroute: ActivatedRoute,
     private personService: PersonService,
@@ -105,7 +107,6 @@ export class PersonFormComponent implements OnInit {
     this.loansService.payLoan(loanId);
   }
 
-  bookColor = 'p-button-outlined p-button-help';
   checkToPay(): void {
     if (this.toPaySum == 0) {
       this.bookColor = 'p-button-outlined p-button-success';
@@ -113,7 +114,6 @@ export class PersonFormComponent implements OnInit {
       this.bookColor = ' p-button-danger';
     }
   }
-  showWarning = false;
   checkWarning(): void {
     if (this.activeLoans.length === 0) {
       this.showWarning = !this.showWarning;

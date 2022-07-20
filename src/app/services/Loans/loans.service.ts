@@ -1,4 +1,3 @@
-import { BookService } from '../books/book.service';
 import { Wypozyczenie } from '../../../Types/Wypozyczenie';
 import { map, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -6,9 +5,11 @@ import { Osoba } from 'src/Types/Osoba';
 import { Ksiazka } from 'src/Types/Ksiazka';
 import { LoanDescription } from 'src/Types/LoanDescription';
 import { Oplata } from 'src/Types/Oplata';
-import { PaymentService } from '../payment/payment.service';
-import { LoansStoreService } from './loans-store.service';
+
 import { PersonService } from '../persons/person.service';
+import { LoansStoreService } from './loans-store.service';
+import { BookService } from '../books/book.service';
+import { PaymentService } from '../payment/payment.service';
 
 @Injectable({
   providedIn: 'root',
@@ -203,6 +204,19 @@ export class LoansService {
       )
     );
   }
+
+  deletePerson(id: string) {
+    let loanArr: Array<LoanDescription> = [];
+    this.getLoansDetails({ personId: id })
+      .subscribe((data) => (loanArr = data))
+      .unsubscribe();
+    loanArr.forEach((loan) => {
+      this.returnBook(loan.Loan.id);
+      this.payLoan(loan.Loan.id);
+    });
+    this.personService.deletePerson(id);
+  }
+
   ////////////////////////////////////////////////////////Payment
   refreshPayments(target?: {
     personId?: string;
