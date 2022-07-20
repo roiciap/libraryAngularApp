@@ -6,7 +6,7 @@
     type="button"
     label="Powrót"
     onClick="history.go(-1)"
-    class="p-button-warning"
+    class="p-button-secondary"
   ></button>
 </div>
 
@@ -17,7 +17,7 @@
         pButton
         type="button"
         label="ILOSC AKTUALNYCH WYPOŻYCZEŃ: {{ loans.length }}"
-        class="p-button-warning p-button-outlined"
+        class="p-button-secondary p-button-outlined"
         icon="pi pi-calendar"
       ></button>
       <button
@@ -25,7 +25,7 @@
         type="button"
         label="WYSZUKAJ"
         (click)="toggleSearch()"
-        class="p-button-warning p-button-outlined"
+        class="p-button-secondary p-button-outlined"
         icon="pi pi-search"
       ></button>
       <button
@@ -34,7 +34,7 @@
         icon="pi pi-pencil"
         label="EDYTUJ KSIĄŻKĘ"
         (click)="toggleEditBar()"
-        class="p-button-warning p-button-outlined"
+        class="p-button-secondary p-button-outlined"
       ></button>
     </span>
     <!-- search bar -->
@@ -45,14 +45,14 @@
           pButton
           pRipple
           icon="pi pi-search"
-          class="p-button-warning p-button-outlined"
+          class="p-button-secondary p-button-outlined"
           (click)="searchPeople()"
         ></button>
         <input
           type="text"
           pInputText
           placeholder="Wyszukaj osobę"
-          class="p-button-warning"
+          class="p-button-secondary"
           [(ngModel)]="serach"
           ngDefaultControl
         />
@@ -66,7 +66,7 @@
           pButton
           pRipple
           icon="pi pi-pencil"
-          class="p-button-warning p-button-outlined"
+          class="p-button-secondary p-button-outlined"
           (click)="updateBook()"
         ></button>
         <input
