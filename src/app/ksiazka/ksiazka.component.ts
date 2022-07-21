@@ -21,12 +21,12 @@ export class KsiazkaComponent implements OnInit {
 
   constructor(private readonly booksService: BookService) {}
 
-  toggleSearch() {
+  toggleSearch(): void {
     this.showSearch = !this.showSearch;
     this.showAdd = true;
   }
 
-  toggleAddBar() {
+  toggleAddBar(): void {
     this.showAdd = !this.showAdd;
     this.showSearch = true;
   }
@@ -35,13 +35,13 @@ export class KsiazkaComponent implements OnInit {
     this.getAllBooks();
   }
 
-  getAllBooks() {
+  getAllBooks(): void {
     this.booksService.getAllBooks().subscribe((data) => {
       this.books = data;
     });
   }
 
-  booksSearch(searched: string) {
+  booksSearch(searched: string): void {
     this.booksService
       .getSearchedBooks(searched)
       .subscribe((data) => (this.books = data.slice()));
@@ -61,7 +61,7 @@ export class KsiazkaComponent implements OnInit {
     return val;
   }
 
-  deleteBook(id: string) {
+  deleteBook(id: string): void {
     this.booksService.deleteBook(id);
   }
 }

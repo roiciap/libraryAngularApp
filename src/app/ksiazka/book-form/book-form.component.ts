@@ -46,12 +46,12 @@ export class BookFormComponent implements OnInit {
     }
   }
 
-  toggleSearch() {
+  toggleSearch(): void {
     this.showSearch = !this.showSearch;
     this.showEdit = true;
   }
 
-  toggleEditBar() {
+  toggleEditBar(): void {
     this.showEdit = !this.showEdit;
     this.showSearch = true;
     if (this.book) {
@@ -62,7 +62,7 @@ export class BookFormComponent implements OnInit {
     }
   }
 
-  loadData() {
+  loadData(): void {
     this.bookService.getBook(this.id).subscribe((data) => (this.book = data));
     console.log(this.book);
     //obliczanie lacznej zarobionej kwoty na ksiazce
@@ -87,7 +87,7 @@ export class BookFormComponent implements OnInit {
       });
   }
 
-  searchPeople() {
+  searchPeople(): void {
     this.loansService
       .getLoansDetails(
         {
@@ -102,7 +102,7 @@ export class BookFormComponent implements OnInit {
       });
   }
 
-  updateBook() {
+  updateBook(): void {
     if (this.book !== undefined)
       this.bookService.updateBook({
         id: this.book.id,
@@ -121,7 +121,7 @@ export class BookFormComponent implements OnInit {
     }
   }
 
-  returnBook(loanID: string) {
+  returnBook(loanID: string): void {
     this.loansService.returnBook(loanID);
   }
 }

@@ -216,7 +216,7 @@ export class LoansService {
     );
   }
 
-  deletePerson(id: string) {
+  deletePerson(id: string): void {
     let loanArr: Array<LoanDescription> = [];
     this.getLoansDetails({ personId: id })
       .subscribe((data) => (loanArr = data))

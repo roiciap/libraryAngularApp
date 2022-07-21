@@ -28,22 +28,22 @@ export class OsobaComponent implements OnInit {
     private readonly loansService: LoansService,
     private readonly stringUtils: StringUtilsService
   ) {}
-  resetInput() {
+  resetInput(): void {
     this.nameInput = '';
     this.surnameInput = '';
   }
-  toggleList() {
+  toggleList(): void {
     this.showList = !this.showList;
     console.log(this.showList);
   }
 
-  toggleSearch() {
+  toggleSearch(): void {
     this.showSearch = !this.showSearch;
     console.log(this.showSearch);
     this.editContext = null; //
     this.showAdd = true;
   }
-  toggleAddBar() {
+  toggleAddBar(): void {
     this.nameInput = '';
     this.surnameInput = '';
     this.showAdd = !this.showAdd;
@@ -51,7 +51,7 @@ export class OsobaComponent implements OnInit {
     this.showSearch = true;
     this.editContext = null;
   }
-  toggleEditBar(toEdit: Osoba) {
+  toggleEditBar(toEdit: Osoba): void {
     if (this.editContext == toEdit) {
       this.editContext = null;
       return;
@@ -69,13 +69,13 @@ export class OsobaComponent implements OnInit {
     this.getAllPersons();
   }
 
-  getAllPersons() {
+  getAllPersons(): void {
     this.personService
       .getAllPersons()
       .subscribe((data) => (this.persons = data.slice()));
   }
 
-  personSearch(searched: string) {
+  personSearch(searched: string): void {
     searched
       ? this.personService
           .getSearchedPersons(searched)
@@ -92,7 +92,7 @@ export class OsobaComponent implements OnInit {
     this.surnameInput = '';
   }
 
-  updatePerson() {
+  updatePerson(): void {
     if (this.editContext == null) return;
     this.personService.updatePerson({
       id: this.editContext.id,
