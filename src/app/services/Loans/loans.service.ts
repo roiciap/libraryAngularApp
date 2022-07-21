@@ -1,5 +1,15 @@
 import { Wypozyczenie } from '../../../Types/Wypozyczenie';
-import { map, Observable } from 'rxjs';
+import {
+  from,
+  map,
+  Observable,
+  mergeMap,
+  toArray,
+  forkJoin,
+  filter,
+  zip,
+  combineLatest,
+} from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Osoba } from 'src/Types/Osoba';
 import { Ksiazka } from 'src/Types/Ksiazka';
@@ -124,96 +134,159 @@ export class LoansService {
       paid?: boolean;
       loanId?: string;
     },
-    search?: { personName?: string }
+    search?: { personName: string }
   ): Observable<Array<LoanDescription>> {
-    //pobieranie osob oraz ksiazek
-    let LoansToPipe = this.loansStore.getLoans();
-    let books: Array<Ksiazka> = [];
-    let people: Array<Osoba> = [];
-    let payments: Array<Oplata> = [];
-    this.booksService.getAllBooks().subscribe((data) => (books = data));
-
-    if (search?.personName !== undefined) {
-      this.personService
-        .getAllPersons()
-        .pipe(
-          map(
-            (val) =>
-              (people = val.filter((person) => {
-                if (search.personName)
-                  return (person.imie + ' ' + person.nazwisko)
-                    .toLowerCase()
-                    .includes(search.personName.toLowerCase());
-                return true;
-              }))
-          )
-        )
-        .subscribe((data) => (people = data));
-      LoansToPipe = LoansToPipe.pipe(
-        map((val) => {
-          const newVal = val.filter(
-            (loan) =>
-              people.findIndex((person) => person.id === loan.idOsoba) >= 0
-          );
-          return newVal;
-        })
-      );
-    } else {
-      this.personService.getAllPersons().subscribe((data) => (people = data));
-    }
-
-    this.paymentService.getAllPayments().subscribe((data) => (payments = data));
-    /////loan filters
-    if (settings?.bookId)
-      LoansToPipe = LoansToPipe.pipe(
-        map((val) => val.filter((loan) => loan.idKsiazka === settings.bookId))
-      );
-    if (settings?.personId) {
-      LoansToPipe = LoansToPipe.pipe(
-        map((val) => val.filter((loan) => loan.idOsoba === settings.personId))
-      );
-    }
-    if (settings?.loanId) {
-      LoansToPipe = LoansToPipe.pipe(
-        map((val) => val.filter((loan) => loan.id === settings.loanId))
-      );
-    }
-
-    if (settings?.returned != undefined)
-      LoansToPipe = LoansToPipe.pipe(
-        map((val) =>
-          val.filter((loan) => {
-            return settings?.returned
-              ? loan.dataOddania !== null
-              : loan.dataOddania == null;
-          })
-        )
-      );
-
-    ////Mapping to LoanDetails (refreshPayments to make sure that every loan has existing payment object)
     this.refreshPayments();
-
-    return LoansToPipe.pipe(
+    let loans$ = this.loansStore.getLoans();
+    let books$ = this.booksService.getAllBooks();
+    let people$ = this.personService.getAllPersons();
+    let payments$ = this.paymentService.getAllPayments();
+    return combineLatest([loans$, books$, people$, payments$]).pipe(
+      map(([loans, books, people, payments]) => {
+        return loans.map((loan) => {
+          return {
+            Loan: loan,
+            Person: people.find((person) => person.id === loan.idOsoba),
+            Book: books.find((book) => book.id === loan.idOsoba),
+            Payment: payments.find(
+              (payment) => payment.idWypozyczenia === loan.id
+            ),
+          } as LoanDescription;
+        });
+      }),
       map((val) =>
-        val
-          .map((record) => {
-            return {
-              Loan: record,
-              Person: people.find((val) => val.id === record.idOsoba)!,
-              Book: books.find((val) => val.id === record.idKsiazka)!,
-              Payment: payments.find(
-                (val) => val.idWypozyczenia === record.id
-              )!,
-            };
-          })
-          .filter((loan) => {
-            if (settings?.paid != undefined) {
-              return loan.Payment.oplacone === settings.paid;
+        val.filter((l) => {
+          return (
+            l.Person != undefined &&
+            l.Payment != undefined &&
+            l.Book != undefined
+          );
+        })
+      ),
+      map((val) =>
+        val.filter((loan) => {
+          let filterResult = true;
+          if (settings != undefined) {
+            if (settings.bookId != undefined) {
+              filterResult = loan.Book.id === settings.bookId;
             }
-            return true;
-          })
+            if (settings.personId != undefined && filterResult) {
+              filterResult =
+                loan.Person.id === settings.personId && filterResult;
+            }
+            if (settings.paid != undefined && filterResult) {
+              filterResult =
+                settings.paid === loan.Payment.oplacone && filterResult;
+            }
+            if (settings.loanId != undefined && filterResult) {
+              filterResult = loan.Loan.id === settings.loanId && filterResult;
+            }
+            if (settings.returned != undefined && filterResult) {
+              filterResult =
+                settings.returned === (loan.Loan.dataOddania != null) &&
+                filterResult;
+            }
+          }
+          if (search != undefined && filterResult) {
+            filterResult =
+              filterResult &&
+              [loan.Person.imie, loan.Person.nazwisko]
+                .join(' ')
+                .includes(search.personName);
+          }
+          return filterResult;
+        })
       )
-    );
+    ); // as Observable<LoanDescription[]>;
+
+    // let LoansToPipe = this.loansStore.getLoans();
+    // //pobieranie osob oraz ksiazek
+    // let books: Array<Ksiazka> = [];
+    // let people: Array<Osoba> = [];
+    // let payments: Array<Oplata> = [];
+    // this.booksService.getAllBooks().subscribe((data) => (books = data));
+
+    // if (search?.personName !== undefined) {
+    //   this.personService
+    //     .getAllPersons()
+    //     .pipe(
+    //       map(
+    //         (val) =>
+    //           (people = val.filter((person) => {
+    //             if (search.personName)
+    //               return (person.imie + ' ' + person.nazwisko)
+    //                 .toLowerCase()
+    //                 .includes(search.personName.toLowerCase());
+    //             return true;
+    //           }))
+    //       )
+    //     )
+    //     .subscribe((data) => (people = data));
+    //   LoansToPipe = LoansToPipe.pipe(
+    //     map((val) => {
+    //       const newVal = val.filter(
+    //         (loan) =>
+    //           people.findIndex((person) => person.id === loan.idOsoba) >= 0
+    //       );
+    //       return newVal;
+    //     })
+    //   );
+    // } else {
+    //   this.personService.getAllPersons().subscribe((data) => (people = data));
+    // }
+
+    // this.paymentService.getAllPayments().subscribe((data) => (payments = data));
+    // /////loan filters
+    // if (settings?.bookId)
+    //   LoansToPipe = LoansToPipe.pipe(
+    //     map((val) => val.filter((loan) => loan.idKsiazka === settings.bookId))
+    //   );
+    // if (settings?.personId) {
+    //   LoansToPipe = LoansToPipe.pipe(
+    //     map((val) => val.filter((loan) => loan.idOsoba === settings.personId))
+    //   );
+    // }
+    // if (settings?.loanId) {
+    //   LoansToPipe = LoansToPipe.pipe(
+    //     map((val) => val.filter((loan) => loan.id === settings.loanId))
+    //   );
+    // }
+
+    // if (settings?.returned != undefined)
+    //   LoansToPipe = LoansToPipe.pipe(
+    //     map((val) =>
+    //       val.filter((loan) => {
+    //         return settings?.returned
+    //           ? loan.dataOddania !== null
+    //           : loan.dataOddania == null;
+    //       })
+    //     )
+    //   );
+
+    // ////Mapping to LoanDetails (refreshPayments to make sure that every loan has existing payment object)
+    // this.refreshPayments();
+
+    // return LoansToPipe.pipe(
+    //   map((val) =>
+    //     val
+    //       .map((record) => {
+    //         return {
+    //           Loan: record,
+    //           Person: people.find((val) => val.id === record.idOsoba)!,
+    //           Book: books.find((val) => val.id === record.idKsiazka)!,
+    //           Payment: payments.find(
+    //             (val) => val.idWypozyczenia === record.id
+    //           )!,
+    //         };
+    //       })
+    //       .filter((loan) => {
+    //         if (settings?.paid != undefined) {
+    //           return loan.Payment.oplacone === settings.paid;
+    //         }
+    //         return true;
+    //       })
+    //   )
+    // );
   }
 
   deletePerson(id: string): void {

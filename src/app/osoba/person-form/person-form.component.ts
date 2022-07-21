@@ -1,3 +1,4 @@
+import { Observable, of } from 'rxjs';
 import { BookService } from 'src/app/services/books/book.service';
 import { LoanDescription } from 'src/Types/LoanDescription';
 import { Component, OnInit } from '@angular/core';
@@ -17,6 +18,8 @@ export class PersonFormComponent implements OnInit {
   person: Osoba | undefined;
   activeLoans: Array<LoanDescription> = [];
   loansHistory: Array<LoanDescription> = [];
+  activeLoans$: Observable<Array<LoanDescription>> = of();
+  loansHistory$: Observable<Array<LoanDescription>> = of();
   showAddContent: boolean = false;
   books: Array<Ksiazka> = [];
   paidSum: number = 0;
