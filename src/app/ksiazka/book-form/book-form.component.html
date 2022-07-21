@@ -54,6 +54,7 @@
           placeholder="Wyszukaj osobę"
           class="p-button-secondary"
           [(ngModel)]="serach"
+          (click)="searchPeople()"
           ngDefaultControl
         />
       </div>
@@ -158,7 +159,17 @@
     </ng-template>
     <ng-template pTemplate="body" let-loans>
       <tr>
-        <td class="bttnsID">{{ loans.Person.id }}</td>
+        <td class="bttnsID">
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-user"
+            label="{{ loans.Person.id }}"
+            class="p-button-rounded p-button-text p-button-info p-button-sm"
+            routerLink="/osoby/{{ loans.Person.id }}"
+          ></button>
+        </td>
         <td class="dane">{{ loans.Person.imie }}</td>
         <td class="dane">{{ loans.Person.nazwisko }}</td>
         <td class="dane">{{ loans.Loan.dataPrzyjecia.toLocaleString() }}</td>

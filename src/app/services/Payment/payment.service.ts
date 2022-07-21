@@ -16,13 +16,13 @@ export class PaymentService {
   getPayment(LoanId: string): Observable<Oplata | undefined> {
     return this.paymentStore.getPayment(LoanId);
   }
-  update(payment: Oplata) {
+  update(payment: Oplata): void {
     return this.paymentStore.update(payment);
   }
-  addPayment(payment: Oplata) {
+  addPayment(payment: Oplata): void {
     return this.paymentStore.addPayment(payment);
   }
-  refresh() {
+  refresh(): void {
     return this.paymentStore.refresh();
   }
   checkPaid(id: string): boolean {

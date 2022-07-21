@@ -38,7 +38,7 @@ export class PersonFormComponent implements OnInit {
       this.loadData();
     }
   }
-  loadData() {
+  loadData(): void {
     this.personService
       .getPerson(this.id)
       .subscribe((data) => (this.person = data));
@@ -84,26 +84,26 @@ export class PersonFormComponent implements OnInit {
     this.bookService.getAllBooks().subscribe((data) => (this.books = data));
   }
 
-  searchBooks(searched: string) {
+  searchBooks(searched: string): void {
     this.bookService
       .getSearchedBooks(searched)
       .subscribe((data) => (this.books = data));
   }
 
-  returnBook(loanID: string) {
+  returnBook(loanID: string): void {
     this.loansService.returnBook(loanID);
   }
 
-  switchContent() {
+  switchContent(): void {
     this.showAddContent = !this.showAddContent;
   }
 
-  loanBook(bookId: string) {
+  loanBook(bookId: string): void {
     if (this.person)
       this.loansService.addLoan({ idKsiazka: bookId, idOsoba: this.person.id });
   }
 
-  payForLoan(loanId: string) {
+  payForLoan(loanId: string): void {
     this.loansService.payLoan(loanId);
   }
 

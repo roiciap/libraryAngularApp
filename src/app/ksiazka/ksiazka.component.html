@@ -98,7 +98,6 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th style="max-width: 5%">ID</th>
       <th pSortableColumn="autor" class="dane">
         AUTOR <p-sortIcon field="autor"></p-sortIcon>
       </th>
@@ -116,7 +115,6 @@
   </ng-template>
   <ng-template pTemplate="body" let-book>
     <tr>
-      <td style="max-width: 5%">{{ book.id }}</td>
       <td class="dane">{{ book.autor }}</td>
       <td class="dane2">
         <b>{{ book.nazwa }}</b>
