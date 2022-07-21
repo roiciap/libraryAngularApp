@@ -64,7 +64,7 @@ export class BookFormComponent implements OnInit {
 
   loadData() {
     this.bookService.getBook(this.id).subscribe((data) => (this.book = data));
-
+    console.log(this.book);
     //obliczanie lacznej zarobionej kwoty na ksiazce
     this.loansService
       .getLoansDetails({ paid: true, bookId: this.book?.id })
@@ -96,7 +96,10 @@ export class BookFormComponent implements OnInit {
         },
         { personName: this.serach }
       )
-      .subscribe((data) => (this.loans = data));
+      .subscribe((data) => {
+        console.log(data);
+        this.loans = data;
+      });
   }
 
   updateBook() {

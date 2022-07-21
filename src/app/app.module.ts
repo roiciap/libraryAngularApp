@@ -13,20 +13,12 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { OsobaComponent } from './osoba/osoba.component';
 import { WypozyczeniaComponent } from './wypozyczenia/wypozyczenia.component';
-
-import { KsiazkaComponent } from './ksiazka/ksiazka.component';
-
 import { BookFormComponent } from './ksiazka/book-form/book-form.component';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ListboxModule } from 'primeng/listbox';
-import { BookService } from './services/books/book.service';
-
-import { LoansService } from './services/loans/loans.service';
-
-import { BookStoreService } from './services/books/book-store.service';
 
 import { LoansStoreService } from './services/loans/loans-store.service';
 import { PersonStoreService } from './services/persons/person-store.service';
@@ -36,6 +28,11 @@ import { NavComponent } from './nav/nav.component';
 import { PersonFormComponent } from './osoba/person-form/person-form.component';
 import { PersonService } from './services/persons/person.service';
 import { PaymentStoreService } from './services/payment/payment-store.service';
+import { BookService } from './services/books/book.service';
+
+import { LoansService } from './services/loans/loans.service';
+import { BookStoreService } from './services/books/book-store.service';
+import { KsiazkaComponent } from './ksiazka/ksiazka.component';
 
 @NgModule({
   declarations: [

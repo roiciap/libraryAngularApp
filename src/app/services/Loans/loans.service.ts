@@ -133,24 +133,34 @@ export class LoansService {
     let payments: Array<Oplata> = [];
     this.booksService.getAllBooks().subscribe((data) => (books = data));
 
-    if (search?.personName !== undefined)
+    if (search?.personName !== undefined) {
       this.personService
         .getAllPersons()
         .pipe(
           map(
             (val) =>
               (people = val.filter((person) => {
-                if (search?.personName)
+                if (search.personName)
                   return (person.imie + ' ' + person.nazwisko)
                     .toLowerCase()
-                    .includes(search?.personName.toLowerCase());
+                    .includes(search.personName.toLowerCase());
                 return true;
               }))
           )
         )
         .subscribe((data) => (people = data));
-    else
+      LoansToPipe = LoansToPipe.pipe(
+        map((val) => {
+          const newVal = val.filter(
+            (loan) =>
+              people.findIndex((person) => person.id === loan.idOsoba) >= 0
+          );
+          return newVal;
+        })
+      );
+    } else {
       this.personService.getAllPersons().subscribe((data) => (people = data));
+    }
 
     this.paymentService.getAllPayments().subscribe((data) => (payments = data));
     /////loan filters
@@ -179,6 +189,7 @@ export class LoansService {
           })
         )
       );
+
     ////Mapping to LoanDetails (refreshPayments to make sure that every loan has existing payment object)
     this.refreshPayments();
 
