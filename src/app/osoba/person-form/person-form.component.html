@@ -24,14 +24,14 @@
     <p-button
       class="refund"
       styleClass="{{ checkToPay() }}{{ bookColor }}"
-      label="ŁACZNA KWOTA DO ZAPŁATY {{ toPaySum }} {{ checkWarning() }} zł"
+      label="ŁACZNA KWOTA DO ZAPŁATY {{ toPaySum }} zł"
     >
     </p-button>
     <p-button
-      [hidden]="showWarning"
+      [hidden]="(activeLoans$ | async)?.length === 0"
       class="refund"
       styleClass="p-button-outlined p-button-danger"
-      label="KSIĄŻKI DO ODDANIA: {{ activeLoans.length }}"
+      label="KSIĄŻKI DO ODDANIA: {{ (activeLoans$ | async)?.length }}"
       icon="pi pi-exclamation-triangle"
     ></p-button>
   </nav>
@@ -54,7 +54,7 @@
     <div style="width: 48%">
       <!-- left table -->
       <p-table
-        [value]="loansHistory"
+        [value]="(loansHistory$ | async) ?? []"
         [scrollable]="true"
         scrollHeight="550px"
         styleClass="p-datatable-striped"
@@ -67,7 +67,7 @@
           <h3 style="text-align: center">
             ODDANE KSIĄŻKI
             <p-tag
-              value="{{ loansHistory.length }}"
+              value="{{ (loansHistory$ | async)?.length ?? 0 }}"
               severity="info"
               [rounded]="true"
             ></p-tag>
@@ -117,7 +117,7 @@
     <!-- right table -->
     <div style="width: 48%">
       <p-table
-        [value]="activeLoans"
+        [value]="(activeLoans$ | async) ?? []"
         [scrollable]="true"
         scrollHeight="550px"
         styleClass="p-datatable-striped"
@@ -131,7 +131,7 @@
           <h3 style="text-align: center">
             WYPOŻYCZONE KSIĄŻKI
             <p-tag
-              value="{{ activeLoans.length }}"
+              value="{{ (activeLoans$ | async)?.length ?? 0 }}"
               severity="secondary"
               [rounded]="true"
             ></p-tag>

@@ -1,5 +1,5 @@
-import { BehaviorSubject, map, Observable } from 'rxjs';
-import { Ksiazka } from 'src/Types/Ksiazka';
+import { BehaviorSubject, map, Observable, of } from 'rxjs';
+import { Ksiazka } from 'src/models/Ksiazka';
 
 // todo nazwa folderów z małem litery
 
@@ -151,9 +151,10 @@ export class BookStoreService {
     this.books
   );
 
-  addNewBook(toAdd: Ksiazka): void {
+  addNewBook(toAdd: Ksiazka): Observable<Ksiazka> {
     this.booksObs.value.push(toAdd);
     this.booksObs.next(this.books);
+    return of(toAdd);
   }
 
   // todo: id jest stringiem
@@ -164,21 +165,24 @@ export class BookStoreService {
     this.booksObs.next(this.books);
   }
 
-  updateBook(updated: Ksiazka): void {
-    const toUpdate = this.booksObs.value.findIndex(
-      (val) => val.id === updated.id
-    );
-    if (toUpdate === -1) return;
+  updateBook(updated: Ksiazka): Observable<Ksiazka> {
+    const toUpdate = this.books.findIndex((val) => val.id === updated.id);
+    if (toUpdate === -1) throw new Error('Cant find book');
 
-    this.booksObs.value[toUpdate] = { ...updated };
+    this.books[toUpdate] = { ...updated };
     this.booksObs.next(this.books);
+    return of(this.books[toUpdate]);
   }
 
   // todo nie powinien zwracać undefined
-  getBook(id: string): Observable<Ksiazka | undefined> {
-    return this.booksObs
-      .asObservable()
-      .pipe(map((val) => val.find((bok) => bok.id === id)));
+  getBook(id: string): Observable<Ksiazka> {
+    return this.booksObs.asObservable().pipe(
+      map((val) => {
+        const toRet = val.find((bok) => bok.id === id);
+        if (toRet === undefined) throw new Error('cant find book');
+        return toRet;
+      })
+    );
   }
 
   getAllBook(): Observable<Array<Ksiazka>> {

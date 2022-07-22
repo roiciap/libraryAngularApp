@@ -1,5 +1,5 @@
 import { Observable, BehaviorSubject, map } from 'rxjs';
-import { Osoba } from '../../../Types/Osoba';
+import { Osoba } from 'src/models/Osoba';
 
 // todo czemu to jest poza katalogiem?
 export class PersonStoreService {

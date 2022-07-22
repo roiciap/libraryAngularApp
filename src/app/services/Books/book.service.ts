@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map, Observable, throwError } from 'rxjs';
-import { Ksiazka } from 'src/Types/Ksiazka';
-import { BookStoreService } from './book-store.service';
+import { BookStoreService } from 'src/app/services/books/book-store.service';
+import { Ksiazka } from 'src/models/Ksiazka';
 
 @Injectable({
   providedIn: 'root',
@@ -31,12 +31,12 @@ export class BookService {
     autor: string;
     rokWydania: number;
     dostepnosc: number;
-  }): string {
-    if (!toAdd.nazwa || !toAdd.autor || toAdd.dostepnosc < 0) return '';
+  }): Observable<Ksiazka> {
+    if (!toAdd.nazwa || !toAdd.autor || toAdd.dostepnosc < 0)
+      throw new Error('wrong input');
     let toAddId: string = Math.random().toString(36).substring(2, 9);
     const addedItem = { ...toAdd, id: toAddId };
-    this.bookStoreSrv.addNewBook(addedItem);
-    return toAddId;
+    return this.bookStoreSrv.addNewBook(addedItem);
   }
 
   updateBook(updated: Ksiazka): boolean {
@@ -60,7 +60,7 @@ export class BookService {
     this.bookStoreSrv.deleteBook(deletedId);
   }
 
-  getBook(id: string): Observable<Ksiazka | undefined> {
+  getBook(id: string): Observable<Ksiazka> {
     return this.bookStoreSrv.getBook(id);
   }
 }

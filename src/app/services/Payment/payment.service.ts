@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Oplata } from 'src/Types/Oplata';
-import { PaymentStoreService } from './payment-store.service';
+import { PaymentStoreService } from 'src/app/services/payment/payment-store.service';
+import { Oplata } from 'src/models/Oplata';
 
 @Injectable({
   providedIn: 'root',

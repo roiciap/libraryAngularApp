@@ -1,4 +1,7 @@
-<div *ngIf="book == undefined; else content" style="text-align: center">
+<div
+  *ngIf="(book$ | async) == undefined; else content"
+  style="text-align: center"
+>
   <h3>Nie znaleziono książki z ID: "{{ this.id }}"!</h3>
   <button
     pButton
@@ -16,7 +19,7 @@
       <button
         pButton
         type="button"
-        label="ILOSC AKTUALNYCH WYPOŻYCZEŃ: {{ loans.length }}"
+        label="ILOSC AKTUALNYCH WYPOŻYCZEŃ: {{ (loans$ | async)?.length }}"
         class="p-button-secondary p-button-outlined"
         icon="pi pi-calendar"
       ></button>
@@ -103,44 +106,44 @@
       <tr>
         <td class="data1">TYTUŁ</td>
         <td>
-          <b>{{ book?.nazwa }}</b>
+          <b>{{ (book$ | async)?.nazwa }}</b>
         </td>
       </tr>
       <tr>
         <td>AUTOR</td>
         <td>
-          <b>{{ book?.autor }}</b>
+          <b>{{ (book$ | async)?.autor }}</b>
         </td>
       </tr>
       <tr>
         <td>ROK WYDANIA</td>
         <td>
-          <b>{{ book?.rokWydania }}</b>
+          <b>{{ (book$ | async)?.rokWydania }}</b>
         </td>
       </tr>
       <tr>
         <td>DOSTĘPOŚĆ</td>
         <td>
-          <b>{{ book?.dostepnosc }}</b>
+          <b>{{ (book$ | async)?.dostepnosc }}</b>
         </td>
       </tr>
       <tr>
         <td>ZAPŁACONO</td>
         <td>
-          <b>{{ paidForBook }}zł </b>
+          <b>{{ paidForBook$ | async }}zł </b>
         </td>
       </tr>
       <tr>
         <td>DO ZAPŁACENIA</td>
-        <td style="{{ checkToPay() }}">
-          <b>{{ toPayForBook }}zł</b>
+        <td style="{{ checkToPay((toPayForBook$ | async) == 0) }}">
+          <b>{{ (toPayForBook$ | async) ?? 0 }}zł</b>
         </td>
       </tr>
     </ng-template>
   </p-table>
   <hr />
   <p-table
-    [value]="loans"
+    [value]="(loans$ | async) ?? []"
     [scrollable]="true"
     scrollHeight="600px"
     styleClass="p-datatable-striped"

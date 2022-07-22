@@ -1,0 +1,9 @@
+--->	przenieść logike zarządzania opłatami loanId->id w AppServices
+
+--->	podzielić AppServices na mniejsze jeżeli jest to uzasadnione (odczyt/edycja | widoki?)
+
+--->	stworzyć elementy UI (tabele)
+	+ UI wszyukiwania i nauczyć się formów? 
+	zaimplementować transformacje danych na tabele / id w nich potrzebne do emitów
+
+ 

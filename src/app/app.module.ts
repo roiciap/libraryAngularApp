@@ -20,19 +20,19 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ListboxModule } from 'primeng/listbox';
 
-import { LoansStoreService } from './services/loans/loans-store.service';
-import { PersonStoreService } from './services/persons/person-store.service';
 import { StringUtilsService } from './services/utils/string-utils.service';
 import { PaymentService } from './services/payment/payment.service';
 import { NavComponent } from './nav/nav.component';
 import { PersonFormComponent } from './osoba/person-form/person-form.component';
 import { PersonService } from './services/persons/person.service';
-import { PaymentStoreService } from './services/payment/payment-store.service';
-import { BookService } from './services/books/book.service';
 
 import { LoansService } from './services/loans/loans.service';
-import { BookStoreService } from './services/books/book-store.service';
 import { KsiazkaComponent } from './ksiazka/ksiazka.component';
+import { BookStoreService } from 'src/app/services/books/book-store.service';
+import { PersonStoreService } from 'src/app/services/persons/person-store.service';
+import { BookService } from './services/books/book.service';
+import { PaymentStoreService } from 'src/app/services/payment/payment-store.service';
+import { LoansStoreService } from 'src/app/services/loans/loans-store.service';
 
 @NgModule({
   declarations: [

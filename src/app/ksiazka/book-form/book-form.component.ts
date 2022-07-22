@@ -1,9 +1,10 @@
+import { map, Observable, of } from 'rxjs';
 import { LoanDescription } from 'src/Types/LoanDescription';
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BookService } from '../../services/books/book.service';
-import { Ksiazka } from 'src/Types/Ksiazka';
+import { Ksiazka } from 'src/models/Ksiazka';
 import { LoansService } from '../../services/loans/loans.service';
 
 @Component({
@@ -13,8 +14,8 @@ import { LoansService } from '../../services/loans/loans.service';
 })
 export class BookFormComponent implements OnInit {
   id: string = '';
-  book: Ksiazka | undefined;
-  loans: Array<LoanDescription> = [];
+  book$: Observable<Ksiazka> = of();
+  loans$: Observable<Array<LoanDescription>> = of([]);
   showSearch: boolean = true;
   showEdit: boolean = true;
   editAutor: string = '';
@@ -24,8 +25,8 @@ export class BookFormComponent implements OnInit {
   BookFormComponent: any;
   serach: string = '';
 
-  paidForBook: number = 0;
-  toPayForBook: number = 0;
+  paidForBook$: Observable<number> = of(0);
+  toPayForBook$: Observable<number> = of(0);
 
   constructor(
     private readonly loansService: LoansService,
@@ -54,67 +55,59 @@ export class BookFormComponent implements OnInit {
   toggleEditBar(): void {
     this.showEdit = !this.showEdit;
     this.showSearch = true;
-    if (this.book) {
-      this.editAutor = this.book.autor;
-      this.editDostepnosc = this.book.dostepnosc;
-      this.editNazwa = this.book.nazwa;
-      this.editRok = this.book.rokWydania;
+    let book: Ksiazka | undefined;
+    this.book$.subscribe((data) => (book = data));
+    if (book) {
+      this.editAutor = book.autor;
+      this.editDostepnosc = book.dostepnosc;
+      this.editNazwa = book.nazwa;
+      this.editRok = book.rokWydania;
     }
   }
 
   loadData(): void {
-    this.bookService.getBook(this.id).subscribe((data) => (this.book = data));
-    console.log(this.book);
+    this.book$ = this.bookService.getBook(this.id).pipe(
+      map((val) => {
+        console.log(val);
+        return val;
+      })
+    );
     //obliczanie lacznej zarobionej kwoty na ksiazce
-    this.loansService
-      .getLoansDetails({ paid: true, bookId: this.book?.id })
-      .subscribe(
-        (data) =>
-          (this.paidForBook = data.reduce(
-            (sum, val) => sum + val.Payment.kwota,
-            0
-          ))
-      );
+    this.toPayForBook$ = this.loansService
+      .getLoansDetails({ paid: false, bookId: this.id })
+      .pipe(map((val) => val.reduce((sum, x) => sum + x.Payment.kwota, 0)));
     //obliczanie lacznej kwoty do zaplacenia za ksiazke przez czytelnikow
-    this.loansService
-      .getLoansDetails({ paid: false, bookId: this.book?.id })
-      .subscribe((data) => {
-        this.loans = data;
-        this.toPayForBook = data.reduce(
-          (sum, val) => sum + val.Payment.kwota,
-          0
-        );
-      });
+    this.paidForBook$ = this.loansService
+      .getLoansDetails({ paid: true, bookId: this.id })
+      .pipe(map((val) => val.reduce((sum, x) => sum + x.Payment.kwota, 0)));
+    this.loans$ = this.loansService.getLoansDetails({
+      paid: false,
+      bookId: this.id,
+    });
   }
 
   searchPeople(): void {
-    this.loansService
-      .getLoansDetails(
-        {
-          returned: false,
-          bookId: this.book?.id,
-        },
-        { personName: this.serach }
-      )
-      .subscribe((data) => {
-        console.log(data);
-        this.loans = data;
-      });
+    this.loans$ = this.loansService.getLoansDetails(
+      {
+        returned: false,
+        bookId: this.id,
+      },
+      { personName: this.serach }
+    );
   }
 
   updateBook(): void {
-    if (this.book !== undefined)
-      this.bookService.updateBook({
-        id: this.book.id,
-        nazwa: this.editNazwa,
-        autor: this.editAutor,
-        rokWydania: this.editRok,
-        dostepnosc: this.editDostepnosc,
-      });
+    this.bookService.updateBook({
+      id: this.id,
+      nazwa: this.editNazwa,
+      autor: this.editAutor,
+      rokWydania: this.editRok,
+      dostepnosc: this.editDostepnosc,
+    });
   }
 
-  checkToPay(): string {
-    if (this.toPayForBook == 0) {
+  checkToPay(green: boolean): string {
+    if (green) {
       return 'color: green';
     } else {
       return 'color: red';

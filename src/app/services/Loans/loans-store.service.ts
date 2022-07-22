@@ -1,7 +1,7 @@
 // importy nieużywane
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Wypozyczenie } from 'src/Types/Wypozyczenie';
+import { Wypozyczenie } from 'src/models/Wypozyczenie';
 
 @Injectable({
   providedIn: 'root',
@@ -165,20 +165,26 @@ export class LoansStoreService {
     this.loansObs.next(this.loans);
   }
 
-  updateLoan(newState: Wypozyczenie) {
+  updateLoan(newState: Wypozyczenie): Observable<Wypozyczenie> {
     let toUpdateIndex = this.loans.findIndex((val) => val.id === newState.id);
     this.loans[toUpdateIndex] = newState;
     this.loansObs.next(this.loans);
+    return of(newState);
   }
 
-  addLoan(newLoan: Wypozyczenie) {
+  addLoan(newLoan: Wypozyczenie): Observable<Wypozyczenie> {
     this.loans.push(newLoan);
     this.loansObs.next(this.loans);
+    return of(newLoan);
   }
-  getLoan(id: string): Observable<Wypozyczenie | undefined> {
-    return this.loansObs
-      .asObservable()
-      .pipe(map((val) => val.find((loan) => loan.id == id)));
+  getLoan(id: string): Observable<Wypozyczenie> {
+    return this.loansObs.asObservable().pipe(
+      map((val) => {
+        const toRet = val.find((loan) => loan.id == id);
+        if (toRet === undefined) throw new Error('cant find loan');
+        return toRet;
+      })
+    );
   }
   refresh() {
     this.loansObs.next(this.loans);

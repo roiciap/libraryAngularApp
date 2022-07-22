@@ -47,8 +47,8 @@ export class KsiazkaComponent implements OnInit {
       .subscribe((data) => (this.books = data.slice()));
   }
 
-  addBook(): string {
-    const val = this.booksService.addBook({
+  addBook() {
+    this.booksService.addBook({
       nazwa: this.nazwaInput,
       autor: this.autorInput,
       rokWydania: this.rokInput,
@@ -58,7 +58,6 @@ export class KsiazkaComponent implements OnInit {
     this.autorInput = '';
     this.rokInput = 2020;
     this.dostepnoscInput = 1;
-    return val;
   }
 
   deleteBook(id: string): void {

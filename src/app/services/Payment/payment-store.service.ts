@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { Oplata } from 'src/Types/Oplata';
+import { Oplata } from 'src/models/Oplata';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +16,15 @@ export class PaymentStoreService {
     return this.paymentsObs.asObservable();
   }
 
-  getPayment(LoanId: string): Observable<Oplata | undefined> {
+  getPayment(LoanId: string): Observable<Oplata> {
     return this.getAllPayments().pipe(
-      map((val) => val.find((payment) => payment.idWypozyczenia === LoanId))
+      map((val) => {
+        const toReturn = val.find(
+          (payment) => payment.idWypozyczenia === LoanId
+        );
+        if (toReturn === undefined) throw new Error('cant find Payment');
+        return toReturn;
+      })
     );
   }
   update(payment: Oplata) {

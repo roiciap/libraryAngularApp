@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { BookService } from 'src/app/services/books/book.service';
 import { LoanDescription } from 'src/Types/LoanDescription';
 import { Component, OnInit } from '@angular/core';
@@ -18,8 +18,8 @@ export class PersonFormComponent implements OnInit {
   person: Osoba | undefined;
   activeLoans: Array<LoanDescription> = [];
   loansHistory: Array<LoanDescription> = [];
-  activeLoans$: Observable<Array<LoanDescription>> = of();
-  loansHistory$: Observable<Array<LoanDescription>> = of();
+  activeLoans$: Observable<Array<LoanDescription>> = of([]);
+  loansHistory$: Observable<Array<LoanDescription>> = of([]);
   showAddContent: boolean = false;
   books: Array<Ksiazka> = [];
   paidSum: number = 0;
@@ -47,21 +47,25 @@ export class PersonFormComponent implements OnInit {
       .subscribe((data) => (this.person = data));
     if (this.person) {
       //oddane ksiazki
-      this.loansService
-        .getLoansDetails({ returned: true, personId: this.person.id })
-        .subscribe((data) => {
-          this.loansHistory = data.sort((a, b) => {
-            if (a.Payment.oplacone == false && b.Payment.oplacone == true)
-              return -1;
-            return 1;
-          });
-        });
+      this.loansHistory$ = this.loansService
+        .getLoansDetails({
+          returned: true,
+          personId: this.person.id,
+        })
+        .pipe(
+          map((val) =>
+            val.sort((a, b) => {
+              if (a.Payment.oplacone === false && b.Payment.oplacone === true)
+                return -1;
+              return 1;
+            })
+          )
+        );
       //nieoddane ksiazki
-      this.loansService
-        .getLoansDetails({ returned: false, personId: this.person.id })
-        .subscribe((data) => {
-          this.activeLoans = data;
-        });
+      this.activeLoans$ = this.loansService.getLoansDetails({
+        returned: false,
+        personId: this.person.id,
+      });
       //zaplacone
       this.loansService
         .getLoansDetails({ paid: true, personId: this.person.id })
@@ -115,11 +119,6 @@ export class PersonFormComponent implements OnInit {
       this.bookColor = 'p-button-outlined p-button-success';
     } else {
       this.bookColor = ' p-button-danger';
-    }
-  }
-  checkWarning(): void {
-    if (this.activeLoans.length === 0) {
-      this.showWarning = !this.showWarning;
     }
   }
 }
