@@ -1,4 +1,4 @@
-import BaseData from './BaseData';
+import BaseData from '../shared/models/BaseData';
 
 export interface Wypozyczenie extends BaseData {
   idOsoba: string;
